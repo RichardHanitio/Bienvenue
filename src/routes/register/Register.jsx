@@ -20,7 +20,7 @@ const Register = () => {
         <div className="register-right-container">
           <h1 className="register-title">Create Account</h1>
           <h2 className="register-desc">Enter your personal details to get reservation access and weekly discounts!</h2>
-          <form className="register-form">
+          <form className="register-form" method="post">
             <div className="register-item">
               <label htmlFor="email" className="register-label">Email</label>
               <input type="email" className="register-input" name="email" id="email"/>

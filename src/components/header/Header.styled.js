@@ -8,6 +8,7 @@ const Container = styled.div`
   align-items : center;
   justify-content : center;
   position : sticky;
+  top : 0;
 
   .header-inner-container {
     height : 80%;

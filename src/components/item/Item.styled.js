@@ -60,6 +60,12 @@ const Container = styled.div`
         font-weight : 600;
         padding : 3px 15px;
         border-radius : 15px;
+        cursor : pointer;
+
+        &:hover {
+          background-color : ${({theme}) => theme.activeColor};
+          color : white;
+        }
       }
     }
   }

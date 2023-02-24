@@ -12,7 +12,7 @@ const Container = styled.div`
 
   .header-inner-container {
     height : 80%;
-    width : 1300px;
+    width : 1400px;
     display : flex;
     align-items : center;
 

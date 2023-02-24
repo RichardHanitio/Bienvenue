@@ -4,6 +4,7 @@ const theme = {
   ratingColor : "#F1B33C",
   activeColor : "#FF8748",
   inactiveColor : "#FFE7D3",
+  copyrightColor : "#1B3F40",
 }
 
 export default theme;

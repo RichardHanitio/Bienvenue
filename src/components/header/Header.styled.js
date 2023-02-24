@@ -26,15 +26,44 @@ const Container = styled.div`
 
     .header-pages {
       width : 100%;
-      flex-basis : 85%;
-      ul {
+      height : 100%;
+      display : flex;
+      align-items : center;
+
+      .header-nav {
         list-style-type : none;
         display : flex;
-        justify-content : space-between;
+        flex-basis : 80%;
+        justify-content : space-around;
         li {
           color : white;
-
+          cursor : pointer;
         }
+      }
+      
+      .header-register-login {
+        /* background-color : pink; */
+        flex-basis : 20%;
+        display : flex;
+        justify-content : space-around;
+
+        .header-btn {
+          padding : 8px 15px;
+          border-radius : 5px;
+          border : none;
+          outline : none;
+          cursor : pointer;
+        }
+
+        .header-register {
+          background-color : ${({theme}) => theme.activeColor};
+          color : white;
+        }
+
+        .header-login {
+          background-color : ${({theme}) => theme.inactiveColor};
+        }
+
       }
     }
   }

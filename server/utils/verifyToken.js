@@ -25,7 +25,7 @@ const verifyAdmin = (req, res, next) => {
     req.user = user;
     console.log(req.user)
   })
-  if(req.user.isAdmin === "true") {
+  if(req.user.isAdmin) {
     next();
   } else {
     next(createCustomError("You are not authorized", 403))

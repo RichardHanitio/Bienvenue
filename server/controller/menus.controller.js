@@ -9,7 +9,7 @@ const createMenu = asyncWrapper(async(req, res, next) => {
   // encrypt in frontend
   const encryptedBody = encryptor.encrypt(req.body);
   const {name, category, desc, rating, discount, price, img} = encryptor.decrypt(encryptedBody);
-  !(name && category && desc && rating && price && discount && img) && next(createCustomError("Some attributes are missing", 400))
+  !(name && category && desc && rating && price && img) && next(createCustomError("Some attributes are missing", 400))
   
   // check if the menu already exists
   const existingMenu = await Menu.findOne({name}).where("isDeleted").equals(false);

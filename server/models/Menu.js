@@ -9,7 +9,7 @@ const MenuSchema = new Schema({
   category : {
     type: String, 
     required : true,
-    enum : ["steak", "spaghetti", "snack", "salad", "drinks"]
+    enum : ["steak", "spaghetti", "snack", "salad", "drink"]
   },
   desc : {
     type: String, 

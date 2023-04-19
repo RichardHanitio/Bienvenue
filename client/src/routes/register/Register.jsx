@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {AiFillLeftCircle} from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
 
@@ -6,6 +6,23 @@ import Container from "./Register.styled";
 
 const Register = () => {
   const navigate = useNavigate();
+  const [credentials, setCredentials] = useState({
+    email : undefined,
+    username : undefined,
+    phoneNum : undefined,
+    password : undefined,
+  })
+
+  const handleCredentialChange = (e) => {
+    setCredentials({
+      ...credentials,
+      [e.target.id] : e.target.value,
+    })
+  }
+
+  const handleSubmitCredentials = (e) => {
+    
+  }
 
   return (
     <Container>
@@ -28,25 +45,25 @@ const Register = () => {
           <form className="register-form" method="post">
             <div className="register-item">
               <label htmlFor="email" className="register-label">Email</label>
-              <input type="email" className="register-input" name="email" id="email"/>
+              <input type="email" className="register-input" name="email" id="email" onChange={handleCredentialChange}/>
             </div>
             <div className="register-item">
               <label htmlFor="username" className="register-label">Username</label>
-              <input type="text" className="register-input" name="username" id="username"/>
+              <input type="text" className="register-input" name="username" id="username" onChange={handleCredentialChange}/>
             </div>
             <div className="register-item">
-              <label htmlFor="phonenum" className="register-label">Phone Number</label>
-              <input type="tel" className="register-input" name="phonenum" id="phonenum"/>
+              <label htmlFor="phoneNum" className="register-label">Phone Number</label>
+              <input type="tel" className="register-input" name="phonenum" id="phoneNum" onChange={handleCredentialChange}/>
             </div>
             <div className="register-item">
               <label htmlFor="password" className="register-label">Password</label>
-              <input type="password" className="register-input" name="password" id="password"/>
+              <input type="password" className="register-input" name="password" id="password" onChange={handleCredentialChange}/>
             </div>
             <div className="show-pass">
               <input type="checkbox" className="show-pass-input" id="showpass"/>
               <label htmlFor="showpass" name="password" className="show-pass-label">Show Password</label>
             </div>
-            <input type="submit" value="Register" className="register-submit" />
+            <input type="submit" onClick={handleSubmitCredentials} value="Register" className="register-submit" />
           </form>
         </div>
       </div>

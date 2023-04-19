@@ -113,7 +113,7 @@ export const allMenus = [
     _id : "spg-vc",
     name: "Vegetarian Carbonara",
     category: categories.SPAGHETTI,
-    desc: "Spaghetti with onion, garlic, olive oil, mushrooms and creamy sauce ",
+    desc: "Spaghetti with onion, garlic, olive oil, mushrooms and creamy sauce",
     rating: 4,
     price: 35,
     img: "/assets/menus/spaghetti/vegetarian-carbonara.png",

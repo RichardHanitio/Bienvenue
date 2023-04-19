@@ -7,13 +7,12 @@ import { allMenus } from '../../datas';
 
 const Menu = () => {
   const [active, setActive] = useState("steak");
-
   const handleClick = (e) => {
     setActive(e.target.attributes.value.nodeValue)
   }
 
   const categories = [
-    "steak", "spaghetti", "snack", "salad", "drinks"
+    "steak", "spaghetti", "snack", "salad", "drink"
   ]
 
   return (

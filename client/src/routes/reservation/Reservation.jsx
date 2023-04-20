@@ -3,6 +3,8 @@ import DatePicker from "react-datepicker"
 import TimePicker from 'react-time-picker';
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
+import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode"
 import Container from "./Reservation.styled"
 import Header from '../../components/header/Header'
 import Button from '../../components/button/Button'
@@ -13,22 +15,25 @@ const Reservation = () => {
   const {items, date, time, totalGuest, totalPrice, dispatch} = useContext(ReserveContext);
 
   // send this to backend
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
+    const jwt_token = Cookies.get("access_token");
+    const refactoredItem = items.map(item => ({itemId: item._id, amount: item.amount}));
+    const refactoredTime = time.split(":");
     const payload = {
-      userId : "",
-      items : items,
-      date : date,
-      time : time,
+      items : refactoredItem,
+      date : `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+      time : new Date(1970,0,1,refactoredTime[0], refactoredTime[1], 0),
       totalGuest : totalGuest,
-      method : "OVO",
+      totalPrice : totalPrice,
+      method : "ovo",
       status : "pending",
     }
-    console.log(payload)
-    return payload;
+    try {
+      await axios.post(`/reservations?uid=${jwt_decode(jwt_token).id}`, payload);
+    } catch(err) {
+      console.log(err);
+    }
   }
-
-  // will be fetched from api
-  // const cartItems = allMenus.slice(0,3)
 
   const handleIncreaseAmount = (e) => {
     dispatch({type: "INCREASE_ITEM_AMOUNT", payload : e.target.id})

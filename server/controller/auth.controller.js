@@ -53,7 +53,7 @@ const login = asyncWrapper(async(req, res, next) => {
 
   const {_id, isAdmin, isDeleted, deletedAt, ...others} = user._doc;
   
-  res.cookie("access_token", token, {httpOnly: true});
+  res.cookie("access_token", token);
   return res.status(200).json({
     msg : "Login successful",
     data : others

@@ -4,7 +4,6 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import Loader from './components/loader/Loader';
 import Menu from './routes/menu/Menu'
 import Home from './routes/home/Home';
 import Register from './routes/register/Register'
@@ -22,7 +21,6 @@ import AdminEditUserAccounts from './routes/adminUserAccounts/AdminEditUserAccou
 
 const router = createBrowserRouter([
   { path : "/", element: <Home />},
-  { path : "/loader", element: <Loader />},
   { path : "/register", element: <Register />},
   { path : "/menu", element: <Menu />},
   { path : "/history", element: <History />},

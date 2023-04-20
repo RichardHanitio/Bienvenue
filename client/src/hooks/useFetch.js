@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react'
+import {useState, useEffect} from 'react'
 import axios from "axios";
 
 const useFetch = (url) => {
@@ -6,24 +6,39 @@ const useFetch = (url) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const proxy = "http://localhost:5000/api";
-
-  const getMenus = useCallback(async() => {
+  const fetchData = async() => {
     setLoading(true);
     try {
-      const response = await axios.get(`${proxy}/menus`);
-      setData(response);
-    } catch (err) {
+      const res = await axios.get(url);
+      setData(res.data);
+    } catch(err) {
       setError(err);
     }
     setLoading(false);
-  }, [])
+  }
+
+  const reFetch = async(newUrl) => {
+    setLoading(true);
+    try {
+      let res;
+      if(!newUrl) {
+        res = await axios.get(url);
+      } else {
+        res = await axios.get(newUrl);
+      }
+      setData(res.data);
+    } catch(err) {
+      setError(err);
+    }
+    setLoading(false);
+  }
 
   useEffect(() => {
-    getMenus();
-  }, [getMenus]);
+    fetchData();
+  }, [])
 
-  return {getMenus, data, loading, error}
+
+  return {data, loading, error, reFetch}
 }
 
 export default useFetch;

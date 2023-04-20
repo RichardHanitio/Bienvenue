@@ -1,17 +1,21 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import {AiFillLeftCircle} from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
-
+import {AuthContext} from "../../context/AuthContext";
 import Container from "./Register.styled";
+import axios from "axios";
 
 const Register = () => {
   const navigate = useNavigate();
+  const {user, loading, error, dispatch} = useContext(AuthContext);
   const [credentials, setCredentials] = useState({
     email : undefined,
     username : undefined,
     phoneNum : undefined,
     password : undefined,
   })
+  const [showPass, setShowPass] = useState(false);
+  const [registerError, setRegisterError] = useState("");
 
   const handleCredentialChange = (e) => {
     setCredentials({
@@ -20,8 +24,22 @@ const Register = () => {
     })
   }
 
-  const handleSubmitCredentials = (e) => {
-    
+  const handleSubmitCredentials = async(e) => {
+    e.preventDefault();
+    try {
+      await axios.post("/auth/register", credentials)
+      // auto login after registration
+      dispatch({type : "LOGIN_START"})
+      const res = await axios.post("/auth/login", {
+        username : credentials.username,
+        password : credentials.password,
+      })
+      dispatch({type : "LOGIN_SUCCESS", payload : res.data})
+      console.log(user);
+      navigate("/");
+    } catch(e) {
+      setRegisterError(e.response.data.msg);
+    }
   }
 
   return (
@@ -42,6 +60,9 @@ const Register = () => {
         <div className="register-right-container">
           <h1 className="register-title">Create Account</h1>
           <h2 className="register-desc">Enter your personal details to get reservation access and weekly discounts!</h2>
+          {
+            registerError && <div className="register-error">{registerError}</div> 
+          }
           <form className="register-form" method="post">
             <div className="register-item">
               <label htmlFor="email" className="register-label">Email</label>
@@ -57,10 +78,10 @@ const Register = () => {
             </div>
             <div className="register-item">
               <label htmlFor="password" className="register-label">Password</label>
-              <input type="password" className="register-input" name="password" id="password" onChange={handleCredentialChange}/>
+              <input type={showPass ? "text":"password"} className="register-input" name="password" id="password" onChange={handleCredentialChange}/>
             </div>
             <div className="show-pass">
-              <input type="checkbox" className="show-pass-input" id="showpass"/>
+              <input type="checkbox" className="show-pass-input" id="showpass" onClick={(e) => setShowPass(e.target.checked)}/>
               <label htmlFor="showpass" name="password" className="show-pass-label">Show Password</label>
             </div>
             <input type="submit" onClick={handleSubmitCredentials} value="Register" className="register-submit" />

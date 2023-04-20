@@ -4,6 +4,7 @@ import Container from "./Home.styled"
 import Header from '../../components/header/Header';
 import Footer from '../../components/footer/Footer';
 import Button from '../../components/button/Button';
+import {AuthContext} from "../../context/AuthContext";
 import RatingStars from '../../components/ratingstars/RatingStars';
 import { ReserveContext } from '../../context/ReserveContext';
 import {reviews, allMenus} from "../../datas";
@@ -11,12 +12,12 @@ import {reviews, allMenus} from "../../datas";
 const Home = () => {
   const navigate = useNavigate();
   const {items, dispatch} = useContext(ReserveContext);
+  const {user} = useContext(AuthContext);
   const [discountedMenu, setDiscountedMenu] = useState([]);
 
   useEffect(() => {
     // fetch the discounted menu
     setDiscountedMenu([...allMenus.slice(0,3)]);
-    console.log(items)
   }, [])
   
   // handle add item logic
@@ -154,7 +155,9 @@ const Home = () => {
               <h1 className="home-part-4-left-title">
                 Do you have any dinner plan tonight? <br />Reserve your table
               </h1>
-              <Button variant="primary" width="230px" height="50px" onClick={() => navigate("/reservation")}>Make Reservation</Button>
+              <Button variant="primary" width="230px" height="50px" onClick={() => {
+                user !== null ? navigate("/reservation") : navigate("/login")
+              }}>Make Reservation</Button>
             </div>
             <div className="home-part-4-right">
               <img src="assets/reserve.png" alt="" />

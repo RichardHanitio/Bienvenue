@@ -52,6 +52,10 @@ const Container = styled.div`
       .item-price {
         font-weight : 500;
       }
+
+      .item-buy:disabled {
+        color : white;
+      }
     }
   }
 

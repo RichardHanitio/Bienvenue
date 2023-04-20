@@ -1,9 +1,9 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 
 import Container from "./Menu.styled"
 import Header from "../../components/header/Header";
 import Items from '../../components/items/Items';
-import { allMenus } from '../../datas';
+import useFetch from "../../hooks/useFetch"
 
 const Menu = () => {
   const [active, setActive] = useState("steak");
@@ -27,7 +27,7 @@ const Menu = () => {
             ))
           }
         </div>
-        <Items datas={allMenus} active={active}/>
+        <Items active={active}/>
       </div>
     </Container>
   )

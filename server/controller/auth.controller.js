@@ -8,13 +8,11 @@ const encryptor = require("simple-encryptor")(process.env.ENCRYPTORKEY);
 const User = require("../models/User");
 
 const register = asyncWrapper(async(req, res, next) => {
-  // encrypt in frontend
-  const encryptedBody = encryptor.encrypt(req.body);
-  const {email, username, phoneNum, password} = encryptor.decrypt(encryptedBody);
+  const {email, username, phoneNum, password} = req.body;
   !(email && username && phoneNum && password) && next(createCustomError("Some attributes are missing", 400))
   
   // check if the user already exists
-  const existingUser = await User.findOne({email}).where("isDeleted").equals(false);
+  const existingUser = await User.findOne({$or: [{email}, {username}, {phoneNum}]}).where("isDeleted").equals(false);
   existingUser && next(createCustomError("User already exists", 409))
   
   // create a new user
@@ -38,12 +36,15 @@ const login = asyncWrapper(async(req, res, next) => {
 
   // check if the user exists in database
   const user = await User.findOne({username}).where("isDeleted").equals(false);
-  !user && next(createCustomError("User does not exist", 404));
+  !user && next(createCustomError("Username or password is incorrect", 400));
   
   // if the user exists, compare the password
   const isPasswordCorrect = bcrypt.compareSync(password, user.password);
-  !isPasswordCorrect && next(createCustomError("Username or password is incorrect", 400));
   
+  if(!isPasswordCorrect) {
+    return next(createCustomError("Username or password is incorrect", 400));
+  }
+
   // if password is correct, store a jwt token
   const token = jwt.sign({
     id : user._id,
@@ -60,4 +61,11 @@ const login = asyncWrapper(async(req, res, next) => {
 
 })
 
-module.exports = {register, login}
+const logout = asyncWrapper(async(req, res, next) => {
+  res.clearCookie("access_token");
+  return res.status(200).json({
+    msg : "Logout successful",
+  })
+})
+
+module.exports = {register, login, logout}

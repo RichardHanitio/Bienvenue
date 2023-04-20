@@ -67,6 +67,13 @@ const Container = styled.div`
         margin-bottom : 30px;
       }
 
+      .register-error {
+        background-color : rgba(255, 125, 125, .8);
+        height : 45px;
+        border-radius : 10px;
+        ${centerChildElementsHorizontally}
+      }
+
       .register-form {
         .register-item {
           min-height : 80px;

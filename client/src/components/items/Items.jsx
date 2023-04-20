@@ -4,13 +4,13 @@ import Item from '../item/Item'
 import useFetch from "../../hooks/useFetch";
 import Loader from '../loader/Loader';
 
-const Items = ({datas, active}) => {
-  const [filteredData, setFilteredData] = useState(datas);
-  const {data, error, loading} = useFetch();
+const Items = ({active}) => {
+  const [filteredData, setFilteredData] = useState([]);
+  const {loading, data, error} = useFetch("/menus");
 
   useEffect(() => {
     !loading && setFilteredData(
-      data.data.data.filter((d) => {
+      data.data.filter((d) => {
         return d.category === active
       })
     )

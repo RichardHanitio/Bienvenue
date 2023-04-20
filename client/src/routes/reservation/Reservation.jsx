@@ -2,7 +2,7 @@ import React, {useContext, useEffect} from 'react'
 import DatePicker from "react-datepicker"
 import TimePicker from 'react-time-picker';
 import "react-datepicker/dist/react-datepicker.css";
-
+import axios from 'axios';
 import Container from "./Reservation.styled"
 import Header from '../../components/header/Header'
 import Button from '../../components/button/Button'
@@ -16,13 +16,14 @@ const Reservation = () => {
   const handleSubmit = () => {
     const payload = {
       userId : "",
-      items : [],
+      items : items,
       date : date,
       time : time,
       totalGuest : totalGuest,
-      method : "",
+      method : "OVO",
       status : "pending",
     }
+    console.log(payload)
     return payload;
   }
 

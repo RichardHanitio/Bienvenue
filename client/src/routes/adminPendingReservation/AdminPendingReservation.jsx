@@ -1,54 +1,67 @@
 import React, {useState, useEffect} from 'react'
+import { useNavigate } from 'react-router-dom';
 import Container from './AdminPendingReservation.styled'
 import ReservationCard from '../../components/reservationCard/ReservationCard';
-import axios from 'axios';
+import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
 import useFetch from "../../hooks/useFetch";
+import { useSnackbar } from 'react-simple-snackbar'
+import axios from 'axios';
 
 const AdminPendingReservation = () => {
   const [pendingReservations, setPendingReservations] = useState([]);
   const {loading, data, error} = useFetch("/reservations");
+  const [openSnackbar, closeSnackbar] = useSnackbar();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // !loading && setPendingReservations(
-    //   data.filter((d) => d.status==="pending")
-    // )
+    const authenticated = jwt_decode(Cookies.get("access_token")).isAdmin;
+    if(!authenticated) navigate("/")
 
-    !loading && console.log(data);
+    !loading && setPendingReservations(
+      data.data.filter((d) => d.status==="pending")
+    )
 
-      // {
-      //   "userId" : "6432bcef57ac838d75ea64b2",
-      //   "items" : [
-      //     {
-      //       "itemId" : "6432c2682e82e8d45b57b010",
-      //       "amount" : 5
-      //     },
-      //     {
-      //       "itemId" : "6432c2682e82e8d45b57b010",
-      //       "amount" : 3
-      //     },
-      //     {
-      //       "itemId" : "6432c2682e82e8d45b57b010",
-      //       "amount" : 1
-      //     },
-      //   ],
-      //   "date" : "2023-04-20",
-      //   "time" : "1681098716312",
-      //   "totalGuest" : 5,
-      //   "totalPrice" : 1000,
-      //   "method" : "ovo",
-      //   "status" : "pending"
-      // },
-  }, [loading, data]);
+  }, [data, loading])
+
+  const acceptReservation = async(reservationId) => {
+    const attr = {
+      status : "accepted",
+    }
+    try {
+      const res = await axios.patch(`/reservations/${reservationId}/edit`, attr);
+      window.location.reload();
+      openSnackbar(res.data.msg);
+      
+    } catch(err) {
+      openSnackbar("Something went wrong, please try again");
+    }
+  }
+
+  const declineReservation = async(reservationId) => {
+    const attr = {
+      status : "declined",
+    }
+    try {
+      const res = await axios.patch(`/reservations/${reservationId}/edit`, attr);
+      window.location.reload();
+      openSnackbar(res.data.msg);
+      
+    } catch(err) {
+      openSnackbar("Something went wrong, please try again");
+    }
+  }
 
   return (
     <Container>
-      {!loading && console.log(pendingReservations)}
       <div className="pending-inner-container">
         <h1 className="pending-title">Pending Reservation</h1>
         <div className="pending-cards">
           {
             pendingReservations.map(reservation => (
-              <ReservationCard reservation={reservation}/>
+              <ReservationCard key={reservation._id} reservation={reservation} acceptReservation={() => acceptReservation(reservation._id)}
+              declineReservation={() => declineReservation(reservation._id)}/>
             ))
           }
         </div>

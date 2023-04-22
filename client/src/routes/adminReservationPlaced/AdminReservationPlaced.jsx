@@ -1,113 +1,28 @@
 import React, {useState, useEffect} from 'react'
+import { useNavigate } from 'react-router-dom';
 import Container from './AdminReservationPlaced.styled';
 import ReservationCard from '../../components/reservationCard/ReservationCard';
+import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
+import useFetch from "../../hooks/useFetch";
+import axios from 'axios';
 
 const AdminReservationPlaced = () => {
   const [reservations, setReservations] = useState([]);
+  const {loading, data, error} = useFetch("/reservations");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // fetch all reservations
-    setReservations([
-      {
-        "userId" : "6432bcef57ac838d75ea64b2",
-        "items" : [
-          {
-            "itemId" : "6432c2682e82e8d45b57b010",
-            "amount" : 5
-          },
-          {
-            "itemId" : "6432c2682e82e8d45b57b010",
-            "amount" : 3
-          },
-          {
-            "itemId" : "6432c2682e82e8d45b57b010",
-            "amount" : 1
-          },
-        ],
-        "date" : "2023-04-20",
-        "time" : "1681098716312",
-        "totalGuest" : 5,
-        "totalPrice" : 1000,
-        "method" : "ovo",
-        "status" : "pending"
-      },
-      {
-        "userId" : "6432bcef57ac838d75ea64b2",
-        "items" : [
-          {
-            "itemId" : "6432c2682e82e8d45b57b010",
-            "amount" : 5
-          }
-        ],
-        "date" : "2023-04-20",
-        "time" : "1681098716312",
-        "totalGuest" : 5,
-        "totalPrice" : 1000,
-        "method" : "ovo",
-        "status" : "pending"
-      },
-      {
-        "userId" : "6432bcef57ac838d75ea64b2",
-        "items" : [
-          {
-            "itemId" : "6432c2682e82e8d45b57b010",
-            "amount" : 5
-          }
-        ],
-        "date" : "2023-04-20",
-        "time" : "1681098716312",
-        "totalGuest" : 5,
-        "totalPrice" : 1000,
-        "method" : "ovo",
-        "status" : "pending"
-      },
-      {
-        "userId" : "6432bcef57ac838d75ea64b2",
-        "items" : [
-          {
-            "itemId" : "6432c2682e82e8d45b57b010",
-            "amount" : 5
-          }
-        ],
-        "date" : "2023-04-20",
-        "time" : "1681098716312",
-        "totalGuest" : 5,
-        "totalPrice" : 1000,
-        "method" : "ovo",
-        "status" : "pending"
-      },
-      {
-        "userId" : "6432bcef57ac838d75ea64b2",
-        "items" : [
-          {
-            "itemId" : "6432c2682e82e8d45b57b010",
-            "amount" : 5
-          }
-        ],
-        "date" : "2023-04-20",
-        "time" : "1681098716312",
-        "totalGuest" : 5,
-        "totalPrice" : 1000,
-        "method" : "ovo",
-        "status" : "pending"
-      },
-      {
-        "userId" : "6432bcef57ac838d75ea64b2",
-        "items" : [
-          {
-            "itemId" : "6432c2682e82e8d45b57b010",
-            "amount" : 5
-          }
-        ],
-        "date" : "2023-04-20",
-        "time" : "1681098716312",
-        "totalGuest" : 5,
-        "totalPrice" : 1000,
-        "method" : "ovo",
-        "status" : "pending"
-      },
-    ])
-  }, [])
+    const authenticated = jwt_decode(Cookies.get("access_token")).isAdmin;
+    if(!authenticated) navigate("/")
+
+    !loading && setReservations(
+      data.data.filter((d) => d.status==="accepted")
+    )
+
+  }, [data, loading])
+
 
   return (
     <Container>
@@ -116,7 +31,7 @@ const AdminReservationPlaced = () => {
         <div className="pending-cards">
           {
             reservations.map(reservation => (
-              <ReservationCard reservation={reservation}/>
+              <ReservationCard reservation={reservation} accepted={true}/>
             ))
           }
         </div>

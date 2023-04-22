@@ -1,8 +1,18 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import {useNavigate} from "react-router-dom";
 import Container from "./AdminDashboard.styled"
 import Card from '../../components/card/Card'
+import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const authenticated = jwt_decode(Cookies.get("access_token")).isAdmin;
+    if(!authenticated) navigate("/")
+  })
+
   return (
     <Container>
       <div className="dashboard-inner-container">

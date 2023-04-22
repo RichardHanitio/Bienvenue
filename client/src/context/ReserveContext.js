@@ -67,6 +67,8 @@ const ReserveReducer = (state, action) => {
       return  {...state, totalGuest : action.payload}
     case "CHANGE_TIME" :
       return {...state, time : action.payload}
+    case "FINISH_RESERVATION" :
+      return INITIAL_STATE
     default :
       return state
   }

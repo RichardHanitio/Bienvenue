@@ -4,15 +4,17 @@ import TimePicker from 'react-time-picker';
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 import Cookies from "js-cookie";
-import jwt_decode from "jwt-decode"
+import jwt_decode from "jwt-decode";
 import Container from "./Reservation.styled"
 import Header from '../../components/header/Header'
 import Button from '../../components/button/Button'
 import Footer from '../../components/footer/Footer';
 import { ReserveContext } from '../../context/ReserveContext';
+import { useSnackbar } from 'react-simple-snackbar';
 
 const Reservation = () => {
   const {items, date, time, totalGuest, totalPrice, dispatch} = useContext(ReserveContext);
+  const [openSnackbar, closeSnackbar] = useSnackbar();
 
   // send this to backend
   const handleSubmit = async() => {
@@ -30,8 +32,10 @@ const Reservation = () => {
     }
     try {
       await axios.post(`/reservations?uid=${jwt_decode(jwt_token).id}`, payload);
+      dispatch({type: "FINISH_RESERVATION"});
+      openSnackbar("Reservation made successfully");
     } catch(err) {
-      console.log(err);
+      openSnackbar("Reservation failed. Please try again");
     }
   }
 

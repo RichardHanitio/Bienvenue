@@ -7,7 +7,7 @@ const createMenu = asyncWrapper(async(req, res, next) => {
   const img = req.file;
   const {name, category, desc, rating, discount, price} = req.body;
   !(name && category && desc && rating && price && img) && next(createCustomError("Some attributes are missing", 400))
-
+  
   // check if the menu already exists
   const existingMenu = await Menu.findOne({name}).where("isDeleted").equals(false);
   existingMenu && next(createCustomError("Menu already exists", 409))
@@ -15,6 +15,7 @@ const createMenu = asyncWrapper(async(req, res, next) => {
   // create a new menu
   const imgPath = `/server/uploads/${img.filename}`;
   const menu = await Menu.create({name, category, desc, rating, discount, price, img:imgPath});
+
   return res.status(200).json({
     msg : "Menu created successfully",
     data : menu
@@ -86,10 +87,8 @@ const restoreDeletedMenu = asyncWrapper(async(req, res, next) => {
 const editMenu = asyncWrapper(async(req, res, next) => {
   const id = req.params.id;
   !id && next(createCustomError("Id missing", 404))
-
-  // encrypt in frontend
-  const encryptedBody = encryptor.encrypt(req.body);
-  const body = encryptor.decrypt(encryptedBody);
+  
+  const body = req.body;
 
   const menu = await Menu.findOneAndUpdate({_id: id}, body, {
     new : true,

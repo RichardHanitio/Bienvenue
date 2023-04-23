@@ -38,9 +38,8 @@ const AdminAddNewMenus = () => {
       })
 
     } catch (e) {
-      console.log(e);
+      openSnackbar("Something went wrong, please try again")
     }
-  
   }
 
   return (

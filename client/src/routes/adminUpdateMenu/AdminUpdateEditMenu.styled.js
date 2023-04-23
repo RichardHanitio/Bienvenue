@@ -24,7 +24,7 @@ const Container = styled.div`
     }
     .new-menu-form-container {
       width : 50%;
-      height : 900px;
+      height : 1000px;
       background-color : ${({theme}) => theme.adminColor};
       border-radius : 20px;
       ${centerChildElementsHorizontally}

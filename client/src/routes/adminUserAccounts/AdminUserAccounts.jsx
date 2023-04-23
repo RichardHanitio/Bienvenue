@@ -2,39 +2,25 @@ import React, {useState, useEffect} from 'react'
 import Container from './AdminUserAccounts.styled';
 import Table from '../../components/table/Table';
 import { useNavigate } from 'react-router-dom';
+import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
+import useFetch from "../../hooks/useFetch";
 
 const AdminUserAccounts = () => {
+  const {loading, data, error} = useFetch("/users");
   const [user, setUser] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // fetch all reservations
-    setUser([
-      {
-        "email" : "richardhan81@gmail.com",
-        "username" : "Richard Ha",
-        "phoneNum" : "081111111112",
-        "password" : "richardpassword"
-      },
-      {
-        "email" : "richardhan81@gmail.com",
-        "username" : "Richard Ha",
-        "phoneNum" : "081111111112",
-        "password" : "richardpassword"
-      },
-      {
-        "email" : "richardhan81@gmail.com",
-        "username" : "Richard Ha",
-        "phoneNum" : "081111111112",
-        "password" : "richardpassword"
-      },
-    ])
-  }, [])
+    const authenticated = jwt_decode(Cookies.get("access_token")).isAdmin;
+    if(!authenticated) navigate("/");
+
+    !loading && setUser(data.data);
+  }, [loading, data])
 
   const handleEdit = () => {
     navigate("/admin/user-accounts/edit");
   }
-
 
   return (
     <Container>

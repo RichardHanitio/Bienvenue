@@ -3,22 +3,25 @@ import { centerChildElementsHorizontally, centerChildElementsVertically } from "
 
 const Container = styled.div`
   width : 100%;
-  height : 100%;
+  /* height : 100%; */
+  height : 80vh;
   color : ${({theme}) => theme.adminColor};
 
   .table-title-row {
     display : grid;
-    grid-template-columns : repeat(9, 250px);
+    grid-template-columns : repeat(14, 250px);
     align-items : center;
     height : 100px;
-    width : 2250px;
     border-bottom : 1px solid ${({theme}) => theme.adminColor};
     column-gap : 15px;
-
+    .table-title {
+      font-size : 24px;
+      font-weight : 600;
+    }
   }
   .table-row {
     display : grid;
-    grid-template-columns : repeat(9, 250px);
+    grid-template-columns : repeat(14, 250px);
     min-height : 60px;
     justify-items : stretch;
     margin : 30px 0;

@@ -69,7 +69,6 @@ const AdminUpdateEditMenu = () => {
 
     try {
       const res = await axios.patch(`/menus/${id}/edit`, body);
-      console.log(res);
       openSnackbar(res.data.msg);
       setMenu({
         name : res.data.data.name,
@@ -82,7 +81,6 @@ const AdminUpdateEditMenu = () => {
       })
 
     } catch (e) {
-      console.log(e);
       openSnackbar("Something went wrong, please try again")
     }
   }
@@ -102,7 +100,6 @@ const AdminUpdateEditMenu = () => {
                 onSubmit={handleSubmit}
               >
                 <div className="update-menu-img">
-                  {console.log(menu.img)}
                   <img src={menu.img} alt={menu.name}/>
                 </div>
                 <div className="new-menu-item">
@@ -199,13 +196,13 @@ const AdminUpdateEditMenu = () => {
                   } onClick={() => navigate(-1)}>
                     Go Back
                   </Button>
-                  <Button variant="primary" height="50px" type="button" className="btn btn-delete" style={
+                  {/* <Button variant="primary" height="50px" type="button" className="btn btn-delete" style={
                     {
                       backgroundColor : "#FF4848",
                     }
                   }>
                     Delete
-                  </Button>
+                  </Button> */}
                 </div>
               </form>
             </div>

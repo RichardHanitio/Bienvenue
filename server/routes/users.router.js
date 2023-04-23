@@ -14,7 +14,7 @@ usersRouter.route("/:id/edit")
 .patch(verifyAdmin, editUser)
 
 usersRouter.route("/:id/delete")
-.patch(verifyAdmin, deleteUser)
+.get(verifyAdmin, deleteUser)
 
 usersRouter.route("/:id/restore")
 .get(verifyAdmin, restoreDeletedUser)

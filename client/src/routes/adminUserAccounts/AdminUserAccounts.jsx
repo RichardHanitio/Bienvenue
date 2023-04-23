@@ -5,8 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 import useFetch from "../../hooks/useFetch";
+import axios from 'axios';
+import { useSnackbar } from 'react-simple-snackbar';
 
 const AdminUserAccounts = () => {
+  const [openSnackbar, closeSnackbar] = useSnackbar();
   const {loading, data, error} = useFetch("/users");
   const [user, setUser] = useState([]);
   const navigate = useNavigate();
@@ -18,15 +21,26 @@ const AdminUserAccounts = () => {
     !loading && setUser(data.data);
   }, [loading, data])
 
-  const handleEdit = () => {
-    navigate("/admin/user-accounts/edit");
+  const handleEdit = (id) => {
+    navigate(`/admin/user-accounts/edit?id=${id}`);
+  }
+
+  const handleDelete = async(id) => {
+    try {
+      const res = await axios.get(`/users/${id}/delete`);
+      openSnackbar(res.data.msg);
+      window.location.reload();
+    } catch(err) {
+      openSnackbar("Something went wrong, please try again");
+      console.log(err)
+    }
   }
 
   return (
     <Container>
       <div className="user-accounts-inner-container">
         <h1 className="user-accounts-title">User Accounts</h1>
-          <Table data={user} handleEdit={handleEdit}/>
+          <Table data={user} handleEdit={handleEdit} handleDelete={handleDelete}/>
       </div>
     </Container>
   )

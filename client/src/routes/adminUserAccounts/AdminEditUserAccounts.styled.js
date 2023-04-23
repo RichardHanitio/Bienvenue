@@ -82,7 +82,7 @@ const Container = styled.div`
       .new-menu-action-buttons {
         display : grid;
         grid-template-columns : repeat(2, 1fr);
-        height : 120px;
+        height : 80px;
 
         .btn {
           width : 90%;

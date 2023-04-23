@@ -1,8 +1,9 @@
 import React from 'react'
 import Container from './Table.styled'
 import Button from '../button/Button';
+import Loader from '../loader/Loader';
 
-const Table = ({data, handleEdit}) => {
+const Table = ({data, handleEdit, handleDelete}) => {
   return (
     <Container>
       {
@@ -30,7 +31,7 @@ const Table = ({data, handleEdit}) => {
                     <Button width="100px" className="btn btn-edit" onClick={() => handleEdit(item._id)} style={{
                       backgroundColor : "#A3FF48"
                     }}>Edit</Button>
-                    <Button width="100px" className="btn btn-delete" style={{
+                    <Button width="100px" className="btn btn-delete" onClick={() => handleDelete(item._id)} style={{
                       backgroundColor : "#FF4848"
                     }}>Delete</Button>
                   </div>
@@ -38,7 +39,7 @@ const Table = ({data, handleEdit}) => {
               ))
             }
           </>
-        ) : <div>Loading...</div>
+        ) : <Loader />
       }
     </Container>
   )

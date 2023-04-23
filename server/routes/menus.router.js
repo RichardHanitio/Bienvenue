@@ -30,7 +30,7 @@ menusRouter.route("/:id/edit")
 .patch(verifyAdmin, editMenu)
 
 menusRouter.route("/:id/delete")
-.patch(verifyAdmin, deleteMenu)
+.get(verifyAdmin, deleteMenu)
 
 menusRouter.route("/:id/restore")
 .get(verifyAdmin, restoreDeletedMenu)

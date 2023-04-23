@@ -10,7 +10,6 @@ const Card = ({title, image, details, link}) => {
       <div className="card-inner-container">
         <h1 className="card-title">{title}</h1>
         <img src={image} alt={title} className="card-img"/>
-        <h2 className="card-details">{details ? details : ""}</h2>
       </div>
     </Container>  
   )

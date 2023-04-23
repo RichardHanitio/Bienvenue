@@ -23,7 +23,6 @@ const verifyAdmin = (req, res, next) => {
   jwt.verify(accessToken, process.env.JWTKEY, (err, user) => {
     if(err) return next(createCustomError("Token is invalid", 404));
     req.user = user;
-    console.log(req.user)
   })
   if(req.user.isAdmin) {
     next();

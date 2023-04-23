@@ -1,22 +1,20 @@
 require("dotenv").config();
-
-const encryptor = require("simple-encryptor")(process.env.ENCRYPTORKEY);
 const Menu = require("../models/Menu");
 const asyncWrapper = require("../utils/asyncWrapper");
 const {createCustomError} = require("../utils/customError");
 
 const createMenu = asyncWrapper(async(req, res, next) => {
-  // encrypt in frontend
-  const encryptedBody = encryptor.encrypt(req.body);
-  const {name, category, desc, rating, discount, price, img} = encryptor.decrypt(encryptedBody);
+  const img = req.file;
+  const {name, category, desc, rating, discount, price} = req.body;
   !(name && category && desc && rating && price && img) && next(createCustomError("Some attributes are missing", 400))
-  
+
   // check if the menu already exists
   const existingMenu = await Menu.findOne({name}).where("isDeleted").equals(false);
   existingMenu && next(createCustomError("Menu already exists", 409))
   
   // create a new menu
-  const menu = await Menu.create({name, category, desc, rating, discount, price, img});
+  const imgPath = `/server/uploads/${img.filename}`;
+  const menu = await Menu.create({name, category, desc, rating, discount, price, img:imgPath});
   return res.status(200).json({
     msg : "Menu created successfully",
     data : menu

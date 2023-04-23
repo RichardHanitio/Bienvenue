@@ -45,7 +45,7 @@ const ReservationCard = ({reservation, acceptReservation, declineReservation, ac
         </div>
         <div>Total Price : Rp. {reservation.totalPrice}k</div>
         {
-          accepted ?
+          !accepted ?
             <div className="pending-card-buttons">
               <Button width="150px" className="btn" style={{
                 backgroundColor : "#FF4848",

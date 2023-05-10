@@ -17,7 +17,7 @@ const Home = () => {
 
   useEffect(() => {
     // fetch the discounted menu
-    setDiscountedMenu([...allMenus.slice(0,3)]);
+    // setDiscountedMenu([...allMenus.slice(0,3)]);
   }, [])
   
   // handle add item logic
@@ -94,14 +94,14 @@ const Home = () => {
                   <div>Organized Foodie Place</div>
                 </div>
               </div>
-              <Button
+              {/* <Button
                 className="home-part-2-aboutus"
                 variant="primary"
                 width="160px"
                 height="50px"
               >
                 About Us
-              </Button>
+              </Button> */}
             </div>
           </div>
 

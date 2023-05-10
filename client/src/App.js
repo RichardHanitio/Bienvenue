@@ -19,6 +19,25 @@ import AdminUpdateEditMenu from "./routes/adminUpdateMenu/AdminUpdateEditMenu";
 import AdminUserAccounts from './routes/adminUserAccounts/AdminUserAccounts';
 import AdminEditUserAccounts from './routes/adminUserAccounts/AdminEditUserAccounts';
 
+import {ThemeProvider, createTheme} from "@mui/material/styles"
+
+const theme = createTheme({
+  palette : {
+    primary : {
+      main : "#324B4B",
+    }
+  },
+  components : {
+    MuiAppBar : {
+      styleOverrides : {
+        root : {
+          backgroundColor : "#265A5B"
+        }
+      }
+    }
+  }
+})
+
 const router = createBrowserRouter([
   { path : "/", element: <Home />},
   { path : "/register", element: <Register />},
@@ -38,7 +57,9 @@ const router = createBrowserRouter([
 
 const App = () => {
   return (
-    <RouterProvider router={router} />
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   )
 }
 

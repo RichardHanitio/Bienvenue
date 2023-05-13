@@ -27,11 +27,21 @@ const theme = createTheme({
       main : "#324B4B",
     }
   },
+  typography : {
+    fontFamily : ["Lexend", "sans-serif"].join(","),
+  },
   components : {
     MuiAppBar : {
       styleOverrides : {
         root : {
           backgroundColor : "#265A5B"
+        }
+      }
+    },
+    MuiButton : {
+      styleOverrides : {
+        root : {
+          padding : "5px 20px",
         }
       }
     }

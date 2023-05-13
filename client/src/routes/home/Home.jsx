@@ -29,7 +29,7 @@ const Home = () => {
   return (
     <>
       <Header />
-      <Container>
+      {/* <Container>
         <div className="home-inner-container">
           <div className="home-part-1">
             <div className="home-part-1-left">
@@ -94,14 +94,6 @@ const Home = () => {
                   <div>Organized Foodie Place</div>
                 </div>
               </div>
-              {/* <Button
-                className="home-part-2-aboutus"
-                variant="primary"
-                width="160px"
-                height="50px"
-              >
-                About Us
-              </Button> */}
             </div>
           </div>
 
@@ -195,8 +187,8 @@ const Home = () => {
           </div>
         </div>
 
-      </Container>
-      <Footer />
+      </Container> */}
+      {/* <Footer /> */}
     </>
   );
 }

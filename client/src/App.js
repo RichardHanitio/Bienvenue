@@ -22,13 +22,49 @@ import AdminEditUserAccounts from './routes/adminUserAccounts/AdminEditUserAccou
 import {ThemeProvider, createTheme} from "@mui/material/styles"
 
 const theme = createTheme({
+  breakpoints : {
+    values : {
+      xxs: 0,
+      xs : 375,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+      xxl : 1920
+    },
+  },
   palette : {
     primary : {
       main : "#324B4B",
-    }
+    },
+
   },
   typography : {
     fontFamily : ["Lexend", "sans-serif"].join(","),
+    h1 : {
+      fontSize : 50,
+      fontWeight : 700
+    },
+    h2 : {
+      fontSize : 36,
+      fontWeight : 700
+    },
+    h3 : {
+      fontSize : 24,
+      fontWeight : 700
+    },
+    body1 : {
+      fontSize : 20,
+      fontWeight : 400
+    },
+    body2 : {
+      fontSize : 16,
+      fontWeight : 500
+    },
+    body3 : {
+      fontSize : 14,
+      fontWeight : 500
+    }
   },
   components : {
     MuiAppBar : {
@@ -39,6 +75,29 @@ const theme = createTheme({
       }
     },
     MuiButton : {
+      variants : [
+        {
+          props : { variant: "contained", color : "primary"},
+          style : {
+            backgroundColor : "#FF8748",
+            color : "white",
+            "&:hover" : {
+              backgroundColor : "#B74424",
+            }
+          }
+        },
+        {
+          props : { variant: "contained", color : "secondary"},
+          style : {
+            backgroundColor : "#FFE1D1",
+            color : "#324B4B",
+            "&:hover" : {
+              backgroundColor : "#FF8748",
+              color : "white"
+            }
+          }
+        }
+      ],
       styleOverrides : {
         root : {
           padding : "5px 20px",

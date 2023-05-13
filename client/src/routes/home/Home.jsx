@@ -1,34 +1,150 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { useNavigate } from 'react-router-dom';
-import Container from "./Home.styled"
+// import Container from "./Home.styled"
 import Header from '../../components/header/Header';
 import Footer from '../../components/footer/Footer';
-import Button from '../../components/button/Button';
+// import Button from '../../components/button/Button';
 import {AuthContext} from "../../context/AuthContext";
 import RatingStars from '../../components/ratingstars/RatingStars';
 import { ReserveContext } from '../../context/ReserveContext';
 import {reviews, allMenus} from "../../datas";
+
+import Grid from "@mui/material/Unstable_Grid2";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
+import {useTheme} from "@mui/material/styles";
+import Button from "@mui/material/Button";
+import useWindowSize from '../../hooks/useWindowSize';
+
 
 const Home = () => {
   const navigate = useNavigate();
   const {items, dispatch} = useContext(ReserveContext);
   const {user} = useContext(AuthContext);
   const [discountedMenu, setDiscountedMenu] = useState([]);
+  const isDesktopDisplay = useWindowSize();
+  
+  const theme = useTheme();
 
-  useEffect(() => {
-    // fetch the discounted menu
-    // setDiscountedMenu([...allMenus.slice(0,3)]);
-  }, [])
-  
-  // handle add item logic
-  const handleAddItemToCart = (e) => {
-    // ingat ubah value menjadi id (jangan pake nama)
-    console.log(e.target.value)
-  }
-  
+  const multipleServices = [
+    {
+      img : "/assets/services24hr.png",
+      title : "Services 24/7",
+    },
+    {
+      img : "/assets/pre-reservation.png",
+      title : "Pre-Reservation",
+    },
+    {
+      img : "/assets/clean-kitchen.png",
+      title : "Clean Kitchen"
+    },
+    {
+      img : "/assets/superchefs.png",
+      title : "Super Chefs"
+    },
+    {
+      img : "/assets/organized-foodie-place.png",
+      title : "Organized Foodie Place"
+    }
+  ]
+
+
+  const renderDesktopHome = () => (
+    <Grid container spacing={2} sx={{display : "flex", justifyContent : "center", width : 1600}}>
+      <Grid container xs={11} sx={{height : 500}}>
+        <Grid container direction="column" sx={{flexBasis : "55%", justifyContent : "space-around", mt : 10}}>
+          <Grid>
+            <Typography sx={{typography : {lg : "h1", md : "h2"}, color : "white", textAlign : "justify"}}>We Serve The Taste You Love</Typography>
+          </Grid>
+          <Grid>
+            <Typography variant="body1" sx={{textAlign : "justify",  color : "white"}}>
+              Bienvenue is a type of restaurant which typically serve food or drinks in addition to light refreshments such as baked good food.
+            </Typography>
+          </Grid>
+          <Grid>
+            <Button variant="contained" sx={{height : 50, width : 200}}> Order Now </Button>
+          </Grid>
+        </Grid>
+        <Grid container justifyContent="flex-end" sx={{flexBasis : "45%", alignItems : "center"}}>
+          <img src="/assets/home-pic-1.png" alt="" style={{width : "90%", height : "auto"}}/>
+        </Grid>
+      </Grid>
+    </Grid>
+  )
+
+  const renderMobileHome = () => (
+    <Grid container  gap={10} sx={{display : "flex", justifyContent : "center", width : "95%"}}>
+      <Grid container xs={11} sx={{height : 580, justifyContent : "center"}}>
+        <Grid container alignItems="center" justifyContent="center" sx={{height : 300, width : 300}}>
+          <img src="/assets/home-pic-1.png" alt="" style={{height : "100%", width: "100%"}} />
+        </Grid>
+        <Grid container justifyContent="space-around" direction="column">
+          <Grid>
+            <Typography variant="h3" sx={{color : "white", textAlign : "center"}}>We Serve The Taste You Love</Typography>
+          </Grid>
+          <Grid>
+            <Typography variant="body2" sx={{textAlign : "center",  color : "white"}}>
+              Bienvenue is a type of restaurant which typically serve food or drinks in addition to light refreshments such as baked good food.
+            </Typography>
+          </Grid>
+          <Grid sx={{alignSelf : "center"}}>
+            <Button variant="contained" color="primary">Order Now </Button>
+          </Grid>
+        </Grid>
+      </Grid>
+
+      <Grid container xs={11} direction="column" sx={{height : 700, justifyContent : "space-around", alignItems : "center"}}>
+        <Grid container alignItems="center" justifyContent="center" sx={{height : 250, width : 250}}>
+          <img src="/assets/home-pic-2.png" alt="" style={{height : "100%", width: "100%"}} />
+        </Grid>
+        <Grid container justifyContent="space-around" direction="column" alignItems="center" gap={3}>
+          <Grid>
+            <Typography variant="h3" sx={{color : "white", textAlign : "center"}}>We Serve The Taste You Love</Typography>
+          </Grid>
+          <Grid container justifyContent="center" sx={{width : 300}}>
+            {
+              multipleServices.map((service) => (
+                <Grid container xs={6} direction="column" justifyContent="center" alignItems="center" sx={{mb:2}}>
+                  <img src={service.img} alt={service.title} style={{width : 40, height : 40}} />
+                  <Typography variant="body3" textAlign="center" color="white" sx={{mt: 1}}>{service.title}</Typography>
+                </Grid>
+              ))
+            }
+          </Grid>
+          <Grid sx={{alignSelf : "center"}}>
+            <Button variant="contained" color="primary">About Us </Button>
+          </Grid>
+        </Grid>
+      </Grid>
+
+      <Grid container xs={11} sx={{height : 580, justifyContent : "center"}}>
+        <Grid container justifyContent="space-around" direction="column">
+          <Grid>
+            <Typography variant="h3" sx={{color : "white", textAlign : "center"}}>Special Offer Just For Today</Typography>
+          </Grid>
+          <Grid>
+            <Typography variant="body2" sx={{textAlign : "center",  color : "white"}}>
+              Bienvenue is a type of restaurant which typically serve food or drinks in addition to light refreshments such as baked good food.
+            </Typography>
+          </Grid>
+        </Grid>
+        <Grid container alignItems="center" justifyContent="center" sx={{height : 300, width : 300}}>
+          <img src="/assets/home-pic-1.png" alt="" style={{height : "100%", width: "100%"}} />
+        </Grid>
+      </Grid>
+    </Grid>
+  )
+
   return (
     <>
       <Header />
+      <Container fixed sx={{backgroundColor : theme.palette.primary.main, minHeight : "100vh", minWidth : "100vw", display : "flex", justifyContent : "center"}}>
+        {
+          isDesktopDisplay ? renderDesktopHome() : renderMobileHome()
+        }
+      </Container>
+
       {/* <Container>
         <div className="home-inner-container">
           <div className="home-part-1">

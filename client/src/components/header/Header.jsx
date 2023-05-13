@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import Container from "@mui/material/Container";
@@ -17,20 +16,15 @@ import Tooltip from "@mui/material/Tooltip";
 import Avatar from "@mui/material/Avatar";
 
 import { HeaderAppBar, HeaderButton, HeaderMobileButton, HeaderListButton } from "./Header.styled";
+import { useNavigate } from "react-router-dom";
+import useWindowSize from "../../hooks/useWindowSize";
 
 const Header = () => {
   const navigate = useNavigate();
-  const [isDesktopDisplay, setIsDesktopDisplay] = useState(true);
+  const isDesktopDisplay = useWindowSize();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const { user, dispatch } = useContext(AuthContext);
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("md"));
-
-  useEffect(() => {
-    setIsDesktopDisplay(matches)
-  }, [matches])
-
 
   // components controllers
   const handleCloseNavMenu = () => {
@@ -59,7 +53,6 @@ const Header = () => {
   const settings = ["Profile", "Account", "Dashboard", "Logout"]
 
 
-
   const renderDesktopHeader = () => (
     <>
       <Box component="div" onClick={() => navigate("/")} sx={{display: "flex"}}>
@@ -77,7 +70,6 @@ const Header = () => {
           <Box sx={{ display: "flex", justifyContent : "center", flexBasis : "10%"}}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {console.log(user.data.username)}
                 <Avatar />
               </IconButton>
             </Tooltip>

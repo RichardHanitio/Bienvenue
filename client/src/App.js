@@ -64,7 +64,7 @@ const theme = createTheme({
     body3 : {
       fontSize : 14,
       fontWeight : 500
-    }
+    },
   },
   components : {
     MuiAppBar : {
@@ -90,7 +90,7 @@ const theme = createTheme({
           props : { variant: "contained", color : "secondary"},
           style : {
             backgroundColor : "#FFE1D1",
-            color : "#324B4B",
+            color : "black",
             "&:hover" : {
               backgroundColor : "#FF8748",
               color : "white"

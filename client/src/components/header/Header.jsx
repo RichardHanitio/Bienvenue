@@ -143,7 +143,7 @@ const Header = () => {
         >
           {pages.map((page) => (
             <MenuItem key={page} onClick={handleCloseNavMenu}>
-              <Typography textAlign="center" sx={{fontSize: 12}}>{page}</Typography>
+              <Typography textAlign="center" sx={{fontSize: 16}}>{page}</Typography>
             </MenuItem>
           ))}
         </Menu>
@@ -182,7 +182,7 @@ const Header = () => {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center" sx={{fontSize: 12}}>{setting}</Typography>
+                  <Typography textAlign="center" sx={{fontSize: 16}}>{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>

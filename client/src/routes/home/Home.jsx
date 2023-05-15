@@ -18,7 +18,6 @@ import useWindowSize from '../../hooks/useWindowSize';
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
 import CardHeader from "@mui/material/CardHeader";
 import useFetch from '../../hooks/useFetch';
 import Box from "@mui/material/Box";
@@ -41,6 +40,27 @@ const Home = () => {
   const theme = useTheme();
 
   const {data, loading, error} = useFetch("/menus");
+
+  const reviews = [
+    {
+      name : "Sundar Pichai",
+      title : "CEO of Google",
+      img : "/assets/calvinwendy.png",
+      review : "Bienvenue is the best Italian restaurant in the world. The food made by world class chef, the place is aesthetic, everything is just perfect."
+    },
+    {
+      name : "Elon Musk",
+      title : "CEO of Tesla",
+      img : "/assets/richardhanitio.png",
+      review : "Everything we ate was fresh and delicious. The award-winning chefs use the best quality ingredients to produce dishes that are simply delightful."
+    },
+    {
+      name : "Jensen Huang",
+      title : "CEO of NVIDIA",
+      img : "/assets/ricky.png",
+      review : "Bienvenue is one of the best Italian restaurant in the world. The food is really awesome and the place also awesome."
+    }
+  ]
 
   useEffect(() => {
     !loading && setDiscountedMenu(data.data.slice(0,3))
@@ -95,9 +115,9 @@ const Home = () => {
   )
 
   const renderMobileHome = () => (
-    <Grid container  gap={10} sx={{display : "flex", justifyContent : "center", width : "95%"}}>
-      <Grid container xs={11} sx={{height : 600, justifyContent : "center"}}>
-        <Grid container alignItems="center" justifyContent="center" sx={{height : 300, width : 300}}>
+    <Grid container gap={10} sx={{display : "flex", justifyContent : "center", width : "95%"}}>
+      <Grid container xs={11} sx={{height : {xxs : 600, sm : 500}, justifyContent : "center"}}>
+        <Grid container alignItems="center" justifyContent="center" sx={{height : 300, width : 300}} >
           <img src="/assets/home-pic-1.png" alt="" style={{height : "100%", width: "100%"}} />
         </Grid>
         <Grid container justifyContent="space-around" direction="column">
@@ -161,34 +181,52 @@ const Home = () => {
           )}
           {
             (discountedMenu && !loading) && (
-              discountedMenu.map((menu) => (
-                <Card raised sx={{margin : "20px 0", width : "100%"}}>
-                  <CardMedia
-                    sx={{ height: 200 }}
-                    image={menu.img}
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h3" component="div" textAlign="center">
-                      {menu.name}
-                    </Typography>
-                    <Box sx={{display : "flex", justifyContent : "center", margin : "20px 0"}}>
-                      <RatingStars amount={menu.rating} />
-                    </Box>
-                    <Typography variant="body3" component="div" sx={{mb : 4}} textAlign="center">
-                      {menu.desc}
-                    </Typography>
-                    <Typography variant="body1" sx={{color : theme.palette.error.light, fontWeight: 600}}>
-                      IDR {menu.price}k/gr
-                    </Typography>
-                    <Typography variant="body3" sx={{textDecoration: "line-through"}}>
-                      IDR {menu.price}k/gr
-                    </Typography>
-                  </CardContent>
-                  <CardActions sx={{display : "flex", justifyContent : "flex-end"}}>
-                    <Button variant="contained" color="secondary" sx={{fontSize : 16, margin : "10px"}}>Add to Cart</Button>
-                  </CardActions>
-                </Card>
-              ))
+              <Slider 
+                infinite={true} 
+                style={{maxWidth : "100%"}}
+                dots={true}
+                speed={500}
+                slidesToShow={1}
+                slidesToScroll={1}
+                autoplay= {true}
+                autoplaySpeed= {5000}
+                pauseOnHover= {true}
+              >
+              {
+                discountedMenu.map((menu) => (
+                  <Box component="div">
+                    <Card raised sx={{position : "relative", top : 0, left : {xxs : 0, sm : "10%"}, margin : "20px 0", width : {xxs : "100%", sm : "80%"}, minHeight : 450}}>
+                      <CardMedia
+                        sx={{ height: 200 }}
+                        image={menu.img}
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h4" component="div" textAlign="center">
+                          {menu.name}
+                        </Typography>
+                        <Box sx={{display : "flex", justifyContent : "center", margin : "15px 0"}}>
+                          <RatingStars amount={menu.rating} />
+                        </Box>
+                        <Typography variant="body3" component="div" sx={{mb : 4}} textAlign="center">
+                          {menu.desc}
+                        </Typography>
+                        <Box component="div" sx={{display : "flex", justifyContent : "space-between"}}>
+                          <Box component="div">
+                            <Typography variant="body2" sx={{color : theme.palette.error.light, fontWeight: 600}}>
+                              IDR {menu.price}k/gr
+                            </Typography>
+                            <Typography variant="body3" sx={{textDecoration: "line-through"}}>
+                              IDR {menu.price}k/gr
+                            </Typography>
+                          </Box>
+                          <Button variant="contained" color="secondary" sx={{fontSize : 14, margin : "10px"}}>Add to Cart</Button>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Box>
+                ))
+              }   
+              </Slider>
             )
           }
           {
@@ -231,84 +269,33 @@ const Home = () => {
             autoplaySpeed= {5000}
             pauseOnHover= {true}
           >
-            <Box component="div">
-              <Card raised sx={{position : "relative", left : "10%", width : "80%"}}>
-                <CardHeader 
-                  avatar = {
-                    <Avatar src="/assets/calvinwendy.png"></Avatar>
-                  }
-                  title="Sundar Pichai"
-                  subheader="CEO of Google"
-                  action={
-                    <FormatQuoteIcon sx={{fontSize : 50, color : theme.palette.primary.main}}/>
-                  }
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="body2" component="div" sx={{color : "#575757", fontStyle:"italic"}}>
-                    Bienvenue is one of the best Italian restaurant in the world. The food is really awesome and the place also awesome.
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Box>
-            
-            <Box component="div">
-              <Card raised sx={{position : "relative", left : "10%", width : "80%"}}>
-                <CardHeader 
-                  avatar = {
-                    <Avatar src="/assets/calvinwendy.png"></Avatar>
-                  }
-                  title="Sundar Pichai"
-                  subheader="CEO of Google"
-                  action={
-                    <FormatQuoteIcon sx={{fontSize : 50, color : theme.palette.primary.main}}/>
-                  }
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="body2" component="div" sx={{color : "#575757", fontStyle:"italic"}}>
-                    Bienvenue is one of the best Italian restaurant in the world. The food is really awesome and the place also awesome.
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Box>
-
-            <Box component="div">
-              <Card raised sx={{position : "relative", left : "10%", width : "80%"}}>
-                <CardHeader 
-                  avatar = {
-                    <Avatar src="/assets/calvinwendy.png"></Avatar>
-                  }
-                  title="Sundar Pichai"
-                  subheader="CEO of Google"
-                  action={
-                    <FormatQuoteIcon sx={{fontSize : 50, color : theme.palette.primary.main}}/>
-                  }
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="body2" component="div" sx={{color : "#575757", fontStyle:"italic"}}>
-                    Bienvenue is one of the best Italian restaurant in the world. The food is really awesome and the place also awesome.
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Box>
+            {
+              reviews.map(review => (
+                <Box component="div">
+                  <Card raised sx={{position : "relative", left : {xxs : "5%", sm : "10%"}, width : {xxs : "90%", sm : "80%"}, minHeight : 250}}>
+                    <CardHeader 
+                      avatar = {
+                        <Avatar src={review.img}></Avatar>
+                      }
+                      title={review.name}
+                      subheader={review.title}
+                      action={
+                        <FormatQuoteIcon sx={{fontSize : 50, color : theme.palette.primary.main}}/>
+                      }
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="body2" component="div" sx={{color : "#575757", fontStyle:"italic", textAlign : "justify"}}>
+                        {review.review}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Box>    
+              ))
+            }
           </Slider>
         </Grid>
       </Grid>
-
-      <Paper elevation={50} sx={{height: 500, width : "100%", display : "flex", flexDirection : "column", alignItems : "center", justifyContent : "center", backgroundColor : "#C4D0D0"}}> 
-        <Grid container sx={{display : "flex", flexDirection : {xxs : "column", md : "row"}, alignItems : "center", justifyContent : "space-around", width : "90%", height : "95%"}}>
-          <Grid container alignItems="center" justifyContent="center" sx={{height : 250, width : 250}}>
-            <img src="/assets/reserve.png" alt="" style={{height : "100%", width: "100%"}} />
-          </Grid>
-          <Grid container justifyContent="space-around" direction="column" gap={5}>
-            <Grid>
-              <Typography sx={{typography : {xxs : "h3", md :"h2"}, color : "white", textAlign : "center"}}>Do You Have Any Dinner Plan Today? <br/> Reserve Your Table</Typography>
-            </Grid>
-            <Grid sx={{alignSelf : "center"}}>
-              <Button variant="contained" color="primary">Make Reservation </Button>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Paper>
+      <Footer />
     </Grid>
   )
 

@@ -53,6 +53,10 @@ const theme = createTheme({
       fontSize : 24,
       fontWeight : 700
     },
+    h4 : {
+      fontSize : 20,
+      fontWeight : 700
+    },
     body1 : {
       fontSize : 20,
       fontWeight : 400

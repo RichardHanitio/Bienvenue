@@ -36,8 +36,8 @@ const theme = createTheme({
   palette : {
     primary : {
       main : "#324B4B",
+      light : "#265A5B",
     },
-
   },
   typography : {
     fontFamily : ["Lexend", "sans-serif"].join(","),
@@ -55,7 +55,7 @@ const theme = createTheme({
     },
     h4 : {
       fontSize : 20,
-      fontWeight : 700
+      fontWeight : 600
     },
     body1 : {
       fontSize : 20,

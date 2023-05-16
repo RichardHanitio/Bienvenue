@@ -19,6 +19,7 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
+import IconButton from "@mui/material/IconButton";
 import useFetch from '../../hooks/useFetch';
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -26,6 +27,7 @@ import Avatar from "@mui/material/Avatar";
 import { Watch } from 'react-loader-spinner';
 import Slider from "react-slick";
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -40,6 +42,12 @@ const Home = () => {
   const theme = useTheme();
 
   const {data, loading, error} = useFetch("/menus");
+  
+  const handleWhatsappOnClick = () => {
+    const message = "Hello from react";
+    const whatsappURL = `https://wa.me/+6285925025265?text=${encodeURIComponent(message)}`;
+    window.open(whatsappURL, "_blank");
+  }
 
   const reviews = [
     {
@@ -63,7 +71,7 @@ const Home = () => {
   ]
 
   useEffect(() => {
-    !loading && setDiscountedMenu(data.data.slice(0,3))
+    !loading && setDiscountedMenu(data.data.slice(0,4))
   }, [data, loading])
 
 
@@ -92,11 +100,11 @@ const Home = () => {
 
 
   const renderDesktopHome = () => (
-    <Grid container spacing={2} sx={{display : "flex", justifyContent : "center", width : 1600}}>
-      <Grid container xs={11} sx={{height : 500}}>
-        <Grid container direction="column" sx={{flexBasis : "55%", justifyContent : "space-around", mt : 10}}>
+    <Grid container justifyContent="center" gap={10} sx={{width : 1600}}>
+      <Grid container xs={10} sx={{height : 600}}>
+        <Grid container direction="column" gap={9} sx={{flexBasis : "55%", justifyContent : "center", mt : 10}}>
           <Grid>
-            <Typography sx={{typography : {lg : "h1", md : "h2"}, color : "white", textAlign : "justify"}}>We Serve The Taste You Love</Typography>
+            <Typography variant="h1" sx={{color : "white", textAlign : "justify"}}>We Serve The Taste You Love</Typography>
           </Grid>
           <Grid>
             <Typography variant="body1" sx={{textAlign : "justify",  color : "white"}}>
@@ -109,6 +117,167 @@ const Home = () => {
         </Grid>
         <Grid container justifyContent="flex-end" sx={{flexBasis : "45%", alignItems : "center"}}>
           <img src="/assets/home-pic-1.png" alt="" style={{width : "90%", height : "auto"}}/>
+        </Grid>
+      </Grid>
+
+      <Grid container xs={11} sx={{height : 700, justifyContent : "space-around", alignItems : "center"}}>
+        <Grid container alignItems="center" justifyContent="center" sx={{flexBasis : "45%"}}>
+          <img src="/assets/home-pic-2.png" alt="" style={{height : "70%", width: "80%"}} />
+        </Grid>
+        <Grid container justifyContent="space-around" direction="column" alignItems="flex-start" gap={5} sx={{flexBasis : "55%"}}>
+          <Grid>
+            <Typography variant="h1" sx={{color : "white"}}>We Are More Than Multiple Services</Typography>
+          </Grid>
+          <Grid container sx={{width : "90%"}}>
+            {
+              multipleServices.map((service) => (
+                <Grid container xs={6} gap={2} alignItems="center" sx={{mb:2}}>
+                  <img src={service.img} alt={service.title} style={{width : 60, height : 60}} />
+                  <Typography variant="body1" textAlign="center" color="white" sx={{mt: 1}}>{service.title}</Typography>
+                </Grid>
+              ))
+            }
+          </Grid>
+          <Grid>
+            <Button variant="contained" color="primary">About Us </Button>
+          </Grid>
+        </Grid>
+      </Grid>
+
+      <Grid container xs={12} gap={5} sx={{minHeight : 300, justifyContent : "center", mb : 20}} elevation={24}>
+        <Grid container>
+          <Typography variant="h1" sx={{color : "white", textAlign : "center"}}>Special Offer Just For Today</Typography>
+        </Grid>
+        <Grid container direction="column" alignItems="center" sx={{width : {xss : "100%", sm : "70%"}}}>
+          {loading && (
+            <>
+              <Watch
+                height="50"
+                width="50"
+                radius="48"
+                color="white"
+                ariaLabel="watch-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+              />
+              <Typography variant="body2" color="white" sx={{mt: 3}}>Loading today's offers...</Typography>
+            </>
+          )}
+          {
+            (discountedMenu && !loading) && (
+              <Slider 
+                infinite={true} 
+                style={{maxWidth : "100%"}}
+                dots={true}
+                speed={500}
+                slidesToShow={discountedMenu.length < 3 ? discountedMenu.length : 3}
+                slidesToScroll={1}
+                autoplay= {true}
+                autoplaySpeed= {5000}
+                pauseOnHover= {true}
+              >
+              {
+                discountedMenu.map((menu) => (
+                  <Box component="div">
+                    <Card raised sx={{position : "relative", left : 15, width : {xxs : "100%", sm : "90%"}, height : 550}}>
+                      <CardMedia
+                        sx={{ height: 250 }}
+                        image={menu.img}
+                      />
+                      <CardContent sx={{display : "flex", height : 300, flexDirection : "column", justifyContent : "space-between"}}>
+                        <Typography variant="h3" component="div" textAlign="center">
+                          {menu.name}
+                        </Typography>
+                        <Box sx={{display : "flex", justifyContent : "center"}}>
+                          <RatingStars amount={menu.rating} />
+                        </Box>
+                        <Typography variant="body2" component="div" sx={{mb : 3}} textAlign="center">
+                          {menu.desc.length > 60 ? menu.desc.slice(0, 60)+"..." : menu.desc}
+                        </Typography>
+                        <Box component="div" sx={{display : "flex", justifyContent : "space-between"}}>
+                          <Box component="div">
+                            <Typography variant="body1" sx={{color : theme.palette.error.light, fontWeight: 600}}>
+                              IDR {menu.price}k/gr
+                            </Typography>
+                            <Typography variant="body2" sx={{textDecoration: "line-through"}}>
+                              IDR {menu.price}k/gr
+                            </Typography>
+                          </Box>
+                          <Button variant="contained" color="secondary" sx={{fontSize : 14, margin : "10px"}}>Add to Cart</Button>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Box>
+                ))
+              }   
+              </Slider>
+            )
+          }
+          {
+            (!loading && !discountedMenu) && (
+              <Typography variant="body1" color="white" sx={{mt: 3}}>Sorry, no offers today :) </Typography>
+            )
+          }
+        </Grid>
+      </Grid>
+      
+      <Paper elevation={50} sx={{height: 500, width : "100%", display : "flex", alignItems : "center", justifyContent : "center", backgroundColor : "#C4D0D0"}}> 
+        <Grid container sx={{display : "flex", flexDirection : {xxs : "column", md : "row"}, alignItems : "center", justifyContent : "space-around", width : "90%", height : "95%"}}>
+          <Grid container justifyContent="space-around" direction="column" gap={5}>
+            <Grid>
+              <Typography sx={{typography : {xxs : "h3", md :"h2"}, color : "white"}}>Do You Have Any Dinner Plan Today? <br/> Reserve Your Table</Typography>
+            </Grid>
+            <Grid>
+              <Button variant="contained" color="primary">Make Reservation </Button>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid container alignItems="center" justifyContent="center" sx={{height : 250, width : 250}}>
+          <img src="/assets/reserve.png" alt="" style={{height : "100%", width: "100%"}} />
+        </Grid>
+      </Paper>
+
+      <Grid container xs={11} sx={{justifyContent : "center"}} gap={3} elevation={24}>
+        <Grid container>
+          <Typography variant="h3" sx={{color : "white", textAlign : "center"}}>What Our Customers Say?</Typography>
+        </Grid>
+        <Grid container sx={{width : "100%"}}>
+          <Slider 
+            infinite={true} 
+            style={{maxWidth : "100%"}}
+            dots={true}
+            speed={500}
+            slidesToShow={1}
+            slidesToScroll={1}
+            autoplay= {true}
+            autoplaySpeed= {5000}
+            pauseOnHover= {true}
+          >
+            {
+              reviews.map(review => (
+                <Box component="div">
+                  <Card raised sx={{position : "relative", left : {xxs : "5%", sm : "10%"}, width : {xxs : "90%", sm : "80%"}, minHeight : 250}}>
+                    <CardHeader 
+                      avatar = {
+                        <Avatar src={review.img}></Avatar>
+                      }
+                      title={review.name}
+                      subheader={review.title}
+                      action={
+                        <FormatQuoteIcon sx={{fontSize : 50, color : theme.palette.primary.main}}/>
+                      }
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="body2" component="div" sx={{color : "#575757", fontStyle:"italic", textAlign : "justify"}}>
+                        {review.review}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Box>    
+              ))
+            }
+          </Slider>
         </Grid>
       </Grid>
     </Grid>
@@ -141,7 +310,7 @@ const Home = () => {
         </Grid>
         <Grid container justifyContent="space-around" direction="column" alignItems="center" gap={3}>
           <Grid>
-            <Typography variant="h3" sx={{color : "white", textAlign : "center"}}>We Serve The Taste You Love</Typography>
+            <Typography variant="h3" sx={{color : "white", textAlign : "center"}}>We Are More Than Multiple Services</Typography>
           </Grid>
           <Grid container justifyContent="center" sx={{width : 300}}>
             {
@@ -295,18 +464,23 @@ const Home = () => {
           </Slider>
         </Grid>
       </Grid>
-      <Footer />
     </Grid>
   )
-
+  
   return (
     <>
       <Header />
-      <Container fixed sx={{backgroundColor : theme.palette.primary.main, minHeight : "100vh", minWidth : "100vw", display : "flex", justifyContent : "center"}}>
+      <Container fixed sx={{backgroundColor : theme.palette.primary.main, minHeight : "100vh", minWidth : "100vw", display : "flex", justifyContent : "center", pb : 10}}>
         {
           isDesktopDisplay ? renderDesktopHome() : renderMobileHome()
         }
       </Container>
+      <IconButton size="large" sx={{position : "fixed", bottom : 20, right : 20, zIndex : 2}} onClick={handleWhatsappOnClick}>
+        <Box component="div" sx={{borderRadius: "50%", width: 50, height : 50, backgroundColor : "#25D366", display : "flex", alignItems : "center", justifyContent : "center"}}>
+          <WhatsAppIcon sx={{fontSize : 35, color : "white"}} />
+        </Box>
+      </IconButton>
+      <Footer />  
     </>
   );
 }

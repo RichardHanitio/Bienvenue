@@ -61,7 +61,7 @@ const HeaderMobile = (props) => {
         />
       </Box>
       {
-        !props.user ? (
+        props.user ? (
           <Box sx={{ display: "flex", flexBasis: "15%", justifyContent : "flex-end" }}>
             <Tooltip title="Open settings">
               <IconButton onClick={props.handleOpenUserMenu} sx={{ p: 0 }}>

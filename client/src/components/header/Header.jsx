@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import {styled} from "@mui/system"
 import axios from "axios";
 
 import {Container, Toolbar, AppBar} from "@mui/material";
@@ -39,7 +38,7 @@ const Header = () => {
   };
 
   // constants
-  const pages = ["home", "menu", "history", "about"];
+  const pages = ["Home", "Menu", "History", "About"];
   const settings = ["Profile", "Account", "Dashboard", "Logout"]
 
   // props

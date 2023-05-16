@@ -16,7 +16,7 @@ const Footer = () => {
   const theme = useTheme();
 
   return (
-    <Container sx={{backgroundColor : theme.palette.primary.light, width : "100%", height : 850, display : "flex", alignItems : "center", justifyContent : "center"}}>
+    <Container fixed sx={{backgroundColor : theme.palette.primary.light, minWidth : "100vw", height : 850, display : "flex", alignItems : "center", justifyContent : "center"}}>
       <Grid 
         container 
         direction="column" 

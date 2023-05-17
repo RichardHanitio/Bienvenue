@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
-import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import {Container, Toolbar, AppBar} from "@mui/material";
 
+import { AuthContext } from "../../context/AuthContext";
 import HeaderMobile from "./Header.mobile";
 import HeaderDesktop from "./Header.desktop";
 import useWindowSize from "../../hooks/useWindowSize";

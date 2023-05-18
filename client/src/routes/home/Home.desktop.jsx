@@ -6,11 +6,20 @@ import { Typography, Button, Box, Card, CardMedia, CardContent, CardHeader, Pape
 import Grid from "@mui/material/Unstable_Grid2"
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import "slick-carousel/slick/slick.css";
-
+import {styled} from "@mui/system";
 
 import "slick-carousel/slick/slick-theme.css";
 
 import RatingStars from '../../components/ratingstars/RatingStars';
+
+// styles
+const HomeButton = styled(Button)(({height=50, width=200, theme}) => ({
+  fontSize : theme.typography.h4.fontSize,
+  fontWeight : theme.typography.h4.fontWeight,   
+  padding : "10px 30px",
+  height : height,
+  width : width
+}))
 
 const HomeDesktop = (props) => {
   return (
@@ -26,9 +35,10 @@ const HomeDesktop = (props) => {
             </Typography>
           </Grid>
           <Grid>
-            <Button variant="contained" sx={{height : 50, width : 200}}> 
+
+            <HomeButton variant="contained" sx={{height : 50, width : 200}}> 
               Order Now 
-            </Button>
+            </HomeButton>
           </Grid>
         </Grid>
         <Grid container justifyContent="flex-end" sx={{flexBasis : "50%", alignItems : "center"}}>
@@ -55,7 +65,7 @@ const HomeDesktop = (props) => {
             }
           </Grid>
           <Grid>
-            <Button variant="contained" color="primary">About Us </Button>
+            <HomeButton variant="contained" color="primary">About Us </HomeButton>
           </Grid>
         </Grid>
       </Grid>
@@ -146,9 +156,9 @@ const HomeDesktop = (props) => {
                 <Typography variant="h1" sx={{color : props.theme.palette.primary.main}}>Do You Have Any Dinner Plan Today? <br/> Reserve Your Table</Typography>
               </Grid>
               <Grid>
-                <Button variant="contained" color="primary">
-                  <Typography variant="body1">Make Reservation</Typography> 
-                </Button>
+                <HomeButton variant="contained" height="100" width="300" color="primary">
+                  Make Reservation
+                </HomeButton>
               </Grid>
             </Grid>
           </Grid>

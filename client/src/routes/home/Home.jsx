@@ -16,8 +16,6 @@ import IconButton from "@mui/material/IconButton";
 import useFetch from '../../hooks/useFetch';
 import Box from "@mui/material/Box";
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 import HomeMobile from "./Home.mobile";
 import HomeDesktop from './Home.desktop';
@@ -96,7 +94,7 @@ const Home = () => {
     theme,
     reviews
   }
-  
+
   return (
     <>
       <Header />

@@ -2,9 +2,19 @@ require("dotenv").config();
 
 const bcrypt = require("bcrypt")
 const encryptor = require("simple-encryptor")(process.env.ENCRYPTORKEY);
+const {v4 : uuidv4} = require("uuid");
+const Mailgun = require("mailgun.js");
+const formData = require("form-data");
 const User = require("../models/User");
 const asyncWrapper = require("../utils/asyncWrapper");
 const {createCustomError} = require("../utils/customError");
+
+const mailgun = new Mailgun(formData);
+const client = mailgun.client({
+  username : "Bienvenue",
+  key : process.env.MAILGUN_API_KEY,
+});
+
 
 const createUser = asyncWrapper(async(req, res, next) => {
   // encrypt in frontend
@@ -91,9 +101,7 @@ const editUser = asyncWrapper(async(req, res, next) => {
   const id = req.params.id;
   !id && next(createCustomError("Id missing", 404))
 
-  // encrypt in frontend
-  const encryptedBody = encryptor.encrypt(req.body);
-  const body = encryptor.decrypt(encryptedBody);
+  const body = req.body;
 
   // encrypt the password if it's changed
   body.password && (body.password = await bcrypt.hash(body.password, parseInt(process.env.SALTROUNDS)));
@@ -110,4 +118,30 @@ const editUser = asyncWrapper(async(req, res, next) => {
   })
 })
 
-module.exports = {createUser, getAllUsers, getUser, editUser, deleteUser, restoreDeletedUser}
+const resetPasswordUser = asyncWrapper(async(req, res, next) => {
+  const email = req.body.email;
+  !email && next(createCustomError("Email is empty", 404))
+  
+  const user = await User.findOne({email})
+  !user && next(createCustomError(`User with email ${email} does not exist`, 404))
+
+  user.resetPasswordToken = uuidv4();
+  user.resetPasswordTokenSentAt = new Date();
+  await user.save();
+
+  const data = {
+    from : "Bienvenue Support <support@bienvenue.id>",
+    to : email,
+    subject : "Bienvenue Password Reset",
+    html : `To reset your password, click this <a href='${process.env.BASE_URI}/new-password?token=${user.resetPasswordToken}'>link</a>`
+  }
+
+  const resp = await client.messages.create(process.env.MAILGUN_DOMAIN, data)
+
+  return res.status(200).json({
+    msg : "Password reset email sent successfully",
+    data : resp
+  })
+})
+
+module.exports = {createUser, getAllUsers, getUser, editUser, deleteUser, restoreDeletedUser, resetPasswordUser}

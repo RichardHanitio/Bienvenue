@@ -29,20 +29,19 @@ const login = asyncWrapper(async(req, res, next) => {
   req.cookies.access_token && next(createCustomError("User is logged in", 400));
 
   // encrypt in frontend
-  const encryptedBody = encryptor.encrypt(req.body);
-  const {username, password} = encryptor.decrypt(encryptedBody);
+  const {email, password} = req.body;
 
-  (!(username && password)) && next(createCustomError("Username or password is missing", 404));
+  (!(email && password)) && next(createCustomError("Username or password is missing", 404));
 
   // check if the user exists in database
-  const user = await User.findOne({username}).where("isDeleted").equals(false);
-  !user && next(createCustomError("Username or password is incorrect", 400));
+  const user = await User.findOne({email}).where("isDeleted").equals(false);
+  !user && next(createCustomError("Email or password is incorrect", 400));
   
   // if the user exists, compare the password
   const isPasswordCorrect = bcrypt.compareSync(password, user.password);
   
   if(!isPasswordCorrect) {
-    return next(createCustomError("Username or password is incorrect", 400));
+    return next(createCustomError("Email or password is incorrect", 400));
   }
 
   // if password is correct, store a jwt token

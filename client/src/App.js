@@ -20,6 +20,7 @@ import AdminUserAccounts from './routes/adminUserAccounts/AdminUserAccounts';
 import AdminEditUserAccounts from './routes/adminUserAccounts/AdminEditUserAccounts';
 
 import {ThemeProvider, createTheme} from "@mui/material/styles"
+import ForgetPassword from './routes/forgetPassword/ForgetPassword';
 
 const theme = createTheme({
   breakpoints : {
@@ -37,6 +38,7 @@ const theme = createTheme({
     primary : {
       main : "#324B4B",
       light : "#265A5B",
+      
     },
   },
   typography : {
@@ -57,6 +59,10 @@ const theme = createTheme({
       fontSize : 20,
       fontWeight : 600
     },
+    h5 : {
+      fontSize : 16,
+      fontWeight : 600
+    },
     body1 : {
       fontSize : 20,
       fontWeight : 400
@@ -67,6 +73,10 @@ const theme = createTheme({
     },
     body3 : {
       fontSize : 14,
+      fontWeight : 500
+    },
+    body4 : {
+      fontSize : 12,
       fontWeight : 500
     },
   },
@@ -107,6 +117,45 @@ const theme = createTheme({
           padding : "5px 20px",
         }
       }
+    },
+    MuiFormControl : {
+      styleOverrides : {
+        root : {
+          "& fieldset" : {
+            borderColor : "white"
+          },
+          "& label" : {
+            fontSize : 16,
+            color : "white"
+          }
+        },
+      }
+    },
+    MuiFormLabel : {
+      styleOverrides : {
+        root : {
+          color : "white",
+          "&.Mui-focused" : {
+            color : "white"
+          }
+        }
+      }
+    },
+    MuiInputBase : {
+      styleOverrides : {
+        root : {
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline" : {
+            borderColor : "white !important"
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline" : {
+            borderColor : "white !important"
+          },
+        },
+        input : {
+          color : "white",
+          fontSize : 16
+        }
+      }
     }
   }
 })
@@ -118,6 +167,7 @@ const router = createBrowserRouter([
   { path : "/history", element: <History />},
   { path : "/login", element: <Login />},
   { path : "/reservation", element: <Reservation />},
+  { path : "/forgot-password", element: <ForgetPassword />},
   { path : "/admin/dashboard", element: <AdminDashboard />},
   { path : "/admin/pending-reservations", element: <AdminPendingReservation />},
   { path : "/admin/reservations-placed", element: <AdminReservationPlaced />},

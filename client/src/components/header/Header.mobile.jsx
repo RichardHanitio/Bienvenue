@@ -46,8 +46,18 @@ const HeaderMobile = (props) => {
           }}
         >
           {props.pages.map((page) => (
-            <MenuItem key={page} onClick={props.handleCloseNavMenu}>
-              <Typography textAlign="center" sx={{fontSize: 16}}>{page}</Typography>
+            <MenuItem key={page.name} onClick={() => {
+              props.handleCloseNavMenu()
+              props.navigate(page.path)
+            }} sx={{
+              backgroundColor : (props.currentLocation === page.path) && (props.theme.palette.primary.main),
+              color : (props.currentLocation === page.path) && "white",
+              "&:hover" : {
+                backgroundColor : (props.currentLocation === page.path) && (props.theme.palette.primary.main),
+                color : (props.currentLocation === page.path) && "white"
+              }
+            }}>
+              <Typography textAlign="center" sx={{fontSize: 16}}>{page.name}</Typography>
             </MenuItem>
           ))}
         </Menu>

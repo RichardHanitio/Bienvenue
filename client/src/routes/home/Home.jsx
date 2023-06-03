@@ -1,13 +1,6 @@
-import React, {useState, useEffect, useContext} from 'react'
-import { useNavigate } from 'react-router-dom';
-// import Container from "./Home.styled"
+import React, {useState, useEffect} from 'react'
 import Header from '../../components/header/Header';
 import Footer from '../../components/footer/Footer';
-// import Button from '../../components/button/Button';
-import {AuthContext} from "../../context/AuthContext";
-import RatingStars from '../../components/ratingstars/RatingStars';
-import { ReserveContext } from '../../context/ReserveContext';
-import {reviews, allMenus} from "../../datas";
 
 import Container from "@mui/material/Container";
 import {useTheme} from "@mui/material/styles";
@@ -22,9 +15,6 @@ import HomeDesktop from './Home.desktop';
 
 
 const Home = () => {
-  const navigate = useNavigate();
-  const {items, dispatch} = useContext(ReserveContext);
-  const {user} = useContext(AuthContext);
   const [discountedMenu, setDiscountedMenu] = useState(null);
   const isDesktopDisplay = useWindowSize();
   

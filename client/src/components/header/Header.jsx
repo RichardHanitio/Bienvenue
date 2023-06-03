@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useState} from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
 import {Container, Toolbar, AppBar} from "@mui/material";
+import {useTheme} from "@mui/material/styles"
 
 import { AuthContext } from "../../context/AuthContext";
 import HeaderMobile from "./Header.mobile";
@@ -16,8 +17,8 @@ const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const { user, dispatch } = useContext(AuthContext);
-
-  // components controllers
+  const theme = useTheme();
+  
   const handleCloseNavMenu = () => {
     setAnchorElNav(null)
   };
@@ -31,15 +32,19 @@ const Header = () => {
     setAnchorElNav(event.currentTarget)
   };
 
-  // logic controllers
   const handleLogout = async () => {
     await axios.get("/auth/logout");
     dispatch({ type: "LOGOUT" });
   };
-
-  // constants
-  const pages = ["Home", "Menu", "History", "About"];
+  
+  const pages = [
+    {name : "Home", path : "/"},
+    {name : "Menu", path : "/menu"}, 
+    {name : "History", path : "/history"}, 
+    {name : "Reservation", path : "/reservation"}, 
+  ];
   const settings = ["Profile", "Account", "Dashboard", "Logout"]
+  const currentLocation = useLocation().pathname;
 
   // props
   const props = {
@@ -52,7 +57,9 @@ const Header = () => {
     navigate,
     pages, 
     user, 
-    settings
+    settings,
+    currentLocation,
+    theme
   }
 
 

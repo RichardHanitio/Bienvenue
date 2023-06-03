@@ -1,6 +1,6 @@
 const express = require("express");
 const usersRouter = express.Router();
-const {createUser, getAllUsers, getUser, editUser, deleteUser, restoreDeletedUser} = require("../controller/users.controller");
+const {createUser, getAllUsers, getUser, editUser, deleteUser, restoreDeletedUser, resetPasswordUser} = require("../controller/users.controller");
 const {verifyUser, verifyAdmin} = require("../utils/verifyToken");
 
 usersRouter.route("/")
@@ -18,5 +18,8 @@ usersRouter.route("/:id/delete")
 
 usersRouter.route("/:id/restore")
 .get(verifyAdmin, restoreDeletedUser)
+
+usersRouter.route("/reset-password")
+.post(resetPasswordUser)
 
 module.exports = usersRouter;

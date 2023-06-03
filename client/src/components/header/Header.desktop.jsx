@@ -30,8 +30,10 @@ const HeaderDesktop = (props) => {
       </Box>
       <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "space-around"}}>
         {props.pages.map((page) => (
-          <HeaderListButton key={page} onClick={() => console.log(`${page} clicked`)} variant="text">
-            {page}
+          <HeaderListButton key={page.name} onClick={() => props.navigate(page.path)} variant="text">
+            <Typography sx={{fontSize : 16, fontWeight : (props.currentLocation===page.path) && 800 }}>
+              {page.name}
+            </Typography>
           </HeaderListButton>
         ))}
       </Box>

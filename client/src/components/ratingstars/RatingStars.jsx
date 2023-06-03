@@ -1,13 +1,13 @@
 import React from 'react'
 
-const RatingStars = ({amount}) => {
+const RatingStars = ({amount, width, height}) => {
   const stars = [];
 
   for (let i = 0; i < amount; i++) {
     stars.push(
       <svg
-        width="25"
-        height="25"
+        width= {width ? width : "25"}
+        height= {height ? height : "25"}
         fill="#f1b33c"
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"

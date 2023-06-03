@@ -20,6 +20,12 @@ const UserSchema = new Schema({
     type: String, 
     required : true,
   },
+  resetPasswordToken : {
+    type : String
+  },
+  resetPasswordTokenSentAt : {
+    type : Date
+  },
   isAdmin : {
     type: Boolean, 
     default : false,

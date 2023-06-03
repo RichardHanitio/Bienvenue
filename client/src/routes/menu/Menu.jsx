@@ -1,35 +1,45 @@
 import React, {useState, useEffect} from 'react'
 
-import Container from "./Menu.styled"
+import {Container} from "@mui/material"
+import {useTheme} from "@mui/material/styles"
+
 import Header from "../../components/header/Header";
-import Items from '../../components/items/Items';
+import MenuMobile from './Menu.mobile';
+import MenuDesktop from './Menu.desktop';
+import useWindowSize from '../../hooks/useWindowSize';
 import useFetch from "../../hooks/useFetch"
+
 
 const Menu = () => {
   const [active, setActive] = useState("steak");
-  const handleClick = (e) => {
-    setActive(e.target.attributes.value.nodeValue)
-  }
+  const isDesktopDisplay = useWindowSize();
+  const {loading, data, error} = useFetch("/menus");
+  const [filteredData, setFilteredData] = useState(null);
+  const theme = useTheme();
+
+  useEffect(() => {
+    !loading && setFilteredData(
+      data.data.filter((d) => {
+        return d.category === active
+      })
+    )
+  }, [active, data, loading])
 
   const categories = [
     "steak", "spaghetti", "snack", "salad", "drink"
   ]
 
+  const props = {
+    categories, active, setActive, filteredData, 
+  }
+
   return (
-    <Container>
+    <>
       <Header />
-      <div className="menu-inner-container">
-        <h2 className="menu-title">Menu Pack</h2>
-        <div className="menu-categories">
-          {
-            categories.map((c, i) => (
-              <div key={i} className={`menu-category ${active===c ? "active" : ""}`} value={c} onClick={handleClick}>{c}</div>
-            ))
-          }
-        </div>
-        <Items active={active}/>
-      </div>
-    </Container>
+      <Container fixed sx={{backgroundColor : theme.palette.primary.main, minHeight : "100vh", minWidth : "100vw", display : "flex", flexDirection : "column", alignItems : "center"}}>
+        {isDesktopDisplay ?  <MenuDesktop {...props}/> : <MenuMobile {...props} /> }
+      </Container>
+    </>
   )
 }
 

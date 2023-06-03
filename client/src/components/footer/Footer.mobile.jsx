@@ -34,13 +34,13 @@ const FooterMobile = (props) => {
         </Box>
       </Grid>
 
-      <Grid>
-        <Typography variant="h4" sx={{mb : 1}}>Menu</Typography>
-        <Typography variant="body2">Steak</Typography>
-        <Typography variant="body2">Spaghetti</Typography>
-        <Typography variant="body2">Snack</Typography>
-        <Typography variant="body2">Salad</Typography>
-        <Typography variant="body2">Drink</Typography>
+      <Grid container direction="column" gap={1}>
+        <Typography variant="h5" sx={{mb : 1}}>Menu</Typography>
+        <Typography variant="body3">Steak</Typography>
+        <Typography variant="body3">Spaghetti</Typography>
+        <Typography variant="body3">Snack</Typography>
+        <Typography variant="body3">Salad</Typography>
+        <Typography variant="body3">Drink</Typography>
       </Grid>
 
       <Grid>

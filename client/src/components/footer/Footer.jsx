@@ -13,11 +13,11 @@ const Footer = () => {
   const isDesktopDisplay = useWindowSize();
 
   return (
-    <Container fixed sx={{backgroundColor : theme.palette.primary.light, minWidth : "100vw", height : {xxs : 850, md : 500}, display : "flex", flexDirection : "column", alignItems : "center", justifyContent : "center"}}>
+    <Container fixed sx={{backgroundColor : theme.palette.primary.light, position : "relative", minWidth : "100vw", height : {xxs : 850, md : 500}, display : "flex", flexDirection : "column", alignItems : "center", justifyContent : "center"}}>
       {
         isDesktopDisplay ? <FooterDesktop /> : <FooterMobile />
       }
-      <Box sx={{backgroundColor : theme.palette.primary.main, width : "100vw", textAlign : "center"}}>
+      <Box sx={{backgroundColor : theme.palette.primary.main, position : "absolute", bottom : 0, width : "100vw", textAlign : "center"}}>
         <Typography variant="body3" sx={{color : "white"}}>
           Copyright © 2023 Bienvenue. All rights reserved
         </Typography> 

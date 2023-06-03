@@ -6,7 +6,10 @@ import { ReserveContext } from "../../context/ReserveContext";
 import { AuthContext } from "../../context/AuthContext";
 import { useSnackbar } from "react-simple-snackbar";
 
-const Item = ({ data }) => {
+
+import {Box, Card, CardMedia, CardContent, Typography} from "@mui/material"
+
+const Item = (theme, data) => {
   const { _id, name, desc, rating, price, img } = data;
   const {user} = useContext(AuthContext);
   const { items, dispatch } = useContext(ReserveContext);
@@ -30,43 +33,40 @@ const Item = ({ data }) => {
     setAddedItem((addedItem) => !addedItem);
   };
 
+  console.log(data)
+
   return (
-    <Container>
-      <div className="item-inner-container">
-        <div className="item-img">
-          <img src={img} alt={name} />
-        </div>
-        <div className="item-name-rating-desc">
-          <h3 className="item-name">{name}</h3>
-          <div className="item-rating">
-            <RatingStars amount={rating} />
-          </div>
-          <div className="item-desc">{desc}</div>
-        </div>
-        <div className="item-price-buy">
-          <div className="item-price">IDR ${price}k/gr</div>
-          {!addedItem ? (
-            <Button
-              type="button"
-              className="item-buy"
-              onClick={handleButtonOnClick}
-              disabled={user===null}
-            >
-              Add to Cart
-            </Button>
-          ) : (
-            <Button
-              type="button"
-              variant="danger"
-              className="item-buy"
-              onClick={handleButtonOnClick}
-            >
-              Remove from Cart
-            </Button>
-          )}
-        </div>
-      </div>
-    </Container>
+    <Box component="div" key={data.name}>
+      <Card raised sx={{position : "relative", left : 15, width : {xxs : "100%", sm : "90%"}, height : 550}}>
+        <CardMedia
+          sx={{ height: 250 }}
+          image={data.img}
+        />
+        <CardContent sx={{display : "flex", height : 300, flexDirection : "column", justifyContent : "space-between"}}>
+          <Typography variant="h3" component="div" textAlign="center">
+            {data.name}
+          </Typography>
+          <Box sx={{display : "flex", justifyContent : "center"}}>
+            <RatingStars amount={data.rating} />
+          </Box>
+          <Typography variant="body2" component="div" sx={{mb : 3}} textAlign="center">
+            {/* {data.desc.length > 60 ? data.desc.slice(0, 60)+"..." : data.desc} */}
+            {data.desc}
+          </Typography>
+          <Box component="div" sx={{display : "flex", justifyContent : "space-between"}}>
+            <Box component="div">
+              <Typography variant="body1" sx={{color : theme.palette.error.light, fontWeight: 600}}>
+                IDR {data.price}k/gr
+              </Typography>
+              <Typography variant="body2" sx={{textDecoration: "line-through"}}>
+                IDR {data.price}k/gr
+              </Typography>
+            </Box>
+            <Button variant="contained" color="secondary" sx={{fontSize : 14, margin : "10px"}}>Add to Cart</Button>
+          </Box>
+        </CardContent>
+      </Card>
+    </Box>
   );
 };
 

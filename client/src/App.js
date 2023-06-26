@@ -10,6 +10,7 @@ import Register from './routes/register/Register'
 import Login from './routes/login/Login';
 import Reservation from './routes/reservation/Reservation';
 import History from "./routes/history/History";
+import NewPassword from "./routes/newPassword/NewPassword";
 import AdminDashboard from './routes/adminDashboard/AdminDashboard';
 import AdminPendingReservation from './routes/adminPendingReservation/AdminPendingReservation';
 import AdminReservationPlaced from './routes/adminReservationPlaced/AdminReservationPlaced';
@@ -167,7 +168,7 @@ const router = createBrowserRouter([
   { path : "/history", element: <History />},
   { path : "/login", element: <Login />},
   { path : "/reservation", element: <Reservation />},
-  { path : "/forgot-password", element: <ForgetPassword />},
+  { path : "/new-password", element : <NewPassword />},
   { path : "/admin/dashboard", element: <AdminDashboard />},
   { path : "/admin/pending-reservations", element: <AdminPendingReservation />},
   { path : "/admin/reservations-placed", element: <AdminReservationPlaced />},

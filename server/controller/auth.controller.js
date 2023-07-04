@@ -8,16 +8,16 @@ const encryptor = require("simple-encryptor")(process.env.ENCRYPTORKEY);
 const User = require("../models/User");
 
 const register = asyncWrapper(async(req, res, next) => {
-  const {email, username, phoneNum, password} = req.body;
-  !(email && username && phoneNum && password) && next(createCustomError("Some attributes are missing", 400))
+  const {email, name, phoneNum, password} = req.body;
+  !(email && name && phoneNum && password) && next(createCustomError("Some attributes are missing", 400))
   
   // check if the user already exists
-  const existingUser = await User.findOne({$or: [{email}, {username}, {phoneNum}]}).where("isDeleted").equals(false);
+  const existingUser = await User.findOne({$or: [{email}, {name}, {phoneNum}]}).where("isDeleted").equals(false);
   existingUser && next(createCustomError("User already exists", 409))
-  
+
   // create a new user
   const passwordBcrypt = await bcrypt.hash(password, parseInt(process.env.SALTROUNDS));
-  const user = await User.create({email, username, phoneNum, password : passwordBcrypt});
+  const user = await User.create({email, name, phoneNum, password : passwordBcrypt});
   return res.status(200).json({
     msg : "User registered successfully",
     data : user

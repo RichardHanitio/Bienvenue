@@ -15,7 +15,7 @@ const Login = () => {
   const navigate = useNavigate();
   const {user, loading, error, dispatch} = useContext(AuthContext);
   const [credentials, setCredentials] = useState({
-    email : undefined,
+    email : "",
     password : "",
   });
   const [resetPasswordEmail, setResetPasswordEmail] = useState("");
@@ -71,6 +71,25 @@ const Login = () => {
       res.status !== 200 ? openSnackbar("Something went wrong. Please try again") : openSnackbar("The reset instruction has been sent. Please check your inbox")
     }
   }
+
+  const SocialLoginButton = ({name, imgPath}) => (
+    <Button variant="contained" 
+      sx={{
+        mt : 3, 
+        backgroundColor : "white",
+        color : theme.palette.primary.main,
+        width : {xxs : "80%", md : "70%"},
+        ":hover" : {
+          backgroundColor : "#F0F0F0"
+        }
+      }}
+    >
+      <Box component="div" sx={{width : "100%", display : "flex", alignItems : "center", justifyContent : "space-around"}}>
+        <img src={imgPath} alt={name} style={{width : "30px"}}/>
+        <Typography variant="body2">{name}</Typography>
+      </Box>
+    </Button>
+  )
 
   return (
     <Container fixed sx={{height : "100vh", minWidth : "100vw", display : "flex", flexDirection : "column", alignItems : "center"}}>
@@ -179,40 +198,10 @@ const Login = () => {
 
             <Grid container>
               <Grid xxs={6} sx={{display : "flex", alignItems : "center", justifyContent : "center"}}>
-                <Button variant="contained" 
-                  sx={{
-                    mt : 3, 
-                    backgroundColor : "white",
-                    color : theme.palette.primary.main,
-                    width : {xxs : "80%", md : "70%"},
-                    ":hover" : {
-                      backgroundColor : "#F0F0F0"
-                    }
-                  }}
-                >
-                  <Box component="div" sx={{width : "100%", display : "flex", alignItems : "center", justifyContent : "space-around"}}>
-                    <img src="/assets/google.png" alt="google" style={{width : "30px"}}/>
-                    <Typography variant="body2">Google</Typography>
-                  </Box>
-                </Button>
+                <SocialLoginButton name="Google" imgPath="/assets/google.png"/>
               </Grid>
               <Grid xxs={6} sx={{display : "flex", alignItems : "center", justifyContent : "center"}}>
-                <Button variant="contained" 
-                  sx={{
-                    mt : 3, 
-                    backgroundColor : "white",
-                    color : theme.palette.primary.main,
-                    width : {xxs : "80%", md : "70%"},
-                    ":hover" : {
-                      backgroundColor : "#F0F0F0"
-                    }
-                  }}
-                >
-                  <Box component="div" sx={{width : "100%", display : "flex", alignItems : "center", justifyContent : "space-around"}}>
-                    <img src="/assets/facebook.png" alt="google" style={{width : "30px"}}/>
-                    <Typography variant="body2">Facebook</Typography>
-                  </Box>
-                </Button>
+                <SocialLoginButton name="Facebook" imgPath="/assets/facebook.png"/>
               </Grid>
             </Grid> 
           </Box>

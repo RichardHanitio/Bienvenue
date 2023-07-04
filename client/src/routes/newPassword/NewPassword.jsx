@@ -29,9 +29,6 @@ const NewPassword = () => {
 
   const handleClickShowPassword = () => setShowPassword(show => !show)
 
-  useEffect(() => {
-  })
-
 
   const handleResetPassword = async() => {
     setOpenDialog(false);

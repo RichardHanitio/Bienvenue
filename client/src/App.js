@@ -21,7 +21,6 @@ import AdminUserAccounts from './routes/adminUserAccounts/AdminUserAccounts';
 import AdminEditUserAccounts from './routes/adminUserAccounts/AdminEditUserAccounts';
 
 import {ThemeProvider, createTheme} from "@mui/material/styles"
-import ForgetPassword from './routes/forgetPassword/ForgetPassword';
 
 const theme = createTheme({
   breakpoints : {
@@ -53,7 +52,7 @@ const theme = createTheme({
       fontWeight : 700
     },
     h3 : {
-      fontSize : 24,
+      fontSize : 28,
       fontWeight : 700
     },
     h4 : {
@@ -108,6 +107,17 @@ const theme = createTheme({
             color : "black",
             "&:hover" : {
               backgroundColor : "#FF8748",
+              color : "white"
+            }
+          }
+        },
+        {
+          props : { variant: "contained", color : "warning"},
+          style : {
+            backgroundColor : "#B73A7E",
+            color : "white",
+            "&:hover" : {
+              backgroundColor : "#7A1660",
               color : "white"
             }
           }

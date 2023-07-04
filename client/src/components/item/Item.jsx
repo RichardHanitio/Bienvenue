@@ -1,17 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import Container from "./Item.styled";
 import RatingStars from "../ratingstars/RatingStars";
-import Button from "../button/Button";
 import { ReserveContext } from "../../context/ReserveContext";
-import { AuthContext } from "../../context/AuthContext";
 import { useSnackbar } from "react-simple-snackbar";
 
+import {Box, Card, CardMedia, CardContent, Typography, Button} from "@mui/material"
+import Grid from "@mui/material/Unstable_Grid2";
 
-import {Box, Card, CardMedia, CardContent, Typography} from "@mui/material"
-
-const Item = (theme, data) => {
+const Item = ({data}) => {
   const { _id, name, desc, rating, price, img } = data;
-  const {user} = useContext(AuthContext);
   const { items, dispatch } = useContext(ReserveContext);
   const [addedItem, setAddedItem] = useState(false);
   const [openSnackbar, closeSnackbar] = useSnackbar();
@@ -33,41 +29,38 @@ const Item = (theme, data) => {
     setAddedItem((addedItem) => !addedItem);
   };
 
-  console.log(data)
-
   return (
-    <Box component="div" key={data.name}>
-      <Card raised sx={{position : "relative", left : 15, width : {xxs : "100%", sm : "90%"}, height : 550}}>
+    <Grid md={4} sx={{display : "flex", alignItems : "center", justifyContent : "center"}}>
+      <Card raised sx={{margin : "20px 0", minHeight : 450, width : "70%"}}>
         <CardMedia
-          sx={{ height: 250 }}
-          image={data.img}
+          sx={{ height: 220 }}
+          image={img}
         />
-        <CardContent sx={{display : "flex", height : 300, flexDirection : "column", justifyContent : "space-between"}}>
+        <CardContent sx={{textAlign: "center", display : "flex", flexDirection : "column", alignItems : "center", height : 230, justifyContent : "space-around"}}>
           <Typography variant="h3" component="div" textAlign="center">
-            {data.name}
+            {name}
           </Typography>
           <Box sx={{display : "flex", justifyContent : "center"}}>
-            <RatingStars amount={data.rating} />
+            <RatingStars amount={rating} width={25} height={25}/>
           </Box>
-          <Typography variant="body2" component="div" sx={{mb : 3}} textAlign="center">
-            {/* {data.desc.length > 60 ? data.desc.slice(0, 60)+"..." : data.desc} */}
-            {data.desc}
+          <Typography variant="body3" component="div" sx={{mb : 2}} textAlign="center">
+            {desc.length > 60 ? desc.slice(0, 60)+"..." : desc}
           </Typography>
-          <Box component="div" sx={{display : "flex", justifyContent : "space-between"}}>
-            <Box component="div">
-              <Typography variant="body1" sx={{color : theme.palette.error.light, fontWeight: 600}}>
-                IDR {data.price}k/gr
-              </Typography>
-              <Typography variant="body2" sx={{textDecoration: "line-through"}}>
-                IDR {data.price}k/gr
+          <Box component="div" sx={{display : "flex", justifyContent : "space-around", alignItems : "center", width : "100%"}}>
+            <Box component="div" sx={{mb : 1}}>
+              <Typography variant="body1">
+                IDR {price}k/gr
               </Typography>
             </Box>
-            <Button variant="contained" color="secondary" sx={{fontSize : 14, margin : "10px"}}>Add to Cart</Button>
+            <Box>
+              <Button variant="contained" color="secondary" sx={{fontSize : 14, display : addedItem ? "none" : "flex"}} onClick={handleButtonOnClick}>Add to Cart</Button>
+              <Button variant="contained" color="warning" sx={{fontSize : 14, display : addedItem ? "flex" : "none"}} onClick={handleButtonOnClick}>Remove from Cart</Button>
+            </Box>
           </Box>
         </CardContent>
       </Card>
-    </Box>
-  );
+    </Grid>
+  )
 };
 
 export default Item;

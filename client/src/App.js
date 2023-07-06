@@ -38,7 +38,7 @@ const theme = createTheme({
     primary : {
       main : "#324B4B",
       light : "#265A5B",
-      
+      dark : "#223434"
     },
   },
   typography : {
@@ -165,6 +165,13 @@ const theme = createTheme({
         input : {
           color : "white",
           fontSize : 16
+        }
+      }
+    },
+    MuiSvgIcon : {
+      styleOverrides : {
+        root : {
+          color : "white"
         }
       }
     }

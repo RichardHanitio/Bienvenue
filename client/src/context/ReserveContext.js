@@ -3,9 +3,12 @@ import {createContext, useReducer} from "react";
 const INITIAL_STATE = {
   items : [],
   date : new Date(),
-  time : `${new Date().getHours()+1}:00`,
+  // time : `${new Date().getHours()+1}:00`,
+  // time : new Date().toLocaleString("en-US", {timeZone : "Asia/Jakarta", hour : "2-digit", minute : "numeric", hour12 : false}),
+  time : new Date(),
   totalGuest : 1,
   totalPrice : 0,
+  paymentMethod : ""
 }
 
 export const ReserveContext = createContext(INITIAL_STATE)
@@ -69,6 +72,8 @@ const ReserveReducer = (state, action) => {
       return {...state, time : action.payload}
     case "FINISH_RESERVATION" :
       return INITIAL_STATE
+    case "CHANGE_PAYMENT_METHOD" :
+      return {...state, paymentMethod : action.payload}
     default :
       return state
   }
@@ -85,6 +90,7 @@ export const ReserveContextProvider = ({children}) => {
         time : state.time,
         totalGuest : state.totalGuest,
         totalPrice : state.totalPrice,
+        paymentMethod : state.paymentMethod,
         dispatch
       }
     }

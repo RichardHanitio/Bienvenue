@@ -13,7 +13,7 @@ const Footer = () => {
   const isDesktopDisplay = useWindowSize();
 
   return (
-    <Container fixed sx={{backgroundColor : theme.palette.primary.light, position : "relative", minWidth : "100vw", height : {xxs : 850, md : 500}, display : "flex", flexDirection : "column", alignItems : "center", justifyContent : "center"}}>
+    <Container fixed sx={{backgroundColor : theme.palette.primary.light, position : "relative", minWidth : "100vw", height : {xxs : 850, md : 450}, display : "flex", flexDirection : "column", alignItems : "center", justifyContent : "center"}}>
       {
         isDesktopDisplay ? <FooterDesktop /> : <FooterMobile />
       }

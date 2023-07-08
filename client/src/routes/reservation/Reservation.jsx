@@ -1,4 +1,5 @@
 import React, {useContext} from 'react'
+import { useNavigate } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 import Cookies from "js-cookie";
@@ -23,6 +24,7 @@ const Reservation = () => {
   const [openSnackbar, closeSnackbar] = useSnackbar();
 
   const theme = useTheme();
+  const navigate = useNavigate();
 
   // send this to backend
   const handleSubmit = async() => {
@@ -71,7 +73,7 @@ const Reservation = () => {
     <>
       <Header />
       <Container fixed sx={{backgroundColor : theme.palette.primary.main, minHeight : "100vh", minWidth : "100vw", display : "flex", flexDirection : "column", alignItems : "center"}}>
-        <Grid container sx={{width : {lg : "95%", xl : 1600, gap : 100}}}>
+        <Grid container sx={{width : {lg : "95%", xl : 1600}, gap : 10}}>
           <Grid container sx={{justifyContent : "center", alignItems : "center", width : "100%", minHeight : 300}}>
             <Box component="div" sx={{width : "100%", height : 120, display : "flex", flexDirection : "column", justifyContent: "center"}}>
               <Typography variant="h3" sx={{color : "white", mb : 1}}>Order Summary</Typography>
@@ -211,8 +213,10 @@ const Reservation = () => {
           
           <Grid container sx={{justifyContent : "center", alignItems : "center", width : "100%"}}>
             <Box component="div" sx={{width : "100%", height : 200, display : "flex", flexDirection : "column"}}>
-              <Button variant="contained" color="primary" disabled={!checkIfReadyToSubmit()}>
-                <Typography variant="body1" onClick={handleSubmit}>Continue Payment</Typography>
+              {/* <Button variant="contained" color="primary" disabled={!checkIfReadyToSubmit()}> */}
+              <Button variant="contained" color="primary" onClick={() => navigate("/payment")}>
+                {/* <Typography variant="body1" onClick={handleSubmit}>Continue Payment</Typography> */}
+                <Typography variant="body1">Continue Payment</Typography>
               </Button>
             </Box>
           </Grid>

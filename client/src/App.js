@@ -11,6 +11,7 @@ import Login from './routes/login/Login';
 import Reservation from './routes/reservation/Reservation';
 import History from "./routes/history/History";
 import NewPassword from "./routes/newPassword/NewPassword";
+import Payment from "./routes/payment/Payment";
 import AdminDashboard from './routes/adminDashboard/AdminDashboard';
 import AdminPendingReservation from './routes/adminPendingReservation/AdminPendingReservation';
 import AdminReservationPlaced from './routes/adminReservationPlaced/AdminReservationPlaced';
@@ -158,6 +159,10 @@ const theme = createTheme({
           "&.Mui-focused .MuiOutlinedInput-notchedOutline" : {
             borderColor : "white !important"
           },
+          "&:hover.Mui-disabled .MuiOutlinedInput-notchedOutline" : {
+            borderColor : "rgba(0, 0, 0, 0.3) !important"
+          },
+          
           "&:hover .MuiOutlinedInput-notchedOutline" : {
             borderColor : "white !important"
           },
@@ -186,6 +191,7 @@ const router = createBrowserRouter([
   { path : "/login", element: <Login />},
   { path : "/reservation", element: <Reservation />},
   { path : "/new-password", element : <NewPassword />},
+  { path : "/payment", element : <Payment />},
   { path : "/admin/dashboard", element: <AdminDashboard />},
   { path : "/admin/pending-reservations", element: <AdminPendingReservation />},
   { path : "/admin/reservations-placed", element: <AdminReservationPlaced />},

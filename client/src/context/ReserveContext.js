@@ -46,7 +46,7 @@ const ReserveReducer = (state, action) => {
         return {
           ...state,
           items : updatedItems,
-          totalPrice : updatedTotalPrice
+          totalPrice : updatedTotalPrice,
         };
       }
       return state;
@@ -74,6 +74,8 @@ const ReserveReducer = (state, action) => {
       return INITIAL_STATE
     case "CHANGE_PAYMENT_METHOD" :
       return {...state, paymentMethod : action.payload}
+    case "CHANGE_TOTAL_PRICE" :
+      return {...state, totalPrice : action.payload}
     default :
       return state
   }

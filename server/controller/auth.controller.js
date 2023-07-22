@@ -39,7 +39,7 @@ const login = asyncWrapper(async(req, res, next) => {
   
   // if the user exists, compare the password
   const isPasswordCorrect = bcrypt.compareSync(password, user.password);
-  
+
   if(!isPasswordCorrect) {
     return next(createCustomError("Email or password is incorrect", 400));
   }

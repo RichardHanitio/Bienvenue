@@ -15,7 +15,7 @@ import HomeDesktop from './Home.desktop';
 
 
 const Home = () => {
-  const [discountedMenu, setDiscountedMenu] = useState(null);
+  const [discountedMenu, setDiscountedMenu] = useState([]);
   const isDesktopDisplay = useWindowSize();
   
   const theme = useTheme();

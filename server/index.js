@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/auth.router");
 const usersRouter = require("./routes/users.router");
 const menusRouter = require("./routes/menus.router");
+const paymentsRouter = require("./routes/payments.router");
 const reservationsRouter = require("./routes/reservations.router");
 const errorHandlerMiddleware = require("./utils/errorHandler");
 const Mailgun = require("mailgun.js");
@@ -44,6 +45,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/menus", menusRouter);
 app.use("/api/reservations", reservationsRouter);
+app.use("/api/payments", paymentsRouter)
 
 app.get("/send-email", async(req, res) => {
   const data = {

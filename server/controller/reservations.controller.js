@@ -6,14 +6,11 @@ const asyncWrapper = require("../utils/asyncWrapper");
 const {createCustomError} = require("../utils/customError");
 
 const createReservation = asyncWrapper(async(req, res, next) => {
-  // encrypt in frontend
-  const encryptedBody = encryptor.encrypt(req.body);
-
-  const {items, date, time, totalGuest, totalPrice, method, status} = encryptor.decrypt(encryptedBody);
+  const {items, date, time, totalGuest, totalPrice} = req.body;
   const userId = req.query.uid;
   !userId && next(createCustomError("User id missing", 404))
   
-  !(items && date && time && totalGuest && totalPrice && method && status) && next(createCustomError("Some attributes are missing", 404))
+  !(items && date && time && totalGuest && totalPrice) && next(createCustomError("Some attributes are missing", 404))
   
   // check the items
   items.forEach(item => {
@@ -21,7 +18,7 @@ const createReservation = asyncWrapper(async(req, res, next) => {
   })
 
   // create a new reservation
-  const reservation = await Reservation.create({userId, items, date, time, totalGuest, totalPrice, method, status});
+  const reservation = await Reservation.create(req.body);
   return res.status(200).json({
     msg : "Reservation created successfully",
     data : reservation

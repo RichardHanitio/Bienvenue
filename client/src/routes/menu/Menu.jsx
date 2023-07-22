@@ -4,6 +4,7 @@ import {Container} from "@mui/material"
 import {useTheme} from "@mui/material/styles"
 
 import Header from "../../components/header/Header";
+import Footer from "../../components/footer/Footer";
 import MenuMobile from './Menu.mobile';
 import MenuDesktop from './Menu.desktop';
 import useWindowSize from '../../hooks/useWindowSize';
@@ -39,6 +40,7 @@ const Menu = () => {
       <Container fixed sx={{backgroundColor : theme.palette.primary.main, minHeight : "100vh", minWidth : "100vw", display : "flex", flexDirection : "column", alignItems : "center"}}>
         {isDesktopDisplay ?  <MenuDesktop {...props}/> : <MenuMobile {...props} /> }
       </Container>
+      <Footer />
     </>
   )
 }

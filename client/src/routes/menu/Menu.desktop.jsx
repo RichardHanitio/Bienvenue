@@ -24,7 +24,7 @@ const MenuDesktop = (props) => {
           ))
         }
       </Grid>
-      <Grid container sx={{minHeight : "100%", width : "100%", justifyContent : "space-around", alignItems : "space-around"}}>
+      <Grid container sx={{minHeight : "100%", width : "100%", justifyContent : "space-around", alignItems : "space-around", mb : 10}}>
         {
           props.filteredData ? props.filteredData.map(data => (
             <Item data={data} key={data._id}/>

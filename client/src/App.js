@@ -153,7 +153,7 @@ const theme = createTheme({
         }
       }
     },
-    MuiInputBase : {
+    MuiOutlinedInput : {
       styleOverrides : {
         root : {
           "&.Mui-focused .MuiOutlinedInput-notchedOutline" : {
@@ -170,6 +170,25 @@ const theme = createTheme({
         input : {
           color : "white",
           fontSize : 16
+        }
+      }
+    },
+    MuiInput : {
+      styleOverrides : {
+        root : {
+          '&:before, &:after': {
+            borderBottom: 'none',
+          },
+          '&:hover:not(.Mui-disabled, .Mui-error):before': {
+            borderBottom: 'none',
+          },
+          '&.Mui-focused:after': {
+            borderBottom: 'none',
+          },
+        },
+        input : {
+          color : "black",
+          fontSize : 14
         }
       }
     },

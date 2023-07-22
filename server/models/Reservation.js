@@ -39,15 +39,10 @@ const ReservationSchema = new Schema({
     default : 0,
     required : true,
   },
-  method : {
-    type : String,
-    enum : ["ovo", "visacard", "mastercard"],
-    required : true,
-  },
-  status : {
-    type : String,
-    enum : ["pending", "accepted", "declined"],
-    required : true,
+  payment : {
+    type : Schema.Types.ObjectId,
+    ref : "Payment", 
+    unique : true,
   },
   isDeleted : {
     type: Boolean,

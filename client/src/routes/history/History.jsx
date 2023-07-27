@@ -18,9 +18,9 @@ const History = () => {
 
   const CustomInput = styled(InputBase)(({theme}) => ({
     "& .MuiInputBase-input" : {
-      color : "black",
+      color : "white",
       fontSize : 14,
-      border : "1px solid rgba(0,0,0,.5)",
+      border : "1px solid rgba(255,255,255,.5)",
       padding: '5px 10px',
     },
   }))
@@ -43,84 +43,79 @@ const History = () => {
           <Box sx={{height : 80, width : "100%", display : "flex", alignItems : "center"}}>
             <Typography sx={{typography : {xxs : "h4", md : "h2"}, color : "white", textAlign : {xxs : "center", md : "flex-start"}}}>Payment History</Typography>
           </Box>
-          <Grid xxs={12} sx={{height : 120, mb : 5}}>
-            <Paper elevation={16} sx={{height : "100%", width : "100%", display : "flex", alignItems : "center", justifyContent : "center"}}>
-              <Grid container sx={{width : "97%", height : "75%", flexDirection : "column", justifyContent : "space-between"}}>
-                <Grid container sx={{alignItems : "flex-start", height : "45%"}}>
-                  <Grid xs={1}>
-                    <Typography variant="body2">Search</Typography>
-                  </Grid>
-                  <Grid xs={11} sx={{height : "100%"}}>
-                    <TextField 
-                      margin="normal" 
-                      name="search"
-                      variant="standard"
-                      type="text"
-                      // size="small"
-                      placeholder="Enter your search keyword here..."
-                      fullWidth
-                      sx={{height : "100%", margin : 0}}
-                    />
-                  </Grid>
-                </Grid>
-                <Grid container sx={{alignItems : "center", height : "45%"}}>
-                  <Grid xs={3} sx={{display : "flex", alignItems : "center", width : "100%", height : "100%"}}>
-                    <Typography variant="body2" sx={{mr : 2}}>Status : </Typography>
-                    <FormControl sx={{ m: 1, minWidth: 120 }}>
-                      <Select value="all" input={<CustomInput />}>
-                        <CustomMenuItem value="all">All</CustomMenuItem>
-                        <CustomMenuItem value="not-paid">Not Paid</CustomMenuItem>
-                        <CustomMenuItem value="pending">Pending</CustomMenuItem>
-                        <CustomMenuItem value="accepted">Accepted</CustomMenuItem>
-                        <CustomMenuItem value="declined">Declined</CustomMenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid xs={3} sx={{display : "flex", alignItems : "center", width : "100%", height : "100%"}}>
-                    <Typography variant="body2" sx={{mr : 2}}>Sort By : </Typography>
-                    <FormControl sx={{ m: 1, minWidth: 120 }}>
-                      <Select value="all" input={<CustomInput />}>
-                        <CustomMenuItem value="all">All</CustomMenuItem>
-                        <CustomMenuItem value="not-paid">Not Paid</CustomMenuItem>
-                        <CustomMenuItem value="pending">Pending</CustomMenuItem>
-                        <CustomMenuItem value="accepted">Accepted</CustomMenuItem>
-                        <CustomMenuItem value="declined">Declined</CustomMenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid xs={3} sx={{display : "flex", alignItems : "center", width : "100%", height : "100%"}}>
-                    <Typography variant="body2" sx={{mr : 2}}>Limit : </Typography>
-                    <FormControl sx={{ m: 1, minWidth: 120 }}>
-                      <Select value="all" input={<CustomInput />}>
-                        <CustomMenuItem value="all">All</CustomMenuItem>
-                        <CustomMenuItem value="not-paid">Not Paid</CustomMenuItem>
-                        <CustomMenuItem value="pending">Pending</CustomMenuItem>
-                        <CustomMenuItem value="accepted">Accepted</CustomMenuItem>
-                        <CustomMenuItem value="declined">Declined</CustomMenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid xs={3} sx={{display : "flex", alignItems : "center", width : "100%", height : "100%"}}>
-                    <Typography variant="body2" sx={{mr : 2}}>Limit : </Typography>
-                    <FormControl sx={{ m: 1, minWidth: 120 }}>
-                      <Select value="all" input={<CustomInput />}>
-                        <CustomMenuItem value="all">All</CustomMenuItem>
-                        <CustomMenuItem value="not-paid">Not Paid</CustomMenuItem>
-                        <CustomMenuItem value="pending">Pending</CustomMenuItem>
-                        <CustomMenuItem value="accepted">Accepted</CustomMenuItem>
-                        <CustomMenuItem value="declined">Declined</CustomMenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                </Grid>
+          <Grid xxs={12} sx={{height : 120, width : "60%", mb : 5}}>
+            <Grid container sx={{justifyContent : "center"}}>
+              <Grid sx={{width : "9%", display : "flex", alignItems : "center"}}>
+                <Typography variant="body2" sx={{color : "white"}}>Search</Typography>
               </Grid>
-            </Paper>
+              <Grid sx={{width : "91%"}}>
+                <TextField 
+                  margin="normal" 
+                  name="search"
+                  variant="outlined"
+                  type="text"
+                  size="small"
+                  placeholder="Enter your search keyword here..."
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
+            <Grid container sx={{alignItems : "center", width : "100%"}}>
+              <Grid sx={{display : "flex", width : "25%", alignItems : "center", height : "100%"}}>
+                <Typography variant="body2" sx={{mr : 2, color : "white"}}>Status : </Typography>
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <Select value="all" input={<CustomInput />}>
+                    <CustomMenuItem value="all">All</CustomMenuItem>
+                    <CustomMenuItem value="not-paid">Not Paid</CustomMenuItem>
+                    <CustomMenuItem value="pending">Pending</CustomMenuItem>
+                    <CustomMenuItem value="accepted">Accepted</CustomMenuItem>
+                    <CustomMenuItem value="declined">Declined</CustomMenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid sx={{display : "flex", width : "25%", alignItems : "center", height : "100%"}}>
+                <Typography variant="body2" sx={{mr : 2, color : "white"}}>Sort By : </Typography>
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <Select value="all" input={<CustomInput />}>
+                    <CustomMenuItem value="all">All</CustomMenuItem>
+                    <CustomMenuItem value="not-paid">Not Paid</CustomMenuItem>
+                    <CustomMenuItem value="pending">Pending</CustomMenuItem>
+                    <CustomMenuItem value="accepted">Accepted</CustomMenuItem>
+                    <CustomMenuItem value="declined">Declined</CustomMenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid sx={{display : "flex", width : "25%", alignItems : "center", height : "100%"}}>
+                <Typography variant="body2" sx={{mr : 2, color : "white"}}>Limit : </Typography>
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <Select value="all" input={<CustomInput />}>
+                    <CustomMenuItem value="all">All</CustomMenuItem>
+                    <CustomMenuItem value="not-paid">Not Paid</CustomMenuItem>
+                    <CustomMenuItem value="pending">Pending</CustomMenuItem>
+                    <CustomMenuItem value="accepted">Accepted</CustomMenuItem>
+                    <CustomMenuItem value="declined">Declined</CustomMenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid sx={{display : "flex", width : "25%", alignItems : "center", height : "100%"}}>
+                <Typography variant="body2" sx={{mr : 2, color : "white"}}>Limit : </Typography>
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <Select value="all" input={<CustomInput />}>
+                    <CustomMenuItem value="all">All</CustomMenuItem>
+                    <CustomMenuItem value="not-paid">Not Paid</CustomMenuItem>
+                    <CustomMenuItem value="pending">Pending</CustomMenuItem>
+                    <CustomMenuItem value="accepted">Accepted</CustomMenuItem>
+                    <CustomMenuItem value="declined">Declined</CustomMenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
           </Grid>
 
           <Grid xxs={12} sx={{backgroundColor : "pink", height : 150}}>
-            <Card elevation={20} sx={{display : "flex", width : "100%", height : "100%", alignItems : "center", justifyContent : "center"}}>
+            <Card elevation={20} sx={{display : "flex", width : "100%", height : "100%", alignItems : "center", justifyContent : "center", mb : 3}}>
               <CardContent sx={{display : "flex", width : "100%", height : "100%"}}>
-                <Box sx={{flexBasis : "30%", height : "100%", display : "flex", alignItems : "center", justifyContent : "center"}}>
+                <Box sx={{flexBasis : "27%", height : "100%", display : "flex", alignItems : "center", justifyContent : "center"}}>
                   <AvatarGroup total={8} sx={{
                     "& .MuiAvatar-root" : {
                       width : 60,
@@ -167,12 +162,66 @@ const History = () => {
                     </Box>
                   </Box>
                 </Box>
-                <Box sx={{flexBasis : "10%", display : "flex", alignItems : "center", justifyContent : "center"}}>
+                <Box sx={{flexBasis : "13%", display : "flex", alignItems : "center", justifyContent : "center"}}>
                   <Typography variant="body1" sx={{color : "red"}}>Not Paid</Typography>
                 </Box>
               </CardContent>
             </Card>
-          
+
+            <Card elevation={20} sx={{display : "flex", width : "100%", height : "100%", alignItems : "center", justifyContent : "center"}}>
+              <CardContent sx={{display : "flex", width : "100%", height : "100%"}}>
+                <Box sx={{flexBasis : "27%", height : "100%", display : "flex", alignItems : "center", justifyContent : "center"}}>
+                  <AvatarGroup total={8} sx={{
+                    "& .MuiAvatar-root" : {
+                      width : 60,
+                      height : 60,
+                    } 
+                  }}>
+                    <Avatar src="/assets/menus/steaks/tenderloin-steak.png"/>
+                    <Avatar src="/assets/menus/steaks/tbone-steak.png" />
+                    <Avatar src="/assets/menus/salads/salad.png" />
+                    <Avatar src="/assets/menus/drinks/lemonade.png" />
+                  </AvatarGroup>
+                </Box>
+                <Box sx={{flexBasis : "60%", display : "flex"}}>
+                  <Box sx={{flexBasis : "75%", display : "flex"}}>
+                    <Box sx={{flexBasis : "40%", display : "flex", flexDirection : "column", justifyContent : "space-evenly"}}>
+                      <Typography variant="h4">Payment ID</Typography>
+                      <Typography variant="body2">Payment Method</Typography>
+                      <Typography variant="body2">Reservation Created</Typography>
+                      <Typography variant="body2">Payment Made</Typography>
+                    </Box>
+                    <Box sx={{flexBasis : "5%", display : "flex", flexDirection : "column", justifyContent : "space-evenly"}}>
+                      <Typography variant="h4">:</Typography>
+                      <Typography variant="body2">:</Typography>
+                      <Typography variant="body2">:</Typography>
+                      <Typography variant="body2">:</Typography>
+                    </Box>
+                    <Box sx={{flexBasis : "55%", display : "flex", flexDirection : "column", justifyContent : "space-evenly"}}>
+                      <Typography variant="h4">64ad26173609b52d44ec8cc5</Typography>
+                      <Typography variant="body2">Credit/Debit Card</Typography>
+                      <Typography variant="body2">Sun, 21 Jul 2023</Typography>
+                      <Typography variant="body2">-</Typography>
+                    </Box>
+                  </Box>
+                  <Box sx={{flexBasis : "25%", display : "flex"}}>
+                    <Box sx={{flexBasis : "20%", display : "flex", flexDirection : "column", justifyContent : "space-evenly"}}>
+                      <Box><CalendarTodayIcon sx={{color : "black"}}/></Box>
+                      <Box><AccessTimeIcon sx={{color : "black"}}/></Box>
+                      <Box><PersonIcon sx={{color : "black"}}/></Box>
+                    </Box>
+                    <Box sx={{flexBasis : "80%", display : "flex", flexDirection : "column", justifyContent : "space-evenly"}}>
+                      <Box><Typography variant="body2">Mon, 24 Jul 2023</Typography> </Box>
+                      <Box><Typography variant="body2">18.00</Typography></Box>
+                      <Box><Typography variant="body2">10 People</Typography></Box>
+                    </Box>
+                  </Box>
+                </Box>
+                <Box sx={{flexBasis : "13%", display : "flex", alignItems : "center", justifyContent : "center"}}>
+                  <Typography variant="body1" sx={{color : "red"}}>Not Paid</Typography>
+                </Box>
+              </CardContent>
+            </Card>
           </Grid>
         </Grid>
       </Container>

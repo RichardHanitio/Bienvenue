@@ -50,8 +50,8 @@ const Home = () => {
   ]
 
   useEffect(() => {
-    !loading && setDiscountedMenu(data.data.slice(0,4))
-  }, [data, loading])
+    (!loading && !error) && setDiscountedMenu(data.data.slice(0,4))
+  }, [data, loading, error])
 
 
   const multipleServices = [
@@ -82,7 +82,8 @@ const Home = () => {
     loading,
     discountedMenu,
     theme,
-    reviews
+    reviews,
+    discountedMenuLoadingError : error,
   }
 
   return (

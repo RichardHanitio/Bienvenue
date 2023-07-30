@@ -19,19 +19,19 @@ const Menu = () => {
   const theme = useTheme();
 
   useEffect(() => {
-    !loading && setFilteredData(
+    (!loading && !error) && setFilteredData(
       data.data.filter((d) => {
         return d.category === active
       })
     )
-  }, [active, data, loading])
+  }, [active, data, loading, error])
 
   const categories = [
     "steak", "spaghetti", "snack", "salad", "drink"
   ]
 
   const props = {
-    categories, active, setActive, filteredData, 
+    loading, categories, active, setActive, filteredData, menuLoadingError:error
   }
 
   return (

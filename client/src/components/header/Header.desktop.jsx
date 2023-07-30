@@ -61,19 +61,21 @@ const HeaderDesktop = (props) => {
               open={Boolean(props.anchorElUser)}
               onClose={props.handleCloseUserMenu}
             >
-              {props.settings.map((setting) => (
-                <MenuItem key={setting} onClick={props.handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              {
+                props.settings.map((setting) => (
+                  <MenuItem key={setting} onClick={setting.toLowerCase()==="logout" ? props.handleLogout : props.handleCloseUserMenu}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))
+              }
             </Menu>
           </Box>
         ) : (
           <Box sx={{ display: "flex", justifyContent: "space-around"}}>
-            <HeaderButton type="register" onClick={() => console.log(`Register clicked`)} variant="contained">
+            <HeaderButton type="register" onClick={() => props.navigate("/register")} variant="contained">
               Register
             </HeaderButton>
-            <HeaderButton type="login" onClick={() => console.log(`Login clicked`)} variant="outlined">
+            <HeaderButton type="login" onClick={() => props.navigate("/login")} variant="outlined">
               Login
             </HeaderButton>
           </Box>

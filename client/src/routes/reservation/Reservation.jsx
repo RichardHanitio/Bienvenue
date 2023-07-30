@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
@@ -26,28 +26,48 @@ const Reservation = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    console.log(time)
+  }, [time])
+
   // send this to backend
   const handleSubmit = async() => {
     const jwt_token = Cookies.get("access_token");
     const refactoredItem = items.map(item => ({itemId: item._id, amount: item.amount}));
-    const refactoredTime = time.split(":");
+    // const refactoredTime = time.split(":");
+    const refactoredTime = time;
+
+    // create a new payment
+    // try {
+    //   const emptyPayment = await axios.post("/payments/empty", {});
+    //   console.log(emptyPayment)
+    // } catch(err) {
+    //   console.log(err)
+    // }
+
     const payload = {
       items : refactoredItem,
-      date : `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
-      time : new Date(1970,0,1,refactoredTime[0], refactoredTime[1], 0),
+      // date : `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+      date : date,
+      // time : new Date(1970,0,1,refactoredTime[0], refactoredTime[1], 0),
+      time : time,
       totalGuest : totalGuest,
       totalPrice : totalPrice,
       paymentMethod : paymentMethod,
-      status : "pending",
     }
-    try {
-      await axios.post(`/reservations?uid=${jwt_decode(jwt_token).id}`, payload);
-      dispatch({type: "FINISH_RESERVATION"});
-      openSnackbar("Reservation made successfully");
-    } catch(err) {
-      openSnackbar("Reservation failed. Please try again");
-    }
+
+    console.log(payload)
+    // create reservation
+    // try {
+    //   await axios.post(`/reservations?uid=${jwt_decode(jwt_token).id}`, payload);
+    //   dispatch({type: "FINISH_RESERVATION"});
+    //   openSnackbar("Reservation made successfully");
+    // } catch(err) {
+    //   console.log(err)
+    //   openSnackbar("Reservation failed. Please try again");
+    // }
   }
+
 
   const handleIncreaseAmount = (e) => {
     dispatch({type: "INCREASE_ITEM_AMOUNT", payload : e.target.id})
@@ -127,7 +147,7 @@ const Reservation = () => {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker 
                     onChange={(time) =>{
-                      dispatch({type : "CHANGE_TIME", payload : time})
+                      dispatch({type : "CHANGE_DATE", payload : new Date(time.$d).toISOString()})
                     }}
                     value={dayjs(date)}
                     disabled={!(items.length > 0 || totalPrice > 0)}
@@ -139,7 +159,7 @@ const Reservation = () => {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <TimePicker 
                     onChange={(time) =>{
-                      dispatch({type : "CHANGE_TIME", payload : time})
+                      dispatch({type : "CHANGE_TIME", payload : new Date(time.$d).toISOString()})
                     }}
                     value={dayjs(date)}
                     disabled={!(items.length > 0 || totalPrice > 0)}
@@ -214,7 +234,8 @@ const Reservation = () => {
           <Grid container sx={{justifyContent : "center", alignItems : "center", width : "100%"}}>
             <Box component="div" sx={{width : "100%", height : 200, display : "flex", flexDirection : "column"}}>
               {/* <Button variant="contained" color="primary" disabled={!checkIfReadyToSubmit()}> */}
-              <Button variant="contained" color="primary" onClick={() => navigate("/payment")}>
+              {/* <Button variant="contained" color="primary" onClick={() => navigate("/payment")}> */}
+              <Button variant="contained" color="primary" onClick={handleSubmit}>
                 {/* <Typography variant="body1" onClick={handleSubmit}>Continue Payment</Typography> */}
                 <Typography variant="body1">Continue Payment</Typography>
               </Button>

@@ -26,18 +26,33 @@ const MenuDesktop = (props) => {
       </Grid>
       <Grid container sx={{minHeight : "100%", width : "100%", justifyContent : "space-around", alignItems : "space-around", mb : 10}}>
         {
-          props.filteredData ? props.filteredData.map(data => (
-            <Item data={data} key={data._id}/>
-          )) : <Watch
-            height="50"
-            width="50"
-            radius="48"
-            color="white"
-            ariaLabel="watch-loading"
-            wrapperStyle={{}}
-            wrapperClassName=""
-            visible={true}
-          />
+          (props.loading && !props.menuLoadingError) && (
+            <Box sx={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center"}}>
+              <Watch
+                height="50"
+                width="50"
+                radius="48"
+                color="white"
+                ariaLabel="watch-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+              />
+              <Typography variant="body2" color="white" sx={{mt : 3}}>Loading all menus, please wait</Typography>
+            </Box>
+          )
+        }
+        {
+          (!props.loading && props.menuLoadingError) && (
+            <Typography variant="body2" color="white" sx={{mt : 3}}>Something went wrong, please reload the page</Typography>
+          )
+        }
+        {
+          (!props.loading && props.filteredData) && (
+            props.filteredData.map(data => (
+             <Item data={data} key={data._id}/>
+           ))
+          )
         }
       </Grid>
     </Grid>

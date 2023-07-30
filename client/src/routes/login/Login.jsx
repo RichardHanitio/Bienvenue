@@ -11,6 +11,8 @@ import {Visibility, VisibilityOff} from "@mui/icons-material"
 import {AuthContext} from "../../context/AuthContext";
 import useWindowSize from "../../hooks/useWindowSize";
 
+import {makeRequest} from "../../requests";
+
 const Login = () => {
   const navigate = useNavigate();
   const {user, loading, error, dispatch} = useContext(AuthContext);
@@ -53,11 +55,11 @@ const Login = () => {
     if(isValidCredentials) {
       try {
         dispatch({type : "LOGIN_START"})
-        const res = await axios.post("/auth/login", credentials)
+        const res = await makeRequest({url: "/auth/login", method: "post", body: credentials})
         dispatch({type : "LOGIN_SUCCESS", payload : res.data})
         navigate("/");
       } catch(e) {
-        openSnackbar(e.response.data.msg)
+        e.response ? openSnackbar(e.response.data.msg) : openSnackbar(e.message)
       }
     }
   }

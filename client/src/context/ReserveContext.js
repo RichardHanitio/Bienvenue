@@ -2,7 +2,7 @@ import {createContext, useReducer} from "react";
 
 const INITIAL_STATE = {
   items : [],
-  date : new Date(),
+  date : new Date().toISOString(),
   // time : `${new Date().getHours()+1}:00`,
   // time : new Date().toLocaleString("en-US", {timeZone : "Asia/Jakarta", hour : "2-digit", minute : "numeric", hour12 : false}),
   time : new Date(),

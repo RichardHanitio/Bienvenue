@@ -4,7 +4,7 @@ const {createEmptyPayment, createPayment, getAllPayments} = require("../controll
 const {verifyUser, verifyAdmin} = require("../utils/verifyToken");
 
 paymentsRouter.route("/empty")
-.get(createEmptyPayment)
+.post(createEmptyPayment)
 
 paymentsRouter.route("/")
 .get(getAllPayments)

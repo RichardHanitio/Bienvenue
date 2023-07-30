@@ -13,7 +13,6 @@ const errorHandlerMiddleware = require("./utils/errorHandler");
 const Mailgun = require("mailgun.js");
 const formData = require("form-data");
 
-
 dotenv.config();
 const app = express();
 const mailgun = new Mailgun(formData);
@@ -32,9 +31,14 @@ const listen = async () => {
 mongoose.connection.on("disconnected", () => console.log("MongoDB disconnected"));
 mongoose.connection.on("connected", () => console.log("MongoDB connected"));
 
+let whiteList = ["http://localhost:3000"];
+
 // middlewares
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin : whiteList,
+  credentials : true
+}));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({extended : true}))

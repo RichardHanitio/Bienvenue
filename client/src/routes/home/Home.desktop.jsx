@@ -75,7 +75,8 @@ const HomeDesktop = (props) => {
           <Typography variant="h1" sx={{color : "white", textAlign : "center"}}>Special Offer Just For Today</Typography>
         </Grid>
         <Grid container direction="column" alignItems="center" sx={{width : {xss : "100%", sm : "70%"}}}>
-          {props.loading && (
+          {
+            (props.loading && !props.discountedMenuLoadingError) && (
             <>
               <Watch
                 height="50"
@@ -89,7 +90,13 @@ const HomeDesktop = (props) => {
               />
               <Typography variant="body2" color="white" sx={{mt: 3}}>Loading today's offers...</Typography>
             </>
-          )}
+            )
+          }
+          {
+            (!props.loading && props.discountedMenuLoadingError) && (
+              <Typography variant="body2" color="white" sx={{mt: 3}}>Something went wrong, please reload the page...</Typography>
+            )
+          }
           {
             (props.discountedMenu && !props.loading) && (
               <Slider 

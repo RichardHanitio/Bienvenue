@@ -1,0 +1,40 @@
+version: "3.8"
+services: 
+  bienvenue-client:
+    depends_on:
+      - bienvenue-server
+    image: node:19.9.0
+    container_name: bienvenue-client
+    env_file: 
+      - ./client/.env
+    volumes:
+      - ./client:/var/lib/bienvenue-client:rw
+    working_dir: /var/lib/bienvenue-client
+    ports:
+      - 3000:3000
+    stdin_open: true
+    tty: true
+    command: bash -c "npm install --legacy-peer-deps && DANGEROUSLY_DISABLE_HOST_CHECK=true npm start"
+    networks:
+      - network
+        
+    
+  bienvenue-server:
+    image: node:19.9.0
+    restart: always
+    container_name: bienvenue-server
+    env_file: 
+      - ./server/.env
+    volumes:
+      - ./server:/var/lib/bienvenue-server:rw
+    working_dir: /var/lib/bienvenue-server
+    ports:
+      - 5000:5000
+    command: bash -c "npm install && npm start"
+    networks:
+      - network
+
+networks:
+  network:
+
+

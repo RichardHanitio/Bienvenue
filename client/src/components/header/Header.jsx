@@ -1,6 +1,5 @@
 import React, { useContext, useState} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
 
 import {Container, Toolbar, AppBar} from "@mui/material";
 import {useTheme} from "@mui/material/styles"
@@ -10,6 +9,8 @@ import HeaderMobile from "./Header.mobile";
 import HeaderDesktop from "./Header.desktop";
 import useWindowSize from "../../hooks/useWindowSize";
 
+import { makeRequest } from "../../requests";
+
 
 const Header = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const Header = () => {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const { user, dispatch } = useContext(AuthContext);
   const theme = useTheme();
-  
+
   const handleCloseNavMenu = () => {
     setAnchorElNav(null)
   };
@@ -33,10 +34,13 @@ const Header = () => {
   };
 
   const handleLogout = async () => {
-    await axios.get("/auth/logout");
+    console.log("logout called")
+    handleCloseUserMenu();
+    const resp = await makeRequest({url:"/auth/logout"});
+    console.log(resp)
     dispatch({ type: "LOGOUT" });
   };
-  
+
   const pages = [
     {name : "Home", path : "/"},
     {name : "Menu", path : "/menu"}, 
@@ -59,7 +63,8 @@ const Header = () => {
     user, 
     settings,
     currentLocation,
-    theme
+    theme,
+    handleLogout
   }
 
 

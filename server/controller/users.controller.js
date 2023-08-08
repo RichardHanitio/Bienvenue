@@ -1,7 +1,6 @@
 require("dotenv").config();
 
 const bcrypt = require("bcrypt")
-const encryptor = require("simple-encryptor")(process.env.ENCRYPTORKEY);
 const {v4 : uuidv4} = require("uuid");
 const Mailgun = require("mailgun.js");
 const formData = require("form-data");
@@ -18,8 +17,7 @@ const client = mailgun.client({
 
 const createUser = asyncWrapper(async(req, res, next) => {
   // encrypt in frontend
-  const encryptedBody = encryptor.encrypt(req.body);
-  const {email, username, phoneNum, password} = encryptor.decrypt(encryptedBody);
+  const {email, username, phoneNum, password} = req.body;
   !(email && username && phoneNum && password) && next(createCustomError("Some attributes are missing", 400))
   
   // check if the user already exists

@@ -55,10 +55,11 @@ const Login = () => {
     if(isValidCredentials) {
       try {
         dispatch({type : "LOGIN_START"})
-        const res = await makeRequest({url: "/auth/login", method: "post", body: credentials})
+        const res = await makeRequest({url: "/auth/login", method: "post", body: credentials});
         dispatch({type : "LOGIN_SUCCESS", payload : res.data})
         navigate("/");
       } catch(e) {
+        console.log(e)
         e.response ? openSnackbar(e.response.data.msg) : openSnackbar(e.message)
       }
     }

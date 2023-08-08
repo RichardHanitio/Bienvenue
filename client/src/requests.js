@@ -13,9 +13,17 @@ axios.defaults.withCredentials = true;
 //   }
 // );
 
-// const encryptData = async(data) => {
-//   return CryptoJS.AES.encrypt(JSON.stringify(data), process.env.REACT_APP_SECRET_KEY);
-// }
+const encryptData = (data) => {
+  try {
+    return CryptoJS.AES.encrypt(JSON.stringify(data), process.env.REACT_APP_SECRET_KEY).toString();
+  } catch(e) {
+    return e;
+  }
+}
+
+const decryptData = (data) => {
+  return CryptoJS.AES.decrypt(data, process.env.REACT_APP_SECRET_KEY).toString(CryptoJS.enc.Utf8);
+}
 
 const getUser = () => {
   return (localStorage && localStorage.user) ? localStorage.user : null;
@@ -26,8 +34,9 @@ const makeRequest = async({url, method="get", body=null, useAuthorization=false}
     Authorization : "Bearer " + getUser()
   } : {};
 
-  let encryptedBody;
-  body!==null ? encryptedBody = body : encryptedBody = body;
+  const encryptedBody = {
+    data : encryptData(body)
+  }
 
   const res = await axios({
     url,
@@ -39,8 +48,10 @@ const makeRequest = async({url, method="get", body=null, useAuthorization=false}
   return res;
 };
 
+
+
 const adminMakeRequest = (url) => {
 
 }
 
-export {makeRequest, adminMakeRequest};
+export {makeRequest, adminMakeRequest, encryptData, decryptData};

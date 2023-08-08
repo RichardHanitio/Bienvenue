@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
-import { Container, Typography, Box, Paper, TextField, FormControl, Select, MenuItem, InputBase, Card, CardContent, AvatarGroup, Avatar} from '@mui/material';
+import { Container, Typography, Box, TextField, FormControl, Select, MenuItem, InputBase, Card, CardContent, AvatarGroup, Avatar} from '@mui/material';
 import Grid from "@mui/material/Unstable_Grid2";
 import {useTheme} from "@mui/material/styles";
 import {styled} from "@mui/material/styles";
@@ -10,11 +10,14 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import PersonIcon from '@mui/icons-material/Person';
 import useFetch from "../../hooks/useFetch";
+import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode"
 
 const History = () => {
   const theme = useTheme();
   const [allPayments, setAllPayments] = useState([]);
-  const {loading, data, error} = useFetch("/payments");
+  const jwt_token = Cookies.get("access_token");
+  const {loading, data, error} = useFetch(`/payments?uid=${jwt_decode(jwt_token).id}`);
 
   const CustomInput = styled(InputBase)(({theme}) => ({
     "& .MuiInputBase-input" : {
@@ -35,10 +38,9 @@ const History = () => {
 
   return (
     <>
-      {!loading && console.log(allPayments)}
-      {error && console.log(error)}
+      {console.log(data)}
       <Header />
-      <Container fixed sx={{backgroundColor : theme.palette.primary.main, minHeight : "100vh", minWidth : "100vw", display : "flex", flexDirection : "column", alignItems : "center"}}>
+      <Container fixed sx={{backgroundColor : theme.palette.primary.main, minHeight : "350vh", minWidth : "100vw", display : "flex", flexDirection : "column", alignItems : "center"}}>
         <Grid container sx={{width : {lg : "95%", xl : 1600}, gap : 5}}>
           <Box sx={{height : 80, width : "100%", display : "flex", alignItems : "center"}}>
             <Typography sx={{typography : {xxs : "h4", md : "h2"}, color : "white", textAlign : {xxs : "center", md : "flex-start"}}}>Payment History</Typography>
@@ -112,119 +114,84 @@ const History = () => {
             </Grid>
           </Grid>
 
-          <Grid xxs={12} sx={{backgroundColor : "pink", height : 150}}>
-            <Card elevation={20} sx={{display : "flex", width : "100%", height : "100%", alignItems : "center", justifyContent : "center", mb : 3}}>
-              <CardContent sx={{display : "flex", width : "100%", height : "100%"}}>
-                <Box sx={{flexBasis : "27%", height : "100%", display : "flex", alignItems : "center", justifyContent : "center"}}>
-                  <AvatarGroup total={8} sx={{
-                    "& .MuiAvatar-root" : {
-                      width : 60,
-                      height : 60,
-                    } 
-                  }}>
-                    <Avatar src="/assets/menus/steaks/tenderloin-steak.png"/>
-                    <Avatar src="/assets/menus/steaks/tbone-steak.png" />
-                    <Avatar src="/assets/menus/salads/salad.png" />
-                    <Avatar src="/assets/menus/drinks/lemonade.png" />
-                  </AvatarGroup>
-                </Box>
-                <Box sx={{flexBasis : "60%", display : "flex"}}>
-                  <Box sx={{flexBasis : "75%", display : "flex"}}>
-                    <Box sx={{flexBasis : "40%", display : "flex", flexDirection : "column", justifyContent : "space-evenly"}}>
-                      <Typography variant="h4">Payment ID</Typography>
-                      <Typography variant="body2">Payment Method</Typography>
-                      <Typography variant="body2">Reservation Created</Typography>
-                      <Typography variant="body2">Payment Made</Typography>
-                    </Box>
-                    <Box sx={{flexBasis : "5%", display : "flex", flexDirection : "column", justifyContent : "space-evenly"}}>
-                      <Typography variant="h4">:</Typography>
-                      <Typography variant="body2">:</Typography>
-                      <Typography variant="body2">:</Typography>
-                      <Typography variant="body2">:</Typography>
-                    </Box>
-                    <Box sx={{flexBasis : "55%", display : "flex", flexDirection : "column", justifyContent : "space-evenly"}}>
-                      <Typography variant="h4">64ad26173609b52d44ec8cc5</Typography>
-                      <Typography variant="body2">Credit/Debit Card</Typography>
-                      <Typography variant="body2">Sun, 21 Jul 2023</Typography>
-                      <Typography variant="body2">-</Typography>
-                    </Box>
-                  </Box>
-                  <Box sx={{flexBasis : "25%", display : "flex"}}>
-                    <Box sx={{flexBasis : "20%", display : "flex", flexDirection : "column", justifyContent : "space-evenly"}}>
-                      <Box><CalendarTodayIcon sx={{color : "black"}}/></Box>
-                      <Box><AccessTimeIcon sx={{color : "black"}}/></Box>
-                      <Box><PersonIcon sx={{color : "black"}}/></Box>
-                    </Box>
-                    <Box sx={{flexBasis : "80%", display : "flex", flexDirection : "column", justifyContent : "space-evenly"}}>
-                      <Box><Typography variant="body2">Mon, 24 Jul 2023</Typography> </Box>
-                      <Box><Typography variant="body2">18.00</Typography></Box>
-                      <Box><Typography variant="body2">10 People</Typography></Box>
-                    </Box>
-                  </Box>
-                </Box>
-                <Box sx={{flexBasis : "13%", display : "flex", alignItems : "center", justifyContent : "center"}}>
-                  <Typography variant="body1" sx={{color : "red"}}>Not Paid</Typography>
-                </Box>
-              </CardContent>
-            </Card>
-
-            <Card elevation={20} sx={{display : "flex", width : "100%", height : "100%", alignItems : "center", justifyContent : "center"}}>
-              <CardContent sx={{display : "flex", width : "100%", height : "100%"}}>
-                <Box sx={{flexBasis : "27%", height : "100%", display : "flex", alignItems : "center", justifyContent : "center"}}>
-                  <AvatarGroup total={8} sx={{
-                    "& .MuiAvatar-root" : {
-                      width : 60,
-                      height : 60,
-                    } 
-                  }}>
-                    <Avatar src="/assets/menus/steaks/tenderloin-steak.png"/>
-                    <Avatar src="/assets/menus/steaks/tbone-steak.png" />
-                    <Avatar src="/assets/menus/salads/salad.png" />
-                    <Avatar src="/assets/menus/drinks/lemonade.png" />
-                  </AvatarGroup>
-                </Box>
-                <Box sx={{flexBasis : "60%", display : "flex"}}>
-                  <Box sx={{flexBasis : "75%", display : "flex"}}>
-                    <Box sx={{flexBasis : "40%", display : "flex", flexDirection : "column", justifyContent : "space-evenly"}}>
-                      <Typography variant="h4">Payment ID</Typography>
-                      <Typography variant="body2">Payment Method</Typography>
-                      <Typography variant="body2">Reservation Created</Typography>
-                      <Typography variant="body2">Payment Made</Typography>
-                    </Box>
-                    <Box sx={{flexBasis : "5%", display : "flex", flexDirection : "column", justifyContent : "space-evenly"}}>
-                      <Typography variant="h4">:</Typography>
-                      <Typography variant="body2">:</Typography>
-                      <Typography variant="body2">:</Typography>
-                      <Typography variant="body2">:</Typography>
-                    </Box>
-                    <Box sx={{flexBasis : "55%", display : "flex", flexDirection : "column", justifyContent : "space-evenly"}}>
-                      <Typography variant="h4">64ad26173609b52d44ec8cc5</Typography>
-                      <Typography variant="body2">Credit/Debit Card</Typography>
-                      <Typography variant="body2">Sun, 21 Jul 2023</Typography>
-                      <Typography variant="body2">-</Typography>
-                    </Box>
-                  </Box>
-                  <Box sx={{flexBasis : "25%", display : "flex"}}>
-                    <Box sx={{flexBasis : "20%", display : "flex", flexDirection : "column", justifyContent : "space-evenly"}}>
-                      <Box><CalendarTodayIcon sx={{color : "black"}}/></Box>
-                      <Box><AccessTimeIcon sx={{color : "black"}}/></Box>
-                      <Box><PersonIcon sx={{color : "black"}}/></Box>
-                    </Box>
-                    <Box sx={{flexBasis : "80%", display : "flex", flexDirection : "column", justifyContent : "space-evenly"}}>
-                      <Box><Typography variant="body2">Mon, 24 Jul 2023</Typography> </Box>
-                      <Box><Typography variant="body2">18.00</Typography></Box>
-                      <Box><Typography variant="body2">10 People</Typography></Box>
-                    </Box>
-                  </Box>
-                </Box>
-                <Box sx={{flexBasis : "13%", display : "flex", alignItems : "center", justifyContent : "center"}}>
-                  <Typography variant="body1" sx={{color : "red"}}>Not Paid</Typography>
-                </Box>
-              </CardContent>
-            </Card>
+          {
+            !loading && (
+              <Grid xxs={12} sx={{height : 150}}>
+                {
+                  !loading && allPayments.map(payment => 
+                    (
+                      <Card elevation={20} sx={{display : "flex", width : "100%", height : "100%", alignItems : "center", justifyContent : "center", mb : 3}}>
+                        <CardContent sx={{display : "flex", width : "100%", height : "100%"}}>
+                          <Box sx={{flexBasis : "27%", height : "100%", display : "flex", alignItems : "center", justifyContent : "center"}}>
+                            <AvatarGroup total={payment.reservation.items.length} sx={{
+                              "& .MuiAvatar-root" : {
+                                width : 60,
+                                height : 60,
+                              } 
+                            }}>
+                              {
+                                payment.reservation.items.map((item, idx) => (
+                                  idx < 4 && (
+                                    <Avatar src={item.item.img} key={idx}/>
+                                  )
+                                ))
+                              }
+                            </AvatarGroup>
+                          </Box>
+                          <Box sx={{flexBasis : "60%", display : "flex"}}>
+                            <Box sx={{flexBasis : "75%", display : "flex"}}>
+                              <Box sx={{flexBasis : "40%", display : "flex", flexDirection : "column", justifyContent : "space-evenly"}}>
+                                <Typography variant="h4">Payment ID</Typography>
+                                <Typography variant="body2">Payment Method</Typography>
+                                <Typography variant="body2">Reservation Created</Typography>
+                                <Typography variant="body2">Payment Made</Typography>
+                              </Box>
+                              <Box sx={{flexBasis : "5%", display : "flex", flexDirection : "column", justifyContent : "space-evenly"}}>
+                                <Typography variant="h4">:</Typography>
+                                <Typography variant="body2">:</Typography>
+                                <Typography variant="body2">:</Typography>
+                                <Typography variant="body2">:</Typography>
+                              </Box>
+                              <Box sx={{flexBasis : "55%", display : "flex", flexDirection : "column", justifyContent : "space-evenly"}}>
+                                <Typography variant="h4">{payment._id.slice(0,12)}...{payment._id.slice(-3,)}</Typography>
+                                <Typography variant="body2">{payment.method ? payment.method.toUpperCase() : "-"}</Typography>
+                                <Typography variant="body2">{
+                                  new Date(payment.reservation.createdAt).toString().substring(0, 15)
+                                }
+                                </Typography>
+                                <Typography variant="body2">{payment.paymentDateTime ? new Date(payment.paymentDateTime).toString().substring(0, 15) : "-"}</Typography>
+                              </Box>
+                            </Box>
+                            <Box sx={{flexBasis : "25%", display : "flex"}}>
+                              <Box sx={{flexBasis : "20%", display : "flex", flexDirection : "column", justifyContent : "space-evenly"}}>
+                                <Box><CalendarTodayIcon sx={{color : "black"}}/></Box>
+                                <Box><AccessTimeIcon sx={{color : "black"}}/></Box>
+                                <Box><PersonIcon sx={{color : "black"}}/></Box>
+                              </Box>
+                              <Box sx={{flexBasis : "80%", display : "flex", flexDirection : "column", justifyContent : "space-evenly"}}>
+                                <Box><Typography variant="body2">{
+                                  new Date(payment.reservation.date).toString().substring(0, 15)
+                                }</Typography></Box>
+                                <Box><Typography variant="body2">{
+                                  new Date(payment.reservation.time).toString().substring(16, 21)
+                                }</Typography></Box>
+                                <Box><Typography variant="body2">{payment.reservation.totalGuest} People</Typography></Box>
+                              </Box>
+                            </Box>
+                          </Box>
+                          <Box sx={{flexBasis : "13%", display : "flex", alignItems : "center", justifyContent : "center"}}>
+                            <Typography variant="body1" sx={{color : "red"}}>{payment.status.toUpperCase()}</Typography>
+                          </Box>
+                        </CardContent>
+                      </Card>
+                    )  
+                  )
+                }
+              </Grid>
+            )
+          }
           </Grid>
-        </Grid>
-      </Container>
+        </Container>
       <Footer />
     </>
   )

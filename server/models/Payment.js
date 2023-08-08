@@ -1,7 +1,7 @@
 const {Schema, model} = require('mongoose');
 
 const PaymentSchema = new Schema({
-  reservationId : {
+  reservation : {
     type : Schema.Types.ObjectId,
     ref : "Reservation",
     required : true,
@@ -10,7 +10,6 @@ const PaymentSchema = new Schema({
   method : {
     type : String,
     enum : ["e-wallet", "credit-debit-card", "bank"],
-    required : true,
   },
   cardHolderName : {
     type : String,
@@ -40,11 +39,15 @@ const PaymentSchema = new Schema({
   status : {
     type : String,
     enum : ["not paid", "pending", "completed", "declined"],
-    default : "pending",
+    default : "not paid",
     required : true,
   },
   comment : {
     type : String, 
+  },
+  paymentDateTime : {
+    type : Date,
+    default : null,
   },
   isDeleted : {
     type: Boolean,

@@ -3,8 +3,9 @@ require("dotenv").config();
 const asyncWrapper = require("../utils/asyncWrapper");
 const {createCustomError} = require("../utils/customError");
 const bcrypt = require("bcrypt")
+const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
-const encryptor = require("simple-encryptor")(process.env.ENCRYPTORKEY);
+
 const User = require("../models/User");
 
 const register = asyncWrapper(async(req, res, next) => {
@@ -28,8 +29,10 @@ const login = asyncWrapper(async(req, res, next) => {
   // check if access cookie is set
   req.cookies.access_token && next(createCustomError("User is logged in", 400));
 
-  // encrypt in frontend
-  const {email, password} = req.body;
+  // decrypt encrypted body
+  const body = JSON.parse(CryptoJS.AES.decrypt(req.body.data, process.env.SECRETKEY).toString(CryptoJS.enc.Utf8));
+
+  const {email, password} = body;
 
   (!(email && password)) && next(createCustomError("Username or password is missing", 404));
 

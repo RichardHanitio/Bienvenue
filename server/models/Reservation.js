@@ -1,7 +1,7 @@
 const {Schema, model} = require('mongoose');
 
 const ItemSchema = new Schema({
-  itemId : {
+  item : {
     type : Schema.Types.ObjectId,
     ref : "Menu",
     required : true,
@@ -13,7 +13,7 @@ const ItemSchema = new Schema({
 })
 
 const ReservationSchema = new Schema({
-  userId : {
+  user : {
     type: Schema.Types.ObjectId, 
     required : true,
     ref: "User"
@@ -38,11 +38,6 @@ const ReservationSchema = new Schema({
     type : Number,
     default : 0,
     required : true,
-  },
-  payment : {
-    type : Schema.Types.ObjectId,
-    ref : "Payment", 
-    unique : true,
   },
   isDeleted : {
     type: Boolean,

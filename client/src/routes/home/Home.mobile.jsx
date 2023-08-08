@@ -136,7 +136,7 @@ const HomeMobile = (props) => {
         </Grid>
       </Grid>
 
-      <Paper elevation={50} sx={{height: 500, width : "100%", display : "flex", flexDirection : "column", alignItems : "center", justifyContent : "center", backgroundColor : "#C4D0D0"}}> 
+      <Paper elevation={24} sx={{height: 500, width : "100%", display : "flex", flexDirection : "column", alignItems : "center", justifyContent : "center", backgroundColor : "#C4D0D0"}}> 
         <Grid container sx={{display : "flex", flexDirection : {xxs : "column", md : "row"}, alignItems : "center", justifyContent : "space-around", width : "90%", height : "95%"}}>
           <Grid container alignItems="center" justifyContent="center" sx={{height : 250, width : 250}}>
             <img src="/assets/reserve.png" alt="" style={{height : "100%", width: "100%"}} />

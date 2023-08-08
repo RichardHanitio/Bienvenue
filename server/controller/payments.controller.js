@@ -3,10 +3,12 @@ require("dotenv").config();
 const Payment = require("../models/Payment");
 const asyncWrapper = require("../utils/asyncWrapper");
 const {createCustomError} = require("../utils/customError");
+const CryptoJS = require("crypto-js")
 
 const createEmptyPayment = asyncWrapper(async(req, res, next) => {
-  const body = req.body;
-  !(body.reservationId) && next(createCustomError("Reservation ID is not defined", 400));
+  const body = JSON.parse(CryptoJS.AES.decrypt(req.body.data, process.env.SECRETKEY).toString(CryptoJS.enc.Utf8));
+
+  !(body.reservation) && next(createCustomError("Reservation ID is not defined", 400));
   // create a new empty payment
   const payment = await Payment.create({...body, status : "not paid"});
   return res.status(200).json({
@@ -17,7 +19,7 @@ const createEmptyPayment = asyncWrapper(async(req, res, next) => {
 
 const createPayment = asyncWrapper(async(req, res, next) => {
   const body = req.body;
-  !(body.reservationId) && next(createCustomError("Reservation ID is not defined", 400));
+  !(body.reservation) && next(createCustomError("Reservation ID is not defined", 400));
   !(body.method) && next(createCustomError("Method is not defined", 400));
   
   let attributeMissing = false;
@@ -45,11 +47,71 @@ const createPayment = asyncWrapper(async(req, res, next) => {
 });
 
 const getAllPayments = asyncWrapper(async(req, res, next) => {
-  const payments = await Payment.find().where("isDeleted").equals(false).populate("reservationId").exec()
+  let payments;
+  payments = await Payment
+    .find()
+    .where("isDeleted").equals(false)
+    .populate({
+      path : "reservation",
+      model : "Reservation",
+      populate : {
+        path : "items.item",
+        model : "Menu"
+      }
+    })
+    .exec();
+
+  if(req.query.uid) {
+    payments.filter(payment => {
+      return payment.reservation.user.toString() === req.query.uid
+    });  
+  }
+  
   return res.status(200).json({
     msg : "Payments retrieved successfully",
     data : payments
   })
 })
 
-module.exports = {createEmptyPayment, createPayment, getAllPayments}
+const getPayment = asyncWrapper(async(req, res, next) => {
+  const id = req.params.id;
+  !id && next(createCustomError("Id missing", 404))
+
+  const payment = await Payment.findById(id).where("isDeleted").equals(false).populate({
+    path : "reservation",
+    model : "Reservation",
+    populate : {
+      path : "items.item",
+      model : "Menu"
+    }
+  }).exec();
+  !payment && next(createCustomError("No payment with id "+id+" found", 404)) 
+
+  return res.status(200).json({
+    msg : "Payment retrieved successfully",
+    data : payment
+  })
+})
+
+const editPayment = asyncWrapper(async(req, res, next) => {
+  const id = req.params.id;
+  !id && next(createCustomError("Id missing", 404))
+
+  // decrypt encrypted body
+  const body = JSON.parse(CryptoJS.AES.decrypt(req.body.data, process.env.SECRETKEY).toString(CryptoJS.enc.Utf8));
+
+  !body.method && next(createCustomError("Method missing", 404))
+
+  const payment = await Payment.findOneAndUpdate({_id: id}, body, {
+    new : true,
+    runValidators : true
+  }).where("isDeleted").equals(false);
+  !payment && next(createCustomError("No payment with id "+id+" found", 404)) 
+
+  return res.status(200).json({
+    msg : "Payment edited successfully",
+    data : payment
+  })
+})
+
+module.exports = {createEmptyPayment, createPayment, getAllPayments, getPayment, editPayment}

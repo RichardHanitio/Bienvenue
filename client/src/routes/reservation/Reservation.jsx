@@ -1,13 +1,13 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useContext} from 'react'
 import { useNavigate } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
-import axios from 'axios';
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer';
 import { ReserveContext } from '../../context/ReserveContext';
 import { useSnackbar } from 'react-simple-snackbar';
+import { makeRequest, encryptData } from '../../requests';
 
 import {Container, Typography, Paper, Box, Divider, Button, TextField} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -26,48 +26,37 @@ const Reservation = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(time)
-  }, [time])
-
   // send this to backend
   const handleSubmit = async() => {
     const jwt_token = Cookies.get("access_token");
-    const refactoredItem = items.map(item => ({itemId: item._id, amount: item.amount}));
-    // const refactoredTime = time.split(":");
-    const refactoredTime = time;
-
-    // create a new payment
-    // try {
-    //   const emptyPayment = await axios.post("/payments/empty", {});
-    //   console.log(emptyPayment)
-    // } catch(err) {
-    //   console.log(err)
-    // }
+    const refactoredItem = items.map(item => ({item: item._id, amount: item.amount}));
+    let reservationId;
 
     const payload = {
       items : refactoredItem,
-      // date : `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
       date : date,
-      // time : new Date(1970,0,1,refactoredTime[0], refactoredTime[1], 0),
       time : time,
       totalGuest : totalGuest,
       totalPrice : totalPrice,
-      paymentMethod : paymentMethod,
     }
+    
+    try {
+      // create a new reservation
+      const reservResp = await makeRequest({url : `/reservations?uid=${jwt_decode(jwt_token).id}`, method: "post", body : payload});
+      dispatch({type: "FINISH_RESERVATION"});
+      reservationId = reservResp.data.data._id;
+      openSnackbar("Reservation made successfully");
 
-    console.log(payload)
-    // create reservation
-    // try {
-    //   await axios.post(`/reservations?uid=${jwt_decode(jwt_token).id}`, payload);
-    //   dispatch({type: "FINISH_RESERVATION"});
-    //   openSnackbar("Reservation made successfully");
-    // } catch(err) {
-    //   console.log(err)
-    //   openSnackbar("Reservation failed. Please try again");
-    // }
+      // make empty payment
+      const paymentResp = await makeRequest({url : "/payments/empty", method: "post", body : {reservation : reservationId}})
+
+      // navigate to payment page
+      const encryptedPaymentId = encryptData(paymentResp.data.data._id);
+      navigate(`/payment?method=${paymentMethod}&paymentId=${encryptedPaymentId}`);
+    } catch(err) {
+      openSnackbar("Reservation failed. Please try again");
+    }
   }
-
 
   const handleIncreaseAmount = (e) => {
     dispatch({type: "INCREASE_ITEM_AMOUNT", payload : e.target.id})
@@ -146,8 +135,8 @@ const Reservation = () => {
                 <Typography variant='h4' sx={{mb : 3, color : "white"}}>Reservation date :</Typography>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker 
-                    onChange={(time) =>{
-                      dispatch({type : "CHANGE_DATE", payload : new Date(time.$d).toISOString()})
+                    onChange={(date) =>{
+                      dispatch({type : "CHANGE_DATE", payload : new Date(date.$d).toISOString()})
                     }}
                     value={dayjs(date)}
                     disabled={!(items.length > 0 || totalPrice > 0)}
@@ -161,7 +150,7 @@ const Reservation = () => {
                     onChange={(time) =>{
                       dispatch({type : "CHANGE_TIME", payload : new Date(time.$d).toISOString()})
                     }}
-                    value={dayjs(date)}
+                    value={dayjs(time)}
                     disabled={!(items.length > 0 || totalPrice > 0)}
                   />
                 </LocalizationProvider>
@@ -233,10 +222,7 @@ const Reservation = () => {
           
           <Grid container sx={{justifyContent : "center", alignItems : "center", width : "100%"}}>
             <Box component="div" sx={{width : "100%", height : 200, display : "flex", flexDirection : "column"}}>
-              {/* <Button variant="contained" color="primary" disabled={!checkIfReadyToSubmit()}> */}
-              {/* <Button variant="contained" color="primary" onClick={() => navigate("/payment")}> */}
-              <Button variant="contained" color="primary" onClick={handleSubmit}>
-                {/* <Typography variant="body1" onClick={handleSubmit}>Continue Payment</Typography> */}
+              <Button variant="contained" color="primary" onClick={handleSubmit} disabled= {!checkIfReadyToSubmit()}>
                 <Typography variant="body1">Continue Payment</Typography>
               </Button>
             </Box>

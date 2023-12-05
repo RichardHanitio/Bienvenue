@@ -31,14 +31,26 @@ const listen = async () => {
 mongoose.connection.on("disconnected", () => console.log("MongoDB disconnected"));
 mongoose.connection.on("connected", () => console.log("MongoDB connected"));
 
-let whiteList = ["http://localhost:3000"];
+let whiteList = ["http://localhost:3000", "https://bienvenue.vercel.app"];
+let corsOptions = {
+  origin: function(origin, callback) {
+    if (whiteList.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error("Not allowed by CORS"))
+    }
+  },
+  credentials : true
+}
+
 
 // middlewares
 app.use(helmet());
-app.use(cors({
-  origin : whiteList,
-  credentials : true
-}));
+// app.use(cors({
+//   origin : whiteList,
+//   credentials : true
+// }));
+app.use(cors(corsOptions))
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({extended : true}))

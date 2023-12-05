@@ -1,9 +1,12 @@
 const fs = require("fs");
+const path = require("path");
 const express = require("express");
 const menusRouter = express.Router();
 const {createMenu, getAllMenus, getMenu, editMenu, deleteMenu, restoreDeletedMenu} = require("../controller/menus.controller");
 const {verifyUser, verifyAdmin} = require("../utils/verifyToken");
 const multer = require("multer");
+
+const tempDir = path.join(__dirname, "uploads")
 
 if(!fs.existsSync("./uploads")) {
   fs.mkdirSync("./uploads");

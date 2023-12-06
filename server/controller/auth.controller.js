@@ -46,7 +46,7 @@ const login = asyncWrapper(async(req, res, next) => {
   if(!isPasswordCorrect) {
     return next(createCustomError("Email or password is incorrect", 400));
   }
-
+  
   // if password is correct, store a jwt token
   const token = jwt.sign({
     id : user._id,
@@ -56,6 +56,7 @@ const login = asyncWrapper(async(req, res, next) => {
   const {_id, isAdmin, isDeleted, deletedAt, ...others} = user._doc;
   
   res.cookie("access_token", token);
+
 
   return res.status(200).json({
     msg : "Login successful",

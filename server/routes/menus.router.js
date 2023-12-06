@@ -6,26 +6,26 @@ const {createMenu, getAllMenus, getMenu, editMenu, deleteMenu, restoreDeletedMen
 const {verifyUser, verifyAdmin} = require("../utils/verifyToken");
 const multer = require("multer");
 
-const tempDir = path.join(__dirname, "uploads")
+// const tempDir = path.join(__dirname, "uploads")
 
-if(!fs.existsSync(tempDir)) {
-  fs.mkdirSync(tempDir);
-}
+// if(!fs.existsSync(tempDir)) {
+//   fs.mkdirSync(tempDir);
+// }
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    // cb(null, "./uploads/");
-    cb(null, tempDir)
-  },
-  filename : function (req, file, cb) {
-    cb(null, Date.now()+"-"+file.originalname);
-  }
-});
-const upload = multer({storage : storage});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     // cb(null, "./uploads/");
+//     cb(null, tempDir)
+//   },
+//   filename : function (req, file, cb) {
+//     cb(null, Date.now()+"-"+file.originalname);
+//   }
+// });
+// const upload = multer({storage : storage});
 
 menusRouter.route("/")
 .get(getAllMenus)
-.post(verifyAdmin, upload.single("img"), createMenu)
+// .post(verifyAdmin, upload.single("img"), createMenu)
 
 menusRouter.route("/:id")
 .get(getMenu)

@@ -122,7 +122,7 @@ const theme = createTheme({
               color : "white"
             }
           }
-        }
+        },
       ],
       styleOverrides : {
         root : {

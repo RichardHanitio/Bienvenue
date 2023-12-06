@@ -34,13 +34,13 @@ const History = () => {
 
   useEffect(() => {
     !loading && setAllPayments(data.data)
+    !loading && console.log(allPayments)
   }, [data, loading])
 
   return (
     <>
-      {console.log(data)}
       <Header />
-      <Container fixed sx={{backgroundColor : theme.palette.primary.main, minHeight : "350vh", minWidth : "100vw", display : "flex", flexDirection : "column", alignItems : "center"}}>
+      <Container fixed sx={{backgroundColor : theme.palette.primary.main, minHeight : "100vh", minWidth : "100vw", display : "flex", flexDirection : "column", alignItems : "center"}}>
         <Grid container sx={{width : {lg : "95%", xl : 1600}, gap : 5}}>
           <Box sx={{height : 80, width : "100%", display : "flex", alignItems : "center"}}>
             <Typography sx={{typography : {xxs : "h4", md : "h2"}, color : "white", textAlign : {xxs : "center", md : "flex-start"}}}>Payment History</Typography>
@@ -116,11 +116,11 @@ const History = () => {
 
           {
             !loading && (
-              <Grid xxs={12} sx={{height : 150}}>
+              <Grid xxs={12} sx={{minHeight : 150, width : "100%", mb : 10}}>
                 {
                   !loading && allPayments.map(payment => 
                     (
-                      <Card elevation={20} sx={{display : "flex", width : "100%", height : "100%", alignItems : "center", justifyContent : "center", mb : 3}}>
+                      <Card elevation={20} key={payment._id} sx={{display : "flex", width : "100%", height : 200, alignItems : "center", justifyContent : "center", mb : 3, cursor: "pointer"}} onClick={() => {console.log(payment._id)}}>
                         <CardContent sx={{display : "flex", width : "100%", height : "100%"}}>
                           <Box sx={{flexBasis : "27%", height : "100%", display : "flex", alignItems : "center", justifyContent : "center"}}>
                             <AvatarGroup total={payment.reservation.items.length} sx={{

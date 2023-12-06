@@ -36,7 +36,7 @@ const HomeDesktop = (props) => {
           </Grid>
           <Grid>
 
-            <HomeButton variant="contained" sx={{height : 50, width : 200}}> 
+            <HomeButton variant="contained" sx={{height : 50, width : 200}} onClick={props.handleOrderNowOnClick}> 
               Order Now 
             </HomeButton>
           </Grid>
@@ -54,7 +54,7 @@ const HomeDesktop = (props) => {
           <Grid>
             <Typography variant="h1" sx={{color : "white"}}>We Are More Than Multiple Services</Typography>
           </Grid>
-          <Grid container sx={{width : "90%"}}>
+          <Grid container sx={{width : "100%"}}>
             {
               props.multipleServices.map((service) => (
                 <Grid container xs={6} gap={2} alignItems="center" sx={{mb:2}} key={service.title}>
@@ -65,7 +65,7 @@ const HomeDesktop = (props) => {
             }
           </Grid>
           <Grid>
-            <HomeButton variant="contained" color="primary">About Us </HomeButton>
+            <HomeButton variant="contained" color="primary" onClick={props.handleAboutUsOnClick}>About Us </HomeButton>
           </Grid>
         </Grid>
       </Grid>
@@ -163,7 +163,7 @@ const HomeDesktop = (props) => {
                 <Typography variant="h1" sx={{color : props.theme.palette.primary.main}}>Do You Have Any Dinner Plan Today? <br/> Reserve Your Table</Typography>
               </Grid>
               <Grid>
-                <HomeButton variant="contained" height="100" width="300" color="primary">
+                <HomeButton variant="contained" height="100" width="300" color="primary" onClick={props.handleMakeReservationOnClick}>
                   Make Reservation
                 </HomeButton>
               </Grid>

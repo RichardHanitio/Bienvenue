@@ -9,7 +9,9 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 const register = asyncWrapper(async(req, res, next) => {
-  const {email, name, phoneNum, password} = req.body;
+  const body = JSON.parse(CryptoJS.AES.decrypt(req.body.data, process.env.SECRETKEY).toString(CryptoJS.enc.Utf8));
+
+  const {email, name, phoneNum, password} = body;
   !(email && name && phoneNum && password) && next(createCustomError("Some attributes are missing", 400))
   
   // check if the user already exists

@@ -1,19 +1,18 @@
 import React, {useContext, useState} from 'react'
 import { useNavigate } from 'react-router-dom';
-import {useSnackbar} from "react-simple-snackbar";
-import axios from "axios";
+import { useSnackbar } from "react-simple-snackbar";
 
 import {Container, Typography, Box, TextField, Button} from "@mui/material"
 import Grid from "@mui/material/Unstable_Grid2"
 import {useTheme} from "@mui/material/styles";
+import { makeRequest } from '../../requests';
 
 import {AuthContext} from "../../context/AuthContext";
 import useWindowSize from "../../hooks/useWindowSize";
 
-
 const Register = () => {
   const navigate = useNavigate();
-  const {user, loading, error, dispatch} = useContext(AuthContext);
+  const {dispatch} = useContext(AuthContext);
   const [credentials, setCredentials] = useState({
     email : "",
     name : "",
@@ -67,16 +66,14 @@ const Register = () => {
     const isValidCredentials = checkCredentials(credentials);
     if(isValidCredentials) {
       try {
-        const register = await axios.post("/auth/register", creds);
-        console.log(register)
+        await makeRequest({url: "/auth/register", method: "post", body : creds})
         openSnackbar("Registration successful");
         // auto login after registration
         dispatch({type : "LOGIN_START"})
-        const res = await axios.post("/auth/login", {
+        const res = await makeRequest({url : "/auth/login", method : "post", body : {
           email : credentials.email,
-          password : credentials.password,
-        })
-        console.log("res : ", res)
+          password : credentials.password
+        }})
         dispatch({type : "LOGIN_SUCCESS", payload : res.data})
         navigate("/");
       } catch(e) {
@@ -169,7 +166,7 @@ const Register = () => {
             />
 
             <Button type="submit" variant="contained" fullWidth sx={{mt : 6}} onClick={handleSubmitCredentials}>
-              <Typography sx={{typography : {xxs : "body2", md : "body1"}}}>Login</Typography>  
+              <Typography sx={{typography : {xxs : "body2", md : "body1"}}}>Register</Typography>  
             </Button>
               
           </Box>

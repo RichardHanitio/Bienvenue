@@ -1,6 +1,10 @@
 import React, {useState, useEffect} from 'react'
+import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import Footer from '../../components/footer/Footer';
+import { useLocation } from 'react-router-dom';
+import { useSnackbar } from 'react-simple-snackbar';
+import { getUser } from '../../requests';
 
 import Container from "@mui/material/Container";
 import {useTheme} from "@mui/material/styles";
@@ -19,6 +23,9 @@ const Home = () => {
   const isDesktopDisplay = useWindowSize();
   
   const theme = useTheme();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [openSnackbar, closeSnackbar] = useSnackbar();
 
   const {data, loading, error} = useFetch("/menus");
   
@@ -26,6 +33,28 @@ const Home = () => {
     const message = "Hi, I'd like to ask something";
     const whatsappURL = `https://wa.me/+6285925025265?text=${encodeURIComponent(message)}`;
     window.open(whatsappURL, "_blank");
+  }
+
+  const handleOrderNowOnClick = () => {
+    if(getUser()!==null){
+      navigate("/menu")
+    } else {
+      navigate("/")
+      openSnackbar("You must log in first to begin ordering")
+    }
+  }
+
+  const handleAboutUsOnClick = () => {
+    openSnackbar("'About Us' page is still in progress...")
+  }
+
+  const handleMakeReservationOnClick = () => {
+    if(getUser()!==null){
+      navigate("/reservation")
+    } else {
+      navigate("/")
+      openSnackbar("You must log in first to make reservation")
+    }
   }
 
   const reviews = [
@@ -53,6 +82,11 @@ const Home = () => {
     (!loading && !error) && setDiscountedMenu(data.data.slice(0,4))
   }, [data, loading, error])
 
+  useEffect(() => {
+    if (location.state) {
+      location.state.from === "reservation" && openSnackbar("You have to log in first to make reservations")
+    }
+  }, [])
 
   const multipleServices = [
     {
@@ -84,6 +118,9 @@ const Home = () => {
     theme,
     reviews,
     discountedMenuLoadingError : error,
+    handleOrderNowOnClick,
+    handleAboutUsOnClick,
+    handleMakeReservationOnClick
   }
 
   return (

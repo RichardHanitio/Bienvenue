@@ -49,9 +49,8 @@ const makeRequest = async({url, method="get", body=null, useAuthorization=false}
 };
 
 
-
 const adminMakeRequest = (url) => {
 
 }
 
-export {makeRequest, adminMakeRequest, encryptData, decryptData};
+export {makeRequest, adminMakeRequest, encryptData, decryptData, getUser};

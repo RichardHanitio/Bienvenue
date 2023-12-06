@@ -8,9 +8,6 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Lexend', sans-serif;
     font-size : 18px;
   }
-
-  
-
 `
 
 export default GlobalStyle;

@@ -50,7 +50,7 @@ const MenuDesktop = (props) => {
         {
           (!props.loading && props.filteredData) && (
             props.filteredData.map(data => (
-             <Item data={data} key={data._id}/>
+             <Item data={data} isLoggedIn={props.isLoggedIn} key={data._id}/>
            ))
           )
         }

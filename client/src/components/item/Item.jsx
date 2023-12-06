@@ -6,7 +6,7 @@ import { useSnackbar } from "react-simple-snackbar";
 import {Box, Card, CardMedia, CardContent, Typography, Button} from "@mui/material"
 import Grid from "@mui/material/Unstable_Grid2";
 
-const Item = ({data}) => {
+const Item = ({data, isLoggedIn}) => {
   const { _id, name, desc, rating, price, img } = data;
   const { items, dispatch } = useContext(ReserveContext);
   const [addedItem, setAddedItem] = useState(false);
@@ -16,6 +16,7 @@ const Item = ({data}) => {
     // check if the item is already in the cart
     items.find((item) => item._id === _id) && setAddedItem(true);
   }, [_id, items]);
+
 
   const handleButtonOnClick = (e) => {
     // if it's not in cart, then add the item
@@ -53,7 +54,7 @@ const Item = ({data}) => {
               </Typography>
             </Box>
             <Box>
-              <Button variant="contained" color="secondary" sx={{fontSize : 14, display : addedItem ? "none" : "flex"}} onClick={handleButtonOnClick}>Add to Cart</Button>
+              <Button variant="contained" color="secondary" disabled={!isLoggedIn} sx={{fontSize : 14, display : addedItem ? "none" : "flex"}} onClick={handleButtonOnClick}>Add to Cart</Button>
               <Button variant="contained" color="warning" sx={{fontSize : 14, display : addedItem ? "flex" : "none"}} onClick={handleButtonOnClick}>Remove from Cart</Button>
             </Box>
           </Box>

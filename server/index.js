@@ -32,17 +32,6 @@ mongoose.connection.on("disconnected", () => console.log("MongoDB disconnected")
 mongoose.connection.on("connected", () => console.log("MongoDB connected"));
 
 let whiteList = ["http://localhost:3000", "https://bienvenue-theta.vercel.app"];
-// let corsOptions = {
-//   origin: function(origin, callback) {
-//     if (whiteList.indexOf(origin) !== -1) {
-//       callback(null, true)
-//     } else {
-//       callback(new Error("Not allowed by CORS"))
-//     }
-//   },
-//   credentials : true
-// }
-
 
 // middlewares
 app.use(helmet());

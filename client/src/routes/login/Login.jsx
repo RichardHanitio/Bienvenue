@@ -15,7 +15,7 @@ import {makeRequest} from "../../requests";
 
 const Login = () => {
   const navigate = useNavigate();
-  const {user, loading, error, dispatch} = useContext(AuthContext);
+  const {dispatch} = useContext(AuthContext);
   const [credentials, setCredentials] = useState({
     email : "",
     password : "",

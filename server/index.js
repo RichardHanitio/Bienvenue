@@ -31,7 +31,7 @@ const listen = async () => {
 mongoose.connection.on("disconnected", () => console.log("MongoDB disconnected"));
 mongoose.connection.on("connected", () => console.log("MongoDB connected"));
 
-let whiteList = ["http://localhost:3000", "http://bienvenue.vercel.app"];
+let whiteList = ["http://localhost:3000", "http://bienvenue-theta.vercel.app"];
 // let corsOptions = {
 //   origin: function(origin, callback) {
 //     if (whiteList.indexOf(origin) !== -1) {

@@ -57,11 +57,17 @@ app.use(express.urlencoded({extended : true}))
 
 
 // routes
-app.use("/api/auth", authRouter);
-app.use("/api/users", usersRouter);
-app.use("/api/menus", menusRouter);
-app.use("/api/reservations", reservationsRouter);
-app.use("/api/payments", paymentsRouter)
+// app.use("/api/auth", authRouter);
+// app.use("/api/users", usersRouter);
+// app.use("/api/menus", menusRouter);
+// app.use("/api/reservations", reservationsRouter);
+// app.use("/api/payments", paymentsRouter)
+
+app.use("/auth", authRouter);
+app.use("/users", usersRouter);
+app.use("/menus", menusRouter);
+app.use("/reservations", reservationsRouter);
+app.use("/payments", paymentsRouter)
 
 app.get("/send-email", async(req, res) => {
   const data = {

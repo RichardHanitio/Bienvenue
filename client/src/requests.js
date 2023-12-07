@@ -29,6 +29,7 @@ const getUser = () => {
   return (localStorage && localStorage.user) ? localStorage.user : null;
 }
 
+
 const makeRequest = async({url, method="get", body=null, useAuthorization=false}) => {
   const headers = useAuthorization ? {
     Authorization : "Bearer " + getUser()

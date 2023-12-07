@@ -34,7 +34,6 @@ const History = () => {
 
   useEffect(() => {
     !loading && setAllPayments(data.data)
-    !loading && console.log(allPayments)
   }, [data, loading])
 
   return (

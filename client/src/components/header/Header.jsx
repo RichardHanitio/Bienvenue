@@ -34,10 +34,9 @@ const Header = () => {
   };
 
   const handleLogout = async () => {
-    console.log("logout called")
     handleCloseUserMenu();
-    const resp = await makeRequest({url:"/auth/logout"});
-    console.log(resp)
+    await makeRequest({url:"/auth/logout"});
+    navigate("/")
     dispatch({ type: "LOGOUT" });
   };
 

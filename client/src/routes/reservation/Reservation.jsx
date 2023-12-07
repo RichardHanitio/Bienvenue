@@ -7,7 +7,7 @@ import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer';
 import { ReserveContext } from '../../context/ReserveContext';
 import { useSnackbar } from 'react-simple-snackbar';
-import { makeRequest, encryptData, getUser } from '../../requests';
+import { makeRequest, encryptData } from '../../requests';
 
 import {Container, Typography, Paper, Box, Divider, Button, TextField} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -25,12 +25,6 @@ const Reservation = () => {
 
   const theme = useTheme();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if(getUser()===null) {
-      navigate("/", {state : {from : "reservation"}})
-    }
-  }, [])
 
   // send this to backend
   const handleSubmit = async() => {

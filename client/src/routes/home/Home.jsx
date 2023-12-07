@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import Footer from '../../components/footer/Footer';
 import { useLocation } from 'react-router-dom';
 import { useSnackbar } from 'react-simple-snackbar';
-import { getUser } from '../../requests';
+import { AuthContext } from '../../context/AuthContext';
 
 import Container from "@mui/material/Container";
 import {useTheme} from "@mui/material/styles";
@@ -21,6 +21,7 @@ import HomeDesktop from './Home.desktop';
 const Home = () => {
   const [discountedMenu, setDiscountedMenu] = useState([]);
   const isDesktopDisplay = useWindowSize();
+  const {user} = useContext(AuthContext)
   
   const theme = useTheme();
   const location = useLocation();
@@ -36,7 +37,7 @@ const Home = () => {
   }
 
   const handleOrderNowOnClick = () => {
-    if(getUser()!==null){
+    if(user){
       navigate("/menu")
     } else {
       navigate("/")
@@ -49,7 +50,7 @@ const Home = () => {
   }
 
   const handleMakeReservationOnClick = () => {
-    if(getUser()!==null){
+    if(user){
       navigate("/reservation")
     } else {
       navigate("/")
@@ -79,7 +80,7 @@ const Home = () => {
   ]
 
   useEffect(() => {
-    (!loading && !error) && setDiscountedMenu(data.data.slice(0,4))
+    (!loading && !error) && setDiscountedMenu(data.data.filter(menu => menu.discount > 0))
   }, [data, loading, error])
 
   useEffect(() => {
@@ -117,6 +118,7 @@ const Home = () => {
     discountedMenu,
     theme,
     reviews,
+    user,
     discountedMenuLoadingError : error,
     handleOrderNowOnClick,
     handleAboutUsOnClick,

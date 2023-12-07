@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import {useSnackbar} from "react-simple-snackbar";
 import axios from "axios";
@@ -7,6 +7,8 @@ import {Container, Typography, Box, TextField, IconButton, Link, Button, Dialog,
 import Grid from "@mui/material/Unstable_Grid2"
 import {useTheme} from "@mui/material/styles";
 import {Visibility, VisibilityOff} from "@mui/icons-material"
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+
 
 import {AuthContext} from "../../context/AuthContext";
 import useWindowSize from "../../hooks/useWindowSize";
@@ -28,6 +30,8 @@ const Login = () => {
   const isDesktopDisplay = useWindowSize();
 
   const handleClickShowPassword = () => setShowPassword(show => !show)
+
+
 
   const handleCredentialChange = (e) => {
     setCredentials({
@@ -96,6 +100,9 @@ const Login = () => {
 
   return (
     <Container fixed sx={{height : "100vh", minWidth : "100vw", display : "flex", flexDirection : "column", alignItems : "center"}}>
+      <Box sx={{backgroundColor : "rgba(255,255,255,.5)", borderRadius : "50%", width : 50, height : 50, position : "absolute", left : 50, top : 30, cursor : "pointer", "&:hover" : {backgroundColor : "rgba(255,255,255,.7)"}}} onClick={() => navigate(-1)}>
+        <ChevronLeftIcon sx={{fontSize : 50, color : "black"}}/>
+      </Box>
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <DialogTitle>
           <Typography variant="h3" sx={{color : theme.palette.primary.main}}>Reset Password</Typography>

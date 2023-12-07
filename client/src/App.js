@@ -12,6 +12,7 @@ import Reservation from './routes/reservation/Reservation';
 import History from "./routes/history/History";
 import NewPassword from "./routes/newPassword/NewPassword";
 import Payment from "./routes/payment/Payment";
+import ProtectedRoute from './components/protectedRoute/ProtectedRoute';
 import AdminDashboard from './routes/adminDashboard/AdminDashboard';
 import AdminPendingReservation from './routes/adminPendingReservation/AdminPendingReservation';
 import AdminReservationPlaced from './routes/adminReservationPlaced/AdminReservationPlaced';
@@ -206,9 +207,17 @@ const router = createBrowserRouter([
   { path : "/", element: <Home />},
   { path : "/register", element: <Register />},
   { path : "/menu", element: <Menu />},
-  { path : "/history", element: <History />},
+  { path : "/history", element: (
+    <ProtectedRoute redirectPath="/register" msg="You must register/log in to see reservation history">
+      <History />
+    </ProtectedRoute>
+  )},
   { path : "/login", element: <Login />},
-  { path : "/reservation", element: <Reservation />},
+  { path : "/reservation", element: (
+    <ProtectedRoute redirectPath="/register" msg="You must register/log in to make reservation">
+      <Reservation />
+    </ProtectedRoute>
+  )},
   { path : "/new-password", element : <NewPassword />},
   { path : "/payment", element : <Payment />},
   { path : "/admin/dashboard", element: <AdminDashboard />},

@@ -7,11 +7,11 @@ import { Watch } from 'react-loader-spinner';
 
 const MenuDesktop = (props) => {
   return (
-    <Grid container sx={{width : {lg : "95%", xl : 1600}}}>
+    <Grid container sx={{width : {lg : "95%", xl : 1600}, justifyContent : "center"}}>
       <Grid container sx={{justifyContent : "center", alignItems : "center", width : "100%", height : 80}}>
         <Typography variant="h2" sx={{color : "white", textAlign : "center"}}>Menu Pack</Typography>
       </Grid>
-      <Grid container sx={{height : 100, width : "100%", justifyContent : "space-around", mb : 2}}>
+      <Grid container sx={{height : 100, width : "90%", justifyContent : "space-around", mb : 2}}>
         {
           props.categories.map(category => (
             <Grid xxs={4} sm={2}>
@@ -24,7 +24,7 @@ const MenuDesktop = (props) => {
           ))
         }
       </Grid>
-      <Grid container sx={{minHeight : "100%", width : "100%", justifyContent : "space-around", alignItems : "space-around", mb : 10}}>
+      <Grid container sx={{minHeight : "100%", width : "80%", justifyContent : "space-around", alignItems : "space-around", display : "flex", mb : 10}}>
         {
           (props.loading && !props.menuLoadingError) && (
             <Box sx={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center"}}>
@@ -50,7 +50,9 @@ const MenuDesktop = (props) => {
         {
           (!props.loading && props.filteredData) && (
             props.filteredData.map(data => (
-             <Item data={data} isLoggedIn={props.isLoggedIn} key={data._id}/>
+              <Grid md={4} sx={{display : "flex", alignItems : "center", justifyContent : "center"}}>
+                <Item data={data} isLoggedIn={props.isLoggedIn} key={data._id}/>
+              </Grid>
            ))
           )
         }

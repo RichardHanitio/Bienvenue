@@ -1,6 +1,8 @@
 import React from 'react'
 import { Watch } from 'react-loader-spinner';
 import Slider from "react-slick";
+import Item from "../../components/item/Item";
+
 
 import { Typography, Button, Box, Card, CardMedia, CardContent, CardHeader, Paper, Avatar } from '@mui/material';
 import Grid from "@mui/material/Unstable_Grid2"
@@ -9,8 +11,6 @@ import "slick-carousel/slick/slick.css";
 import {styled} from "@mui/system";
 
 import "slick-carousel/slick/slick-theme.css";
-
-import RatingStars from '../../components/ratingstars/RatingStars';
 
 // styles
 const HomeButton = styled(Button)(({height=50, width=200, theme}) => ({
@@ -109,46 +109,17 @@ const HomeDesktop = (props) => {
                 autoplay= {true}
                 autoplaySpeed= {5000}
                 pauseOnHover= {true}
-              >
+              > 
               {
                 props.discountedMenu.map((menu) => (
-                  <Box component="div" key={menu.name}>
-                    <Card raised sx={{position : "relative", left : 15, width : {xxs : "100%", sm : "90%"}, height : 550}}>
-                      <CardMedia
-                        sx={{ height: 250 }}
-                        image={menu.img}
-                      />
-                      <CardContent sx={{display : "flex", height : 300, flexDirection : "column", justifyContent : "space-between"}}>
-                        <Typography variant="h3" component="div" textAlign="center">
-                          {menu.name}
-                        </Typography>
-                        <Box sx={{display : "flex", justifyContent : "center"}}>
-                          <RatingStars amount={menu.rating} />
-                        </Box>
-                        <Typography variant="body2" component="div" sx={{mb : 3}} textAlign="center">
-                          {menu.desc.length > 60 ? menu.desc.slice(0, 60)+"..." : menu.desc}
-                        </Typography>
-                        <Box component="div" sx={{display : "flex", justifyContent : "space-between"}}>
-                          <Box component="div">
-                            <Typography variant="body1" sx={{color : props.theme.palette.error.light, fontWeight: 600}}>
-                              IDR {menu.price}k/gr
-                            </Typography>
-                            <Typography variant="body2" sx={{textDecoration: "line-through"}}>
-                              IDR {menu.price}k/gr
-                            </Typography>
-                          </Box>
-                          <Button variant="contained" color="secondary" sx={{fontSize : 14, margin : "10px"}}>Add to Cart</Button>
-                        </Box>
-                      </CardContent>
-                    </Card>
-                  </Box>
+                  <Item data={menu} isLoggedIn={props.user!==null} key={menu._id}/>
                 ))
               }   
               </Slider>
             )
           }
           {
-            (!props.loading && !props.discountedMenu) && (
+            (!props.loading && props.discountedMenu.length === 0) && (
               <Typography variant="body1" color="white" sx={{mt: 3}}>Sorry, no offers today :) </Typography>
             )
           }

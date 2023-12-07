@@ -1,17 +1,19 @@
-import React, {useContext, useState} from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, {useContext, useState, useEffect} from 'react'
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSnackbar } from "react-simple-snackbar";
 
-import {Container, Typography, Box, TextField, Button} from "@mui/material"
+import {Container, Typography, Box, TextField, Button, Link} from "@mui/material"
 import Grid from "@mui/material/Unstable_Grid2"
 import {useTheme} from "@mui/material/styles";
 import { makeRequest } from '../../requests';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 import {AuthContext} from "../../context/AuthContext";
 import useWindowSize from "../../hooks/useWindowSize";
 
 const Register = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const {dispatch} = useContext(AuthContext);
   const [credentials, setCredentials] = useState({
     email : "",
@@ -24,7 +26,12 @@ const Register = () => {
   const theme = useTheme();
   const isDesktopDisplay = useWindowSize();
 
-
+  useEffect(() => {
+    if (location.state && location.state.msg) {
+      openSnackbar(location.state.msg, 2000)
+    }
+  }, [])
+  
   const handleCredentialChange = (e) => {
     setCredentials({
       ...credentials,
@@ -84,6 +91,9 @@ const Register = () => {
 
   return (
     <Container fixed sx={{height : "100vh", minWidth : "100vw", display : "flex", flexDirection : "column", alignItems : "center"}}>
+      <Box sx={{backgroundColor : "rgba(255,255,255,.5)", borderRadius : "50%", width : 50, height : 50, position : "absolute", left : 50, top : 30, cursor : "pointer", "&:hover" : {backgroundColor : "rgba(255,255,255,.7)"}}} onClick={() => navigate(-1)}>
+        <ChevronLeftIcon sx={{fontSize : 50, color : "black"}}/>
+      </Box>
       <Grid container sx={{width : "100vw", height : "100vh"}}>
         <Grid container md={5} sx={{backgroundColor : theme.palette.primary.main, display : isDesktopDisplay ? "flex" : "none"}} alignItems="center" justifyContent="center">
           <Grid container sx={{minWidth : "90%", minHeight : "50%"}} direction="column" alignItems="center" justifyContent="center" gap={4}>
@@ -165,9 +175,16 @@ const Register = () => {
               onChange={handleCredentialChange}
             />
 
-            <Button type="submit" variant="contained" fullWidth sx={{mt : 6}} onClick={handleSubmitCredentials}>
+            <Button type="submit" variant="contained" fullWidth sx={{mt : 5}} onClick={handleSubmitCredentials}>
               <Typography sx={{typography : {xxs : "body2", md : "body1"}}}>Register</Typography>  
             </Button>
+            <Box sx={{mt : 2}}>
+              <Typography sx={{typography : {xxs : "body3", md : "body1", color : "white"}}}>
+                Already have an account? 
+                <Link href="/login" sx={{color : "white", ml : 1, textDecoration : "underline"}}>Login</Link>
+              </Typography> 
+            </Box>
+            
               
           </Box>
         </Grid>

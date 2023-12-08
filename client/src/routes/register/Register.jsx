@@ -179,7 +179,7 @@ const Register = () => {
               <Typography sx={{typography : {xxs : "body2", md : "body1"}}}>Register</Typography>  
             </Button>
             <Box sx={{mt : 2}}>
-              <Typography sx={{typography : {xxs : "body3", md : "body1", color : "white"}}}>
+              <Typography sx={{typography : {xxs : "body3", md : "body2", color : "white"}}}>
                 Already have an account? 
                 <Link href="/login" sx={{color : "white", ml : 1, textDecoration : "underline"}}>Login</Link>
               </Typography> 

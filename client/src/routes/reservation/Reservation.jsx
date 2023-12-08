@@ -94,10 +94,10 @@ const Reservation = () => {
                   <Box sx={{width : "90%", display : "flex", justifyContent : "center", alignItems : "center", flexDirection : "column", my : 5, gap : 3}}>
                     {
                       items.map((item, index) => (
-                        <Grid container key={item._id} sx={{width : "100%", gap : 5}}>
+                        <Grid container key={item._id} sx={{width : "100%", gap : 5, backgroundColor : "pink"}}>
                           <img src={item.img} alt={item.name} style={{width : "200px", height : "150px", borderRadius : "10px", objectFit : "cover"}}/>  
-                          <Box component="div" sx={{color : "white", display : "flex", flexDirection : "column", justifyContent : "space-around", flex : 1}}>
-                            <Typography variant="h4">{item.name}</Typography>
+                          <Box component="div" sx={{color : "white", display : "flex", flexDirection : "column", justifyContent : "space-around", flex : 1, height : "90%", backgroundColor : "yellow"}}>
+                            <Typography variant="h3">{item.name}</Typography>
                             <Typography variant="body2">IDR {item.price}k</Typography>
                           </Box>
                           <Box component="div" sx={{display : "flex", alignItems : "center", gap : 3}}>

@@ -63,9 +63,9 @@ const login = asyncWrapper(async(req, res, next) => {
   // for deployment
   return res.status(200).cookie("access_token", token, {
     secure: true, 
-    httpOnly: true,
-    domain : ".vercel.app",
+    httpOnly : true,
     sameSite : 'none',
+    domain : "."
   }).json({
     msg : "Login successful",
     data : others

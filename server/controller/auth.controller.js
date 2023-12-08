@@ -61,18 +61,14 @@ const login = asyncWrapper(async(req, res, next) => {
   // res.cookie("access_token", token);
 
   // for deployment
-  res.cookie("access_token", token, {
+  return res.status(200).cookie("access_token", token, {
     secure: true, 
-    // httpOnly: true,
-    // domain : ".bienvenue-api.vercel.app",
-    // maxAge : 1000 * 60 * 60 * 48,
+    httpOnly: true,
     sameSite : 'none',
-  });
-
-  return res.status(200).json({
+  }).json({
     msg : "Login successful",
     data : others
-  })
+  });
 
 })
 

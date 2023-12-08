@@ -65,7 +65,8 @@ const login = asyncWrapper(async(req, res, next) => {
     secure: true, 
     httpOnly: true,
     domain : ".vercel.app",
-    maxAge : 900000
+    maxAge : 1000 * 60 * 60 * 48,
+    sameSite : 'none',
   });
 
   return res.status(200).json({

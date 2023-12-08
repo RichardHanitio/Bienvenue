@@ -64,7 +64,7 @@ const login = asyncWrapper(async(req, res, next) => {
   res.cookie("access_token", token, {
     secure: true, 
     httpOnly: true,
-    domain : ".vercel.app",
+    domain : ".bienvenue-api.vercel.app",
     maxAge : 1000 * 60 * 60 * 48,
     sameSite : 'none',
   });

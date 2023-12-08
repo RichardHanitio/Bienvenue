@@ -39,7 +39,7 @@ app.use(cors({
   origin : whiteList,
   credentials : true
 }));
-app.enable('trust proxy')
+app.set('trust proxy', 1)
 // app.use(cors(corsOptions))
 app.use(express.json());
 app.use(cookieParser());

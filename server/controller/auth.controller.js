@@ -63,8 +63,8 @@ const login = asyncWrapper(async(req, res, next) => {
   // for deployment
   res.cookie("access_token", token, {
     secure: true, 
-    httpOnly : true,
-    domain : "bienvenue-api.vercel.app",
+    httpOnly: true,
+    domain : ".vercel.app",
   });
 
   return res.status(200).json({

@@ -17,45 +17,46 @@ const ReserveReducer = (state, action) => {
   // helper function
   const findAndChangeItemAmount = (id, operation) => {
     const itemIndex = state.items.findIndex(item => item._id === id);
-      if(itemIndex >= 0){
-        let updatedAmount = state.items[itemIndex].amount;
-        let updatedTotalPrice = state.totalPrice;
+    if(itemIndex >= 0){
+      let updatedAmount = state.items[itemIndex].amount;
+      let discountedPrice = state.items[itemIndex].price - (state.items[itemIndex].price * (state.items[itemIndex].discount/100))
+      let updatedTotalPrice = discountedPrice;
 
-        // if increment
-        if(operation === "i") {
-          // add the amount
-          updatedAmount = state.items[itemIndex].amount + 1;
-          // add the total price
-          updatedTotalPrice = state.totalPrice + state.items[itemIndex].price
-        } 
-        // if decrement
-        else {
-          // if the item is still >1, then it can still be decremented
-          if(state.items[itemIndex].amount > 1){
-            updatedAmount = state.items[itemIndex].amount - 1;
-            updatedTotalPrice = state.totalPrice - state.items[itemIndex].price;
-          }
+      // if increment
+      if(operation === "i") {
+        // add the amount
+        updatedAmount = state.items[itemIndex].amount + 1;
+        // add the total price
+        updatedTotalPrice = state.totalPrice + discountedPrice
+      } 
+      // if decrement
+      else {
+        // if the item is still >1, then it can still be decremented
+        if(state.items[itemIndex].amount > 1){
+          updatedAmount = state.items[itemIndex].amount - 1;
+          updatedTotalPrice = state.totalPrice - discountedPrice;
         }
-
-        const updatedItem = {
-          ...state.items[itemIndex],
-          amount : updatedAmount,
-        };
-        const updatedItems = [...state.items];
-        updatedItems[itemIndex] = updatedItem;
-        return {
-          ...state,
-          items : updatedItems,
-          totalPrice : updatedTotalPrice,
-        };
       }
-      return state;
+
+      const updatedItem = {
+        ...state.items[itemIndex],
+        amount : updatedAmount,
+      };
+      const updatedItems = [...state.items];
+      updatedItems[itemIndex] = updatedItem;
+      return {
+        ...state,
+        items : updatedItems,
+        totalPrice : updatedTotalPrice,
+      };
+    }
+    return state;
   }
 
   // conditions
   switch(action.type) {
     case "ADD_ITEM" : 
-      return {...state, items : [...state.items, {...action.payload, amount: 1}], totalPrice : state.totalPrice+action.payload.price};
+      return {...state, items : [...state.items, {...action.payload, amount: 1}], totalPrice : state.totalPrice + (action.payload.price - (action.payload.price * (action.payload.discount/100)))};
     case "REMOVE_ITEM" :
       const removedItemIndex = state.items.findIndex(item => item._id === action.payload._id);
       const removedItem = state.items[removedItemIndex];

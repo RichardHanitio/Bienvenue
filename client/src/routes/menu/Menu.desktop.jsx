@@ -14,7 +14,7 @@ const MenuDesktop = (props) => {
       <Grid container sx={{height : 100, width : "90%", justifyContent : "space-around", mb : 2}}>
         {
           props.categories.map(category => (
-            <Grid xxs={4} sm={2}>
+            <Grid xxs={4} sm={2} key={category}>
               <Box sx={{width : "100%", height : "100%", display : "flex", alignItems : "center", justifyContent : "center"}}>
                 <Button variant="contained" color={props.active===category ? "primary" : "secondary"} onClick={() => props.setActive(category)} sx={{width : "80%", height : "40%"}}>
                   <Typography variant="body2">{category}</Typography> 
@@ -50,7 +50,7 @@ const MenuDesktop = (props) => {
         {
           (!props.loading && props.filteredData) && (
             props.filteredData.map(data => (
-              <Grid md={4} sx={{display : "flex", alignItems : "center", justifyContent : "center"}}>
+              <Grid md={4} sx={{display : "flex", alignItems : "center", justifyContent : "center"}} key={data._id}>
                 <Item data={data} isLoggedIn={props.isLoggedIn} key={data._id}/>
               </Grid>
            ))

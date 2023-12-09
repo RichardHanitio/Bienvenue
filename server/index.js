@@ -39,7 +39,7 @@ app.use(cors({
   origin : whiteList,
   credentials : true,
   // allowedHeaders: ["Content-Type", "Authorization"],
-  allowedHeaders : '*'
+  // allowedHeaders : '*'
 }));
 app.use(express.json());
 app.use(express.urlencoded({extended : true}))

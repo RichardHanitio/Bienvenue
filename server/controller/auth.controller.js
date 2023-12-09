@@ -65,7 +65,7 @@ const login = asyncWrapper(async(req, res, next) => {
     secure: true, 
     httpOnly : true,
     sameSite : 'none',
-    domain : "."
+    maxAge : 90 * 24 * 60 * 60 * 1000
   }).json({
     msg : "Login successful",
     data : others

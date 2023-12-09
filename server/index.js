@@ -35,15 +35,14 @@ let whiteList = ["http://localhost:3000", "https://bienvenue-theta.vercel.app"];
 
 // middlewares
 app.use(helmet());
-app.use(cookieParser());
 app.use(cors({
   origin : whiteList,
-  credentials : true
+  credentials : true,
+  allowedHeaders: ["Content-Type", "Authorization"],
 }));
-app.set('trust proxy', 1)
-// app.use(cors(corsOptions))
 app.use(express.json());
 app.use(express.urlencoded({extended : true}))
+app.use(cookieParser());
 
 
 // routes

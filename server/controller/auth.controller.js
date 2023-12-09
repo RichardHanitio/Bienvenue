@@ -71,7 +71,7 @@ const login = asyncWrapper(async(req, res, next) => {
   return res.status(200).cookie("access_token", token, {
     secure: true, 
     sameSite : 'none',
-    httpOnly : true,
+    // httpOnly : true,
     maxAge : 90 * 24 * 60 * 60 * 1000
   }).json({
     msg : "Login successful",

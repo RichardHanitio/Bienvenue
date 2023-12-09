@@ -29,7 +29,7 @@ const register = asyncWrapper(async(req, res, next) => {
 
 const login = asyncWrapper(async(req, res, next) => {
   // check if access cookie is set
-  req.cookies.access_token && next(createCustomError("User is logged in", 400));
+  // req.cookies.access_token && next(createCustomError("User is logged in", 400));
 
   // decrypt encrypted body
   const body = JSON.parse(CryptoJS.AES.decrypt(req.body.data, process.env.SECRETKEY).toString(CryptoJS.enc.Utf8));

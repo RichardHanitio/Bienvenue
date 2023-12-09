@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
+import Error from '../error/Error';
 import { Container, Typography, Box, TextField, FormControl, Select, MenuItem, InputBase, Card, CardContent, AvatarGroup, Avatar} from '@mui/material';
 import Grid from "@mui/material/Unstable_Grid2";
 import {useTheme} from "@mui/material/styles";
@@ -17,8 +18,12 @@ const History = () => {
   const theme = useTheme();
   const [allPayments, setAllPayments] = useState([]);
   const jwt_token = Cookies.get("access_token");
+  if (!jwt_token) {
+
+  }
   const {loading, data, error} = useFetch(`/payments?uid=${jwt_decode(jwt_token).id}`);
 
+  
   const CustomInput = styled(InputBase)(({theme}) => ({
     "& .MuiInputBase-input" : {
       color : "white",
@@ -27,15 +32,15 @@ const History = () => {
       padding: '5px 10px',
     },
   }))
-
+  
   const CustomMenuItem = styled(MenuItem)(({theme}) => ({
     fontSize : 14
   }))
-
+  
   useEffect(() => {
     !loading && setAllPayments(data.data)
   }, [data, loading])
-
+  
   return (
     <>
       <Header />

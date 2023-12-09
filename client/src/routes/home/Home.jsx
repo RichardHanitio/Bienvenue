@@ -37,12 +37,7 @@ const Home = () => {
   }
 
   const handleOrderNowOnClick = () => {
-    if(user){
-      navigate("/menu")
-    } else {
-      navigate("/")
-      openSnackbar("You must log in first to begin ordering")
-    }
+    navigate("/menu")
   }
 
   const handleAboutUsOnClick = () => {
@@ -53,8 +48,7 @@ const Home = () => {
     if(user){
       navigate("/reservation")
     } else {
-      navigate("/")
-      openSnackbar("You must log in first to make reservation")
+      navigate("/reservation", {state : {msg : "You must register/log in to make reservation"}})
     }
   }
 

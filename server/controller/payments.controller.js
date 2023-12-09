@@ -58,7 +58,7 @@ const getAllPayments = asyncWrapper(async(req, res, next) => {
         path : "items.item",
         model : "Menu"
       }
-    })
+  })
     .exec();
 
   if(req.query.uid) {

@@ -35,7 +35,6 @@ const HomeDesktop = (props) => {
             </Typography>
           </Grid>
           <Grid>
-
             <HomeButton variant="contained" sx={{height : 50, width : 200}} onClick={props.handleOrderNowOnClick}> 
               Order Now 
             </HomeButton>
@@ -76,7 +75,7 @@ const HomeDesktop = (props) => {
         </Grid>
         <Grid container direction="column" alignItems="center" sx={{width : {xss : "100%", sm : "70%"}}}>
           {
-            (props.loading && !props.discountedMenuLoadingError) && (
+            (props.loading && !props.discountedMenuLoadingError) ? (
             <>
               <Watch
                 height="50"
@@ -90,15 +89,9 @@ const HomeDesktop = (props) => {
               />
               <Typography variant="body2" color="white" sx={{mt: 3}}>Loading today's offers...</Typography>
             </>
-            )
-          }
-          {
-            (!props.loading && props.discountedMenuLoadingError) && (
+            ) : (!props.loading && props.discountedMenuLoadingError) ? (
               <Typography variant="body2" color="white" sx={{mt: 3}}>Something went wrong, please reload the page...</Typography>
-            )
-          }
-          {
-            (props.discountedMenu && !props.loading) && (
+            ) : (props.discountedMenu.length > 0 && !props.loading) ? (
               <Slider 
                 infinite={true} 
                 style={{maxWidth : "100%"}}
@@ -116,10 +109,7 @@ const HomeDesktop = (props) => {
                 ))
               }   
               </Slider>
-            )
-          }
-          {
-            (!props.loading && props.discountedMenu.length === 0) && (
+            ) : (!props.loading && props.discountedMenu.length === 0) && (
               <Typography variant="body1" color="white" sx={{mt: 3}}>Sorry, no offers today :) </Typography>
             )
           }

@@ -12,6 +12,7 @@ import Reservation from './routes/reservation/Reservation';
 import History from "./routes/history/History";
 import NewPassword from "./routes/newPassword/NewPassword";
 import Payment from "./routes/payment/Payment";
+import Error from './routes/error/Error';
 import ProtectedRoute from './components/protectedRoute/ProtectedRoute';
 import AdminDashboard from './routes/adminDashboard/AdminDashboard';
 import AdminPendingReservation from './routes/adminPendingReservation/AdminPendingReservation';
@@ -228,6 +229,7 @@ const router = createBrowserRouter([
   { path : "/admin/update-menu/edit", element: <AdminUpdateEditMenu />},
   { path : "/admin/user-accounts", element: <AdminUserAccounts />},
   { path : "/admin/user-accounts/edit", element: <AdminEditUserAccounts />},
+  { path : "*", element : <Error />}
 ])
 
 const App = () => {

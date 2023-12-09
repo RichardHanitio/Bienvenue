@@ -39,8 +39,6 @@ const Reservation = () => {
       totalGuest : totalGuest,
       totalPrice : totalPrice,
     }
-
-    console.log(totalPrice)
     
     try {
       // create a new reservation

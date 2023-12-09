@@ -13,7 +13,7 @@ const ErrorButton = styled(Button)(({theme}) => ({
   fontWeight : theme.typography.h4.fontWeight,   
   padding : "10px 30px",
   height : 50,
-  width : 250
+  width : 220
 }))
 
 const Error = ({status, msg}) => {

@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react'
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
 import Error from '../error/Error';
-import { Container, Typography, Box, TextField, FormControl, Select, MenuItem, InputBase, Card, CardContent, AvatarGroup, Avatar} from '@mui/material';
+import { Container, Typography, Box, TextField, FormControl, Select, MenuItem, InputBase, Card, CardContent, AvatarGroup, Avatar, Link} from '@mui/material';
 import Grid from "@mui/material/Unstable_Grid2";
 import {useTheme} from "@mui/material/styles";
 import {styled} from "@mui/material/styles";
@@ -18,12 +18,24 @@ const History = () => {
   const theme = useTheme();
   const [allPayments, setAllPayments] = useState([]);
   const jwt_token = Cookies.get("access_token");
-  if (!jwt_token) {
+  let decodedToken = null;
+  let tokenError = null;
+  let url = '';
 
+  try {
+    decodedToken = jwt_decode(jwt_token);
+  } catch (err) {
+    tokenError = err
   }
-  const {loading, data, error} = useFetch(`/payments?uid=${jwt_decode(jwt_token).id}`);
 
-  
+  if (!tokenError && decodedToken) {
+    // if token is valid, then fetch the payments
+    url = `/payments?uid=${decodedToken.id}`
+    // otherwise, fetch nothing
+  }
+
+  const {loading, data, error} = useFetch(url);
+
   const CustomInput = styled(InputBase)(({theme}) => ({
     "& .MuiInputBase-input" : {
       color : "white",
@@ -40,7 +52,14 @@ const History = () => {
   useEffect(() => {
     !loading && setAllPayments(data.data)
   }, [data, loading])
-  
+
+
+  if (tokenError) {
+    const errorMsg = "Something is wrong.. Please try re-log in to resolve the error. If the error is not resolved, please contact us"
+    return <Error status={400} msg={errorMsg}/>
+  }
+
+
   return (
     <>
       <Header />

@@ -58,24 +58,24 @@ const login = asyncWrapper(async(req, res, next) => {
   const {_id, isAdmin, isDeleted, deletedAt, ...others} = user._doc;
   
   // for development
-  res.status(200).cookie("access_token", token, {
-    secure : true,
-    sameSite : 'none',
-  }).json({
-    msg : "Login successful",
-    data : others
-  });
-
-
-  // for deployment
-  // return res.status(200).cookie("access_token", token, {
-  //   secure: true, 
+  // res.status(200).cookie("access_token", token, {
+  //   secure : true,
   //   sameSite : 'none',
-  //   maxAge : 90 * 24 * 60 * 60 * 1000
   // }).json({
   //   msg : "Login successful",
   //   data : others
   // });
+
+
+  // for deployment
+  return res.status(200).cookie("access_token", token, {
+    secure: true, 
+    sameSite : 'none',
+    maxAge : 90 * 24 * 60 * 60 * 1000
+  }).json({
+    msg : "Login successful",
+    data : others
+  });
 
 })
 

@@ -11,7 +11,6 @@ const useFetch = (url) => {
   useEffect(() => {
     const fetchData = async() => {
       try {
-        console.log("data")
         const res = await axios.get(url);        
         setData(res.data);
       } catch(err) {

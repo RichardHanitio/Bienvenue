@@ -9,7 +9,6 @@ import {useTheme} from "@mui/material/styles";
 import {Visibility, VisibilityOff} from "@mui/icons-material"
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
-
 import {AuthContext} from "../../context/AuthContext";
 import useWindowSize from "../../hooks/useWindowSize";
 
@@ -30,7 +29,6 @@ const Login = () => {
   const isDesktopDisplay = useWindowSize();
 
   const handleClickShowPassword = () => setShowPassword(show => !show)
-
 
   const handleCredentialChange = (e) => {
     setCredentials({
@@ -59,7 +57,7 @@ const Login = () => {
       try {
         dispatch({type : "LOGIN_START"})
         const res = await makeRequest({url: "/auth/login", method: "post", body: credentials});
-        dispatch({type : "LOGIN_SUCCESS", payload : res.data})
+        dispatch({type : "LOGIN_SUCCESS", payload : res.data.data})
         navigate("/");
       } catch(e) {
         console.log(e)

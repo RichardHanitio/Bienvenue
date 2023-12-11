@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
 import Error from '../error/Error';
+import {AuthContext} from "../../context/AuthContext";
 import { Container, Typography, Box, TextField, FormControl, Select, MenuItem, InputBase, Card, CardContent, AvatarGroup, Avatar, Link} from '@mui/material';
 import Grid from "@mui/material/Unstable_Grid2";
 import {useTheme} from "@mui/material/styles";
@@ -11,19 +12,20 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import PersonIcon from '@mui/icons-material/Person';
 import useFetch from "../../hooks/useFetch";
-import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode"
 
 const History = () => {
   const theme = useTheme();
   const [allPayments, setAllPayments] = useState([]);
-  const jwt_token = Cookies.get("access_token");
+  const {user} = useContext(AuthContext);
+  // const jwt_token = Cookies.get("access_token");
   let decodedToken = null;
   let tokenError = null;
   let url = '';
 
   try {
-    decodedToken = jwt_decode(jwt_token);
+    decodedToken = jwt_decode(user);
+    console.log(decodedToken);
   } catch (err) {
     tokenError = err
   }
@@ -31,6 +33,7 @@ const History = () => {
   if (!tokenError && decodedToken) {
     // if token is valid, then fetch the payments
     url = `/payments?uid=${decodedToken.id}`
+    console.log(url)
     // otherwise, fetch nothing
   }
 

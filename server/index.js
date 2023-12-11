@@ -38,7 +38,7 @@ app.use(helmet());
 app.use(cors({
   origin : whiteList,
   credentials : true,
-  // allowedHeaders: ["Content-Type", "Authorization"],
+  allowedHeaders: ["Content-Type", "Authorization"],
   // allowedHeaders : '*'
 }));
 app.use(express.json());

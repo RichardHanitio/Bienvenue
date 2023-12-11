@@ -1,13 +1,14 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useContext} from 'react'
 import { useNavigate } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
-import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer';
 import { ReserveContext } from '../../context/ReserveContext';
+import { AuthContext } from '../../context/AuthContext';
 import { useSnackbar } from 'react-simple-snackbar';
 import { makeRequest, encryptData } from '../../requests';
+import Error from '../error/Error';
 
 import {Container, Typography, Paper, Box, Divider, Button, TextField} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -25,10 +26,21 @@ const Reservation = () => {
 
   const theme = useTheme();
   const navigate = useNavigate();
+  const {user} = useContext(AuthContext)
+  let decodedToken = null;
+  let tokenError = null;
+  let url = '';
 
   // send this to backend
   const handleSubmit = async() => {
-    const jwt_token = Cookies.get("access_token");
+    // const jwt_token = Cookies.get("access_token");
+    try {
+      decodedToken = jwt_decode(user);
+      console.log(decodedToken);
+    } catch (err) {
+      tokenError = err
+    }
+
     const refactoredItem = items.map(item => ({item: item._id, amount: item.amount}));
     let reservationId;
 
@@ -42,7 +54,10 @@ const Reservation = () => {
     
     try {
       // create a new reservation
-      const reservResp = await makeRequest({url : `/reservations?uid=${jwt_decode(jwt_token).id}`, method: "post", body : payload});
+      if (!tokenError && decodedToken){
+        url = `/reservations?uid=${decodedToken.id}`
+      }
+      const reservResp = await makeRequest({url : url, method: "post", body : payload});
       dispatch({type: "FINISH_RESERVATION"});
       reservationId = reservResp.data.data._id;
       openSnackbar("Reservation made successfully");
@@ -77,6 +92,11 @@ const Reservation = () => {
   const eWallets = ["ovo", "gopay", "dana", "linkaja", "shoppeepay"];
   const creditDebitCards = ["visacard", "mastercard"];
   const banks = ["mandiri", "bca", "bni", "bri", "cimb"];
+
+  if (tokenError) {
+    const errorMsg = "Something is wrong.. Please try re-log in to resolve the error. If the error is not resolved, please contact us"
+    return <Error status={400} msg={errorMsg}/>
+  }
 
   return (
     <>

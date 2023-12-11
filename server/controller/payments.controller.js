@@ -62,7 +62,10 @@ const getAllPayments = asyncWrapper(async(req, res, next) => {
     .exec();
 
   if(req.query.uid) {
-    payments.filter(payment => {
+    console.log("im here")
+    console.log("UID :",req.query.uid)
+    payments = payments.filter(payment => {
+      // console.log(payment.reservation.user.toString(), payment.reservation.user.toString() === req.query.uid)
       return payment.reservation.user.toString() === req.query.uid
     });  
   }
